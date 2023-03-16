@@ -33,26 +33,21 @@ public class DataManager {
                 persons.add(person);
             }
 
-
             // Get firestations
             JsonNode firestationsNode = rootNode.get("firestations");
-
 
             for (JsonNode firestationNode : firestationsNode) {
                 Firestation firestation = mapper.treeToValue(firestationNode, Firestation.class);
                 firestations.add(firestation);
             }
 
-
             // Get medicalrecords
             JsonNode medicalrecordsNode = rootNode.get("medicalrecords");
-
 
             for (JsonNode medicalrecordNode : medicalrecordsNode) {
                 Medicalrecord medicalrecord = mapper.treeToValue(medicalrecordNode, Medicalrecord.class);
                 medicalrecords.add(medicalrecord);
             }
-
 
         } catch (JsonGenerationException e) {
             e.printStackTrace();
