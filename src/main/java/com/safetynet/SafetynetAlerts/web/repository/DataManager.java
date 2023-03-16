@@ -15,9 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DataManager {
-    public  static List<Person> persons = new ArrayList();
-    public  static List<Firestation> firestations= new ArrayList();
-    public  static List<Medicalrecord> medicalrecords= new ArrayList();
+    public   List<Person> persons = new ArrayList();
+    public   List<Firestation> firestations= new ArrayList();
+    public   List<Medicalrecord> medicalrecords= new ArrayList();
     private ObjectMapper mapper = new ObjectMapper();
 
     public DataManager() {

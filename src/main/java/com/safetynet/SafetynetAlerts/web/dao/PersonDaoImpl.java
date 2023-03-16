@@ -7,27 +7,29 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+import static com.safetynet.SafetynetAlerts.SafetynetAlertsApplication.dataManager;
+
 @Repository
 public class PersonDaoImpl implements PersonDao{
 
 
     @Override
     public List<Person> findAll() {
-        return DataManager.persons;
+        return dataManager.persons;
     }
 
     @Override
     public Person save(Person person) {
-        DataManager.persons.add(person);
+        dataManager.persons.add(person);
         return person;
     }
 
     @Override
     public Person update(Person person) {
-        for (Person personDb : DataManager.persons){
+        for (Person personDb : dataManager.persons){
             if (personDb.getFirstName().equals(person.getFirstName())  && personDb.getLastName().equals(personDb.getLastName())){
-                DataManager.persons.remove(personDb);
-                DataManager.persons.add(person);
+                dataManager.persons.remove(personDb);
+                dataManager.persons.add(person);
                 return  person;
             }
         }
@@ -36,9 +38,9 @@ public class PersonDaoImpl implements PersonDao{
 
     @Override
     public Person delete(String firstName, String lastName) {
-        for (Person person : DataManager.persons){
+        for (Person person : dataManager.persons){
             if (person.getFirstName().equals(firstName)  && person.getLastName().equals(lastName)){
-                DataManager.persons.remove(person);
+                dataManager.persons.remove(person);
                 return  person;
             }
         }

@@ -6,11 +6,13 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+import static com.safetynet.SafetynetAlerts.SafetynetAlertsApplication.dataManager;
+
 @Repository
 public class FirestationDaoImpl implements FirestationDao{
     @Override
     public List<Firestation> findAll() {
-        return DataManager.firestations;
+        return dataManager.firestations;
     }
 
     @Override

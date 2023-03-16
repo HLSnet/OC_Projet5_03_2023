@@ -6,11 +6,13 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+import static com.safetynet.SafetynetAlerts.SafetynetAlertsApplication.dataManager;
+
 @Repository
 public class MedicalrecordDaoImpl implements MedicalrecordDao{
     @Override
     public List<Medicalrecord> findAll() {
-        return DataManager.medicalrecords;
+        return dataManager.medicalrecords;
     }
 
     @Override
