@@ -38,25 +38,25 @@ public class AlertController {
         return personDao.findAll();
     }
 
-
-    // Ajouter une nouvelle personne
-    @PostMapping(value = "/person")
-    public void addPerson(@RequestBody Person person) {
-        personDao.save(person);
-    }
-
-    // Mettre à jour une personne existante (pour le moment, supposons que le prénom et le nom de
-    // famille ne changent pas, mais que les autres champs peuvent être modifiés)
-    @PutMapping(value = "/person")
-    public void updatePerson(@RequestBody Person person) {
-        personDao.update(person);
-    }
-
-    // Supprimer une personne (utilisez une combinaison de prénom et de nom comme identificateur unique).
-    @DeleteMapping(value = "/person")
-    public void deletePerson(@RequestParam String firstName, @RequestParam String lastName) {
-        personDao.delete(firstName, lastName);
-    }
+//
+//    // Ajouter une nouvelle personne
+//    @PostMapping(value = "/person")
+//    public void addPerson(@RequestBody Person person) {
+//        personDao.save(person);
+//    }
+//
+//    // Mettre à jour une personne existante (pour le moment, supposons que le prénom et le nom de
+//    // famille ne changent pas, mais que les autres champs peuvent être modifiés)
+//    @PutMapping(value = "/person")
+//    public void updatePerson(@RequestBody Person person) {
+//        personDao.update(person);
+//    }
+//
+//    // Supprimer une personne (utilisez une combinaison de prénom et de nom comme identificateur unique).
+//    @DeleteMapping(value = "/person")
+//    public void deletePerson(@RequestParam String firstName, @RequestParam String lastName) {
+//        personDao.delete(firstName, lastName);
+//    }
 
 
     ////////////////////////////////////////////////////////////////////////////////////

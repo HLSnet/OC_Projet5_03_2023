@@ -15,7 +15,8 @@ public class PersonDaoImpl implements PersonDao{
 
     @Override
     public List<Person> findAll() {
-        return dataManager.persons;
+        Object person;
+        return dataManager.readFromJsonFileToList("persons", Person.class);
     }
 
     @Override
