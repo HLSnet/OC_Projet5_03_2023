@@ -10,7 +10,7 @@ public interface PersonDao {
 
     List<Person> findAll();
 
-    Person save(Person person);
+    void save(Person person);
 
     Person update(Person person);
 

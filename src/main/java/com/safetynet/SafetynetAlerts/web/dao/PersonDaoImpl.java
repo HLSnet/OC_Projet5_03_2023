@@ -2,12 +2,12 @@ package com.safetynet.SafetynetAlerts.web.dao;
 
 
 import com.safetynet.SafetynetAlerts.web.model.Person;
-import com.safetynet.SafetynetAlerts.web.repository.DataManager;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 import static com.safetynet.SafetynetAlerts.SafetynetAlertsApplication.dataManager;
+import static com.safetynet.SafetynetAlerts.web.constants.DBConstants.PERSON;
 
 @Repository
 public class PersonDaoImpl implements PersonDao{
@@ -16,22 +16,25 @@ public class PersonDaoImpl implements PersonDao{
     @Override
     public List<Person> findAll() {
         Object person;
-        return dataManager.readFromJsonFileToList("persons", Person.class);
+        return dataManager.readFromJsonFileToList(PERSON, Person.class);
     }
 
     @Override
-    public Person save(Person person) {
-        dataManager.persons.add(person);
-        return person;
+    public void save(Person person) {
+        List<Person> persons = dataManager.readFromJsonFileToList(PERSON, Person.class);
+        persons.add(person);
+        dataManager.writeListToJsonFile(PERSON, persons);
     }
 
     @Override
-    public Person update(Person person) {
-        for (Person personDb : dataManager.persons){
-            if (personDb.getFirstName().equals(person.getFirstName())  && personDb.getLastName().equals(personDb.getLastName())){
-                dataManager.persons.remove(personDb);
-                dataManager.persons.add(person);
-                return  person;
+    public Person update(Person personToAdd) {
+        List<Person> persons = dataManager.readFromJsonFileToList(PERSON, Person.class);
+        for (Person person : persons){
+            if (person.getFirstName().equals(personToAdd.getFirstName())  && person.getLastName().equals(personToAdd.getLastName())){
+                persons.remove(person);
+                persons.add(personToAdd);
+                dataManager.writeListToJsonFile(PERSON, persons);
+                return  personToAdd;
             }
         }
         return null;
@@ -39,9 +42,11 @@ public class PersonDaoImpl implements PersonDao{
 
     @Override
     public Person delete(String firstName, String lastName) {
-        for (Person person : dataManager.persons){
+        List<Person> persons = dataManager.readFromJsonFileToList(PERSON, Person.class);
+        for (Person person : persons){
             if (person.getFirstName().equals(firstName)  && person.getLastName().equals(lastName)){
-                dataManager.persons.remove(person);
+                persons.remove(person);
+                dataManager.writeListToJsonFile(PERSON, persons);
                 return  person;
             }
         }
