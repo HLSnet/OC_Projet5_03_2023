@@ -1,11 +1,11 @@
-package com.safetynet.SafetynetAlerts.web.controller;
+package com.safetynet.SafetynetAlerts.controller;
 
-import com.safetynet.SafetynetAlerts.web.dao.FirestationDao;
-import com.safetynet.SafetynetAlerts.web.dao.MedicalrecordDao;
-import com.safetynet.SafetynetAlerts.web.dao.PersonDao;
-import com.safetynet.SafetynetAlerts.web.model.Firestation;
-import com.safetynet.SafetynetAlerts.web.model.Medicalrecord;
-import com.safetynet.SafetynetAlerts.web.model.Person;
+import com.safetynet.SafetynetAlerts.dao.FirestationDao;
+import com.safetynet.SafetynetAlerts.dao.MedicalrecordDao;
+import com.safetynet.SafetynetAlerts.dao.PersonDao;
+import com.safetynet.SafetynetAlerts.model.Firestation;
+import com.safetynet.SafetynetAlerts.model.Medicalrecord;
+import com.safetynet.SafetynetAlerts.model.Person;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,6 +13,8 @@ import java.util.List;
 @RestController
 public class AlertController {
 
+    // Remarque : attributs définis en private final afin que Spring se charge d'en fabriquer une instance
+    // à préfèrer à @Autowired
     private final PersonDao personDao;
     private final FirestationDao firestationDao;
     private final MedicalrecordDao medicalrecordDao;

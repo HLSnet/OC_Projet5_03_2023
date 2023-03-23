@@ -1,18 +1,23 @@
 package com.safetynet.SafetynetAlerts;
 
-import com.safetynet.SafetynetAlerts.web.repository.DataManager;
+import com.safetynet.SafetynetAlerts.utilities.JasonFileIO;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
-public class SafetynetAlertsApplication {
+import static com.safetynet.SafetynetAlerts.constants.DBConstants.JSONFILE_PATHNAME;
 
-	// On crée les listes d'objet parsées à partir du fichier json
-	public static DataManager dataManager;
+@SpringBootApplication
+public class SafetynetAlertsApplication implements CommandLineRunner {
+
 
 	public static void main(String[] args) {
 		SpringApplication.run(SafetynetAlertsApplication.class, args);
-		dataManager = new DataManager();
 	}
 
+	@Override
+	public void run(String... args) throws Exception {
+		// On indique le fichier json à utiliser dans l'application (notammment par les DAO)
+		new JasonFileIO(JSONFILE_PATHNAME);
+	}
 }

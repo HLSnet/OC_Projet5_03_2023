@@ -1,18 +1,19 @@
-package com.safetynet.SafetynetAlerts.web.dao;
+package com.safetynet.SafetynetAlerts.dao;
 
-import com.safetynet.SafetynetAlerts.web.model.Firestation;
+import com.safetynet.SafetynetAlerts.model.Firestation;
+import com.safetynet.SafetynetAlerts.utilities.JasonFileIO;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.safetynet.SafetynetAlerts.SafetynetAlertsApplication.dataManager;
-import static com.safetynet.SafetynetAlerts.web.constants.DBConstants.FIRESTATION;
+
+import static com.safetynet.SafetynetAlerts.constants.DBConstants.FIRESTATION;
 
 @Repository
 public class FirestationDaoImpl implements FirestationDao{
     @Override
     public List<Firestation> findAll() {
-        return dataManager.readFromJsonFileToList(FIRESTATION, Firestation.class);
+        return JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
     }
 
     @Override

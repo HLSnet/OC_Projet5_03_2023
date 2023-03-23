@@ -1,4 +1,4 @@
-package com.safetynet.SafetynetAlerts.web.repository;
+package com.safetynet.SafetynetAlerts.utilities;
 
 
 import com.fasterxml.jackson.core.JsonGenerationException;
@@ -13,21 +13,24 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.safetynet.SafetynetAlerts.web.constants.DBConstants.JSONFILE_PATHNAME;
 
-public class DataManager {
+public class JasonFileIO {
 
-    private ObjectMapper mapper = new ObjectMapper();
+    private static String jasonFilePathname;
+
+    private static ObjectMapper mapper;
+
+    public JasonFileIO(String jasonFilePathname) {
+        this.jasonFilePathname = jasonFilePathname;
+        mapper = new ObjectMapper();
+    }
 
 
-
-
-
-    public <T> List<T> readFromJsonFileToList(String nodeName, Class<T> tClass) {
+    public static <T> List<T> readFromJsonFileToList(String nodeName, Class<T> tClass) {
 
         List<T> listObjects = new ArrayList<>();
         try {
-            JsonNode rootNode = mapper.readTree(new File(JSONFILE_PATHNAME));
+            JsonNode rootNode = mapper.readTree(new File(jasonFilePathname));
 
             // On récupère le JsonNode (qui est une liste )
             JsonNode listNodes = rootNode.get(nodeName);
@@ -47,10 +50,10 @@ public class DataManager {
     }
 
 
-    public  <T> void writeListToJsonFile(String nodeName,  List<T> listObjects) {
+    public  static <T> void writeListToJsonFile(String nodeName,  List<T> listObjects) {
 
         try {
-            JsonNode rootNode = mapper.readTree(new File(JSONFILE_PATHNAME));
+            JsonNode rootNode = mapper.readTree(new File(jasonFilePathname));
 
             // On supprime le node dans le treenode
             ((ObjectNode) rootNode).remove(nodeName);
@@ -67,7 +70,7 @@ public class DataManager {
             ((ObjectNode) rootNode).set(nodeName, listNodes);
 
             // On enregistre dans un fichier json le treenode (avec la liste de Person)
-            mapper.writerWithDefaultPrettyPrinter().writeValue(new File(JSONFILE_PATHNAME), rootNode);
+            mapper.writerWithDefaultPrettyPrinter().writeValue(new File(jasonFilePathname), rootNode);
 
         } catch (JsonGenerationException e) {
             e.printStackTrace();

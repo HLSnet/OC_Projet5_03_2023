@@ -1,7 +1,7 @@
-package com.safetynet.SafetynetAlerts.web.dao;
+package com.safetynet.SafetynetAlerts.dao;
 
 
-import com.safetynet.SafetynetAlerts.web.model.Firestation;
+import com.safetynet.SafetynetAlerts.model.Firestation;
 
 
 import java.util.List;

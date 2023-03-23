@@ -1,18 +1,19 @@
-package com.safetynet.SafetynetAlerts.web.dao;
+package com.safetynet.SafetynetAlerts.dao;
 
-import com.safetynet.SafetynetAlerts.web.model.Medicalrecord;
+import com.safetynet.SafetynetAlerts.model.Medicalrecord;
+import com.safetynet.SafetynetAlerts.utilities.JasonFileIO;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.safetynet.SafetynetAlerts.SafetynetAlertsApplication.dataManager;
-import static com.safetynet.SafetynetAlerts.web.constants.DBConstants.MEDICAL_RECORD;
+
+import static com.safetynet.SafetynetAlerts.constants.DBConstants.MEDICAL_RECORD;
 
 @Repository
 public class MedicalrecordDaoImpl implements MedicalrecordDao{
     @Override
     public List<Medicalrecord> findAll() {
-        return dataManager.readFromJsonFileToList(MEDICAL_RECORD, Medicalrecord.class);
+        return JasonFileIO.readFromJsonFileToList(MEDICAL_RECORD, Medicalrecord.class);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.safetynet.SafetynetAlerts.web.model;
+package com.safetynet.SafetynetAlerts.model;
 
 
 public class Firestation{

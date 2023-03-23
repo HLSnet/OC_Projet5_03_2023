@@ -1,9 +1,5 @@
 package com.safetynet.SafetynetAlerts;
 
-import com.safetynet.SafetynetAlerts.web.dao.PersonDaoImpl;
-import com.safetynet.SafetynetAlerts.web.model.Person;
-import com.safetynet.SafetynetAlerts.web.repository.DataManager;
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
