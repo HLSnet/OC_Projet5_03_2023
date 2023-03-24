@@ -10,7 +10,9 @@ public interface PersonDao {
 
     List<Person> findAll();
 
-    void save(Person person);
+    Person findByName(String firstName, String lastName);
+
+    Person save(Person person);
 
     Person update(Person person);
 

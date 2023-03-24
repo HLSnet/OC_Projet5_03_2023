@@ -6,9 +6,13 @@ import com.safetynet.SafetynetAlerts.dao.PersonDao;
 import com.safetynet.SafetynetAlerts.model.Firestation;
 import com.safetynet.SafetynetAlerts.model.Medicalrecord;
 import com.safetynet.SafetynetAlerts.model.Person;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 public class AlertController {
@@ -36,15 +40,35 @@ public class AlertController {
 
     // Afficher toutes les personnes
     @GetMapping(value = "/person")
-    public List<Person> getPerson() {
+    public List<Person> getPersons() {
         return personDao.findAll();
+    }
+
+
+    // Afficher les informations d'une personne en fournissant son lastName et firstName
+    @GetMapping(value = "/person")
+    public Person getPerson(@RequestParam String firstName, @RequestParam String lastName) {
+
+        return personDao.findByName(firstName, lastName);
     }
 
 
     // Ajouter une nouvelle personne
     @PostMapping(value = "/person")
-    public void addPerson(@RequestBody Person person) {
-        personDao.save(person);
+    public ResponseEntity<Person> addPerson(@RequestBody Person person) {
+        Person personAdded = personDao.save(person);
+        if (Objects.isNull(personAdded)) {
+            return ResponseEntity.noContent().build();
+        }
+
+        // Pour renvoyer le code "201 Created"  l'URI vers la ressource créée dans le champ Location.
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .queryParam("firstName", personAdded.getFirstName())
+                .queryParam("lastName", personAdded.getLastName())
+                .build()
+                .toUri();
+        return ResponseEntity.created(location).build();
     }
 
     // Mettre à jour une personne existante (pour le moment, supposons que le prénom et le nom de

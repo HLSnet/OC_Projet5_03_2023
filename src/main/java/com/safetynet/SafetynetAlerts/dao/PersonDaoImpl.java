@@ -15,15 +15,27 @@ public class PersonDaoImpl implements PersonDao{
 
     @Override
     public List<Person> findAll() {
-        Object person;
         return JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
     }
 
     @Override
-    public void save(Person person) {
+    public Person findByName(String firstName, String lastName) {
+        List<Person> persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
+        for (Person person : persons){
+            if (person.getFirstName().equals(firstName)  && person.getLastName().equals(lastName)){
+                return  person;
+            }
+        }
+        return null;
+    }
+
+
+    @Override
+    public Person save(Person person) {
         List<Person> persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
         persons.add(person);
         JasonFileIO.writeListToJsonFile(PERSON, persons);
+        return  person;
     }
 
     @Override
