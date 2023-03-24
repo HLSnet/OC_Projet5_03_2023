@@ -9,6 +9,7 @@ import com.safetynet.SafetynetAlerts.model.Person;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.UriUtils;
 
 import java.net.URI;
 import java.util.List;
@@ -46,42 +47,68 @@ public class AlertController {
 
 
     // Afficher les informations d'une personne en fournissant son lastName et firstName
-    @GetMapping(value = "/person")
-    public Person getPerson(@RequestParam String firstName, @RequestParam String lastName) {
+    @GetMapping(value = "/person/{firstName}/{lastName}")
+    public ResponseEntity<Person> getPerson(@PathVariable String firstName, @PathVariable  String lastName) {
+        Person personGot = personDao.findByName(firstName, lastName);
 
-        return personDao.findByName(firstName, lastName);
-    }
-
-
-    // Ajouter une nouvelle personne
-    @PostMapping(value = "/person")
-    public ResponseEntity<Person> addPerson(@RequestBody Person person) {
-        Person personAdded = personDao.save(person);
-        if (Objects.isNull(personAdded)) {
+        if (Objects.isNull(personGot)) {
+            //Si la personne n'existe pas dans le fichier : on renvoie le code : "204 No Content"
             return ResponseEntity.noContent().build();
         }
 
-        // Pour renvoyer le code "201 Created"  l'URI vers la ressource créée dans le champ Location.
+        return ResponseEntity.ok(personGot);
+    }
+
+
+    @PostMapping(value = "/person")
+    public ResponseEntity<Person> addPerson(@RequestBody Person person) {
+        Person personAdded = personDao.save(person);
+        personDao.save(person);
+        if (Objects.isNull(personAdded)) {
+            //On renvoie le code : "204 No Content"
+            return ResponseEntity.noContent().build();
+        }
+
+        // On renvoie le code "201 Created" et l'URI vers la ressource créée dans le champ Location.
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
-                .queryParam("firstName", personAdded.getFirstName())
-                .queryParam("lastName", personAdded.getLastName())
-                .build()
+                .path("/{firstName}/{lastName}")
+                .buildAndExpand(personAdded.getFirstName() ,personAdded.getLastName())
                 .toUri();
         return ResponseEntity.created(location).build();
     }
 
+
     // Mettre à jour une personne existante (pour le moment, supposons que le prénom et le nom de
     // famille ne changent pas, mais que les autres champs peuvent être modifiés)
     @PutMapping(value = "/person")
-    public void updatePerson(@RequestBody Person person) {
-        personDao.update(person);
+    public ResponseEntity<Person> updatePerson(@RequestBody Person person) {
+        Person personUpdated = personDao.update(person);
+
+        if (Objects.isNull(personUpdated)) {
+            //Si la personne n'existe pas dans le fichier : on renvoie le code : "204 No Content"
+            return ResponseEntity.noContent().build();
+        }
+        // On renvoie le code "200 OK" et la fiche de la  ressource supprimée .
+        return ResponseEntity.ok(personUpdated);
     }
 
+
+
+
+
     // Supprimer une personne (utilisez une combinaison de prénom et de nom comme identificateur unique).
-    @DeleteMapping(value = "/person")
-    public void deletePerson(@RequestParam String firstName, @RequestParam String lastName) {
-        personDao.delete(firstName, lastName);
+    @DeleteMapping(value = "/person/{firstName}/{lastName}")
+    public ResponseEntity<Person> deletePerson(@PathVariable String firstName, @PathVariable  String lastName) {
+        Person personDeleted = personDao.delete(firstName, lastName);
+
+        if (Objects.isNull(personDeleted)) {
+            //Si la personne n'existe pas dans le fichier : on renvoie le code : "204 No Content"
+            return ResponseEntity.noContent().build();
+        }
+        // On renvoie le code "200 OK" et la fiche de la  ressource supprimée .
+        return ResponseEntity.ok(personDeleted);
+
     }
 
 

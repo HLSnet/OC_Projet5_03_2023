@@ -31,12 +31,20 @@ public class PersonDaoImpl implements PersonDao{
 
 
     @Override
-    public Person save(Person person) {
+    public Person save(Person personToAdd) {
         List<Person> persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
-        persons.add(person);
+        for (Person person : persons){
+            if (person.getFirstName().equals(personToAdd.getFirstName())  && person.getLastName().equals(personToAdd.getLastName())){
+                // La personne existe dans le fichier donc pas d'ajout
+                return  null;
+            }
+        }
+        persons.add(personToAdd);
         JasonFileIO.writeListToJsonFile(PERSON, persons);
-        return  person;
+        return personToAdd;
     }
+
+
 
     @Override
     public Person update(Person personToAdd) {
