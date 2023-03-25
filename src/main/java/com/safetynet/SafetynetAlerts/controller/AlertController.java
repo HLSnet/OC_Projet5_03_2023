@@ -1,15 +1,14 @@
 package com.safetynet.SafetynetAlerts.controller;
 
-import com.safetynet.SafetynetAlerts.dao.FirestationDao;
-import com.safetynet.SafetynetAlerts.dao.MedicalrecordDao;
-import com.safetynet.SafetynetAlerts.dao.PersonDao;
+import com.safetynet.SafetynetAlerts.serviceDao.FirestationDao;
+import com.safetynet.SafetynetAlerts.serviceDao.MedicalrecordDao;
+import com.safetynet.SafetynetAlerts.serviceDao.PersonDao;
 import com.safetynet.SafetynetAlerts.model.Firestation;
 import com.safetynet.SafetynetAlerts.model.Medicalrecord;
 import com.safetynet.SafetynetAlerts.model.Person;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.springframework.web.util.UriUtils;
 
 import java.net.URI;
 import java.util.List;

@@ -362,13 +362,5 @@
     "zip" : "97451",
     "phone" : "841-874-7458",
     "email" : "gramps@email.com"
-  }, {
-    "firstName" : "Averell",
-    "lastName" : "Dalton",
-    "address" : "190 Saloon St",
-    "city" : "Daisy town",
-    "zip" : "99007",
-    "phone" : "111-222-3333",
-    "email" : "a.dalton@jail.com"
   } ]
 }

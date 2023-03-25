@@ -1,4 +1,4 @@
-package com.safetynet.SafetynetAlerts.utilities;
+package com.safetynet.SafetynetAlerts.repository;
 
 
 import com.fasterxml.jackson.core.JsonGenerationException;

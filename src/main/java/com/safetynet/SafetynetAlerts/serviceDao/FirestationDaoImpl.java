@@ -1,7 +1,7 @@
-package com.safetynet.SafetynetAlerts.dao;
+package com.safetynet.SafetynetAlerts.serviceDao;
 
 import com.safetynet.SafetynetAlerts.model.Firestation;
-import com.safetynet.SafetynetAlerts.utilities.JasonFileIO;
+import com.safetynet.SafetynetAlerts.repository.JasonFileIO;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

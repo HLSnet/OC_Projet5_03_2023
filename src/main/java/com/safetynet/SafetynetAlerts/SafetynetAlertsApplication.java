@@ -1,6 +1,6 @@
 package com.safetynet.SafetynetAlerts;
 
-import com.safetynet.SafetynetAlerts.utilities.JasonFileIO;
+import com.safetynet.SafetynetAlerts.repository.JasonFileIO;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
