@@ -1,4 +1,4 @@
-package com.safetynet.SafetynetAlerts.model;
+package com.safetynet.safetynetalerts.model;
 
 
 import java.util.ArrayList;

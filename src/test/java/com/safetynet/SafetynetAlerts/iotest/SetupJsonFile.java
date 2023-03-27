@@ -1,11 +1,12 @@
-package com.safetynet.SafetynetAlerts;
+package com.safetynet.safetynetalerts.iotest;
 
 import java.io.*;
 
-import static com.safetynet.SafetynetAlerts.constants.DBConstants.JSONFILE_TEST_BAK_PATHNAME;
-import static com.safetynet.SafetynetAlerts.constants.DBConstants.JSONFILE_TEST_PATHNAME;
+import static com.safetynet.safetynetalerts.constants.DBConstants.JSONFILE_TEST_BAK_PATHNAME;
+import static com.safetynet.safetynetalerts.constants.DBConstants.JSONFILE_TEST_PATHNAME;
 
-public class SetupJsonFileTest {
+
+public class SetupJsonFile {
 
 
     public static void initialisation() {

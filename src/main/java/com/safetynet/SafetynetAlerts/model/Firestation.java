@@ -1,5 +1,4 @@
-package com.safetynet.SafetynetAlerts.model;
-
+package com.safetynet.safetynetalerts.model;
 
 public class Firestation{
     private String address;

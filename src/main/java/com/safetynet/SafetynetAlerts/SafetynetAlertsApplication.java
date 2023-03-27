@@ -1,11 +1,12 @@
-package com.safetynet.SafetynetAlerts;
+package com.safetynet.safetynetalerts;
 
-import com.safetynet.SafetynetAlerts.repository.JasonFileIO;
+import com.safetynet.safetynetalerts.repository.JasonFileIO;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import static com.safetynet.SafetynetAlerts.constants.DBConstants.JSONFILE_PATHNAME;
+import static com.safetynet.safetynetalerts.constants.DBConstants.JSONFILE_PATHNAME;
+
 
 @SpringBootApplication
 public class SafetynetAlertsApplication implements CommandLineRunner {

@@ -1,16 +1,16 @@
-package com.safetynet.SafetynetAlerts.serviceDao;
+package com.safetynet.safetynetalerts.repository;
 
 
-import com.safetynet.SafetynetAlerts.model.Person;
-import com.safetynet.SafetynetAlerts.repository.JasonFileIO;
+import com.safetynet.safetynetalerts.model.Person;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.safetynet.SafetynetAlerts.constants.DBConstants.PERSON;
+import static com.safetynet.safetynetalerts.constants.DBConstants.*;
+
 
 @Repository
-public class PersonDaoImpl implements PersonDao{
+public class PersonDaoImpl implements PersonDao {
 
 
     @Override
@@ -31,45 +31,46 @@ public class PersonDaoImpl implements PersonDao{
 
 
     @Override
-    public Person save(Person personToAdd) {
+    public Boolean save(Person personToAdd) {
         List<Person> persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
         for (Person person : persons){
             if (person.getFirstName().equals(personToAdd.getFirstName())  && person.getLastName().equals(personToAdd.getLastName())){
                 // La personne existe dans le fichier donc pas d'ajout
-                return  null;
+                return  NOT_ADDED;
             }
         }
         persons.add(personToAdd);
         JasonFileIO.writeListToJsonFile(PERSON, persons);
-        return personToAdd;
+        return ADDED;
     }
 
 
-
     @Override
-    public Person update(Person personToAdd) {
+    public Boolean update(Person personToAdd) {
         List<Person> persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
         for (Person person : persons){
             if (person.getFirstName().equals(personToAdd.getFirstName())  && person.getLastName().equals(personToAdd.getLastName())){
                 persons.remove(person);
                 persons.add(personToAdd);
                 JasonFileIO.writeListToJsonFile(PERSON, persons);
-                return  personToAdd;
+                return  UPDATE_COMPLETED;
             }
         }
-        return null;
+        return NO_UPDATE;
     }
 
     @Override
-    public Person delete(String firstName, String lastName) {
+    public Boolean delete(String firstName, String lastName) {
         List<Person> persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
         for (Person person : persons){
             if (person.getFirstName().equals(firstName)  && person.getLastName().equals(lastName)){
                 persons.remove(person);
                 JasonFileIO.writeListToJsonFile(PERSON, persons);
-                return  person;
+                return  DELETION_COMPLETED;
             }
         }
-        return null;
+        return NO_DELETION;
     }
 }
+
+
