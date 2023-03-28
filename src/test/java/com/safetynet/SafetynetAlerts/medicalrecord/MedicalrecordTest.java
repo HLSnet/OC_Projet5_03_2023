@@ -2,7 +2,6 @@ package com.safetynet.safetynetalerts.medicalrecord;
 
 import com.safetynet.safetynetalerts.datatest.SetupJsonFile;
 import com.safetynet.safetynetalerts.model.Medicalrecord;
-import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.repository.JasonFileIO;
 import com.safetynet.safetynetalerts.repository.MedicalrecordDao;
 import org.junit.jupiter.api.BeforeEach;
@@ -205,5 +204,62 @@ public class MedicalrecordTest {
         assertEquals(nbMedicalrecordsAfter, nbMedicalrecordsBefore);
     }
 
+    //*********************************************************************************************************
+//  Tests unitaires de la méthode 'delete' de la classe  MedicalrecordDao
+//*********************************************************************************************************
+    @Test
+    void testDeleteAnExistingPerson() {
+        // ARRANGE
+        Medicalrecord medicalrecordToDelete = new Medicalrecord();
+        medicalrecordToDelete.setFirstName("Sophia");
+        medicalrecordToDelete.setLastName("Zemicks");
+        medicalrecordToDelete.setBirthdate("03/06/1988");
 
+        ArrayList<String> medications= new ArrayList<>();
+        medications.add("aznol:60mg");
+        medications.add("hydrapermazol:900mg");
+        medications.add("pharmacol:5000mg");
+        medications.add("terazine:500mg");
+        medicalrecordToDelete.setMedications(medications);
+
+        ArrayList<String> allergies= new ArrayList<>();
+        allergies.add("peanut");
+        allergies.add("shellfish");
+        allergies.add("aznol");
+        medicalrecordToDelete.setAllergies(allergies);
+
+        // ACT
+        medicalrecords = JasonFileIO.readFromJsonFileToList(MEDICAL_RECORD, Medicalrecord.class);
+        int nbMedicalrecordsBefore = medicalrecords.size();
+        Boolean result = medicalrecordDaoImpl.delete(medicalrecordToDelete.getFirstName(), medicalrecordToDelete.getLastName());
+
+        // ASSERT
+        assertTrue(result);
+        medicalrecords = JasonFileIO.readFromJsonFileToList(MEDICAL_RECORD, Medicalrecord.class);
+        assertFalse(medicalrecords.contains(medicalrecordToDelete));
+        // On vérifie qu'il n'y a eu uniquement qu'une suppression
+        int nbMedicalrecordsAfter = medicalrecords.size();
+        assertEquals(nbMedicalrecordsAfter, nbMedicalrecordsBefore -1);
+    }
+
+    @Test
+    void testDeleteANonExistingPerson() {
+        // ARRANGE
+        Medicalrecord medicalrecordToDelete = new Medicalrecord();
+        medicalrecordToDelete.setFirstName("Averell");
+        medicalrecordToDelete.setLastName("Dalton");
+
+        // ACT
+        medicalrecords = JasonFileIO.readFromJsonFileToList(MEDICAL_RECORD, Medicalrecord.class);
+        int nbMedicalrecordsBefore = medicalrecords.size();
+        Boolean result = medicalrecordDaoImpl.delete(medicalrecordToDelete.getFirstName(), medicalrecordToDelete.getLastName());
+
+        // ASSERT
+        assertFalse(result);
+        medicalrecords = JasonFileIO.readFromJsonFileToList(MEDICAL_RECORD, Medicalrecord.class);
+        assertFalse(medicalrecords.contains(medicalrecordToDelete));
+        // On vérifie qu'il n'y a pas eu de suppression
+        int nbMedicalrecordsAfter = medicalrecords.size();
+        assertEquals(nbMedicalrecordsAfter, nbMedicalrecordsBefore);
+    }
 }

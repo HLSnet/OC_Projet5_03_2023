@@ -61,10 +61,17 @@ public class MedicalrecordDaoImpl implements MedicalrecordDao {
     }
 
 
-
-
     @Override
-    public Boolean delete(Medicalrecord medicalrecord) {
-        return null;
+    public Boolean delete(String firstName, String lastName) {
+        List<Medicalrecord> medicalrecords = JasonFileIO.readFromJsonFileToList(MEDICAL_RECORD, Medicalrecord.class);
+        for (Medicalrecord medicalrecord : medicalrecords){
+            if (medicalrecord.getFirstName().equals(firstName)  && medicalrecord.getLastName().equals(lastName)){
+                medicalrecords.remove(medicalrecord);
+                JasonFileIO.writeListToJsonFile(MEDICAL_RECORD, medicalrecords);
+                return  DELETION_COMPLETED;
+            }
+        }
+        return NO_DELETION;
     }
 }
+

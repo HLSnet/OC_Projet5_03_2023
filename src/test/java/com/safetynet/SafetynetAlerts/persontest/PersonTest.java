@@ -191,7 +191,7 @@ public class PersonTest {
 
         // ASSERT
         assertTrue(result);
-        List<Person> persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
+        persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
         assertFalse(persons.contains(personToDelete));
         // On vérifie qu'il n'y a eu uniquement qu'une suppression
         int nbPersonsAfter = persons.size();
@@ -212,7 +212,7 @@ public class PersonTest {
 
         // ASSERT
         assertFalse(result);
-        List<Person> persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
+        persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
         assertFalse(persons.contains(personToDelete));
         // On vérifie qu'il n'y a pas eu de suppression
         int nbPersonsAfter = persons.size();

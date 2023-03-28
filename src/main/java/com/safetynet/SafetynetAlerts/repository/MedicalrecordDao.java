@@ -15,5 +15,5 @@ public interface MedicalrecordDao {
 
     Boolean update(Medicalrecord medicalrecord);
 
-    Boolean delete(Medicalrecord medicalrecord);
+    Boolean delete(String firstName, String lastName);
 }
