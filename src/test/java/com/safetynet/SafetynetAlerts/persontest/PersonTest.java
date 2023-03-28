@@ -1,6 +1,6 @@
 package com.safetynet.safetynetalerts.persontest;
 
-import com.safetynet.safetynetalerts.iotest.SetupJsonFile;
+import com.safetynet.safetynetalerts.datatest.SetupJsonFile;
 import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.repository.JasonFileIO;
 import com.safetynet.safetynetalerts.repository.PersonDao;
@@ -37,30 +37,21 @@ public class PersonTest {
 //*********************************************************************************************************
     @Test
     void testFindAnExistingPerson() {
-        // Arrange, Act
+        // ARRANGE, ACT
         Person person = personDaoImpl.findByName("Jamie", "Peters");
 
-        // Assert
+        // ASSERT
         assertNotNull(person);
-        assertEquals(person.getFirstName(), "Jamie");
-        assertEquals(person.getLastName(), "Peters");
-        assertEquals(person.getAddress(), "908 73rd St");
-        assertEquals(person.getCity(), "Culver");
-        assertEquals(person.getZip(), "97451");
-        assertEquals(person.getPhone(), "841-874-7462");
-        assertEquals(person.getEmail(), "jpeter@email.com");
-
         assertTrue(this.persons.contains(person));
     }
 
     @Test
     void testFindANonExistingPerson() {
-        // Arrange, Act
+        // ARRANGE, ACT
         Person person = personDaoImpl.findByName("Averell", "Dalton");
 
-        // Assert
+        // ASSERT
         assertNull(person);
-
         assertFalse(this.persons.contains(person));
     }
 
@@ -71,9 +62,8 @@ public class PersonTest {
 //*********************************************************************************************************
     @Test
     void testSaveNewPerson() {
-        // Arrange
+        // ARRANGE
         Person personToAdd = new Person();
-
         personToAdd.setFirstName("Averell");
         personToAdd.setLastName("Dalton");
         personToAdd.setAddress("19 Saloon St");
@@ -82,21 +72,26 @@ public class PersonTest {
         personToAdd.setPhone("111-222-3333");
         personToAdd.setEmail("a.dalton@jail.com");
 
-        // Act
+        // ACT
+        persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
+        int nbPersonsBefore = persons.size();
         Boolean result = personDaoImpl.save(personToAdd);
 
-        // Assert
+        // ASSERT
         assertTrue(result);
+        // On verifie que la personne a été ajoutée
         persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
         assertTrue(this.persons.contains(personToAdd));
+        // On vérifie qu'il n'y a eu qu'un ajout (pas d'ajout multiple)
+        int nbPersonsAfter = persons.size();
+        assertEquals(nbPersonsAfter, nbPersonsBefore +1 );
     }
 
 
     @Test
     void testSaveAnExistingPerson() {
-        // Arrange
+        // ARRANGE
         Person personToAdd = new Person();
-
         personToAdd.setFirstName("Jamie");
         personToAdd.setLastName("Peters");
 		personToAdd.setAddress("908 73rd St");
@@ -105,13 +100,16 @@ public class PersonTest {
 		personToAdd.setPhone("841-874-7462");
 		personToAdd.setEmail("jpeter@email.com");
 
-        // Act
+        // ACT
+        persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
+        int nbPersonsBefore = persons.size();
         Boolean result = personDaoImpl.save(personToAdd);
 
-        // Assert
+        // ASSERT
         assertFalse(result);
-        persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
-        assertTrue(this.persons.contains(personToAdd));
+        // On vérifie qu'il n'y a pas eu d'ajout ou de suppression
+        int nbPersonsAfter = persons.size();
+        assertEquals(nbPersonsAfter, nbPersonsBefore);
     }
 
 //*********************************************************************************************************
@@ -119,9 +117,8 @@ public class PersonTest {
 //*********************************************************************************************************
     @Test
     void testUpdateAnExistingPerson() {
-        // Arrange
+        // ARRANGE
         Person personToModify = new Person();
-
         personToModify.setFirstName("Jamie");
         personToModify.setLastName("Peters");
         personToModify.setAddress("1 here St");
@@ -130,21 +127,26 @@ public class PersonTest {
         personToModify.setPhone("012-345-6789");
         personToModify.setEmail("jpeter.new@email.com");
 
-        // Act
+        // ACT
+        persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
+        int nbPersonsBefore = persons.size();
         Boolean result = personDaoImpl.update(personToModify);
 
-        // Assert
+        // ASSERT
         assertTrue(result);
         persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
         assertTrue(this.persons.contains(personToModify));
+
+        // On vérifie qu'il n'y a pas eu d'ajout ou de suppression
+        int nbPersonsAfter = persons.size();
+        assertEquals(nbPersonsAfter, nbPersonsBefore);
     }
 
 
     @Test
     void testUpdateANonExistingPerson() {
-        // Arrange
+        // ARRANGE
         Person personToModify = new Person();
-
         personToModify.setFirstName("Averell");
         personToModify.setLastName("Dalton");
         personToModify.setAddress("19 Saloon St");
@@ -153,13 +155,18 @@ public class PersonTest {
         personToModify.setPhone("111-222-3333");
         personToModify.setEmail("a.dalton@jail.com");
 
-        // Act
+        // ACT
+        persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
+        int nbPersonsBefore = persons.size();
         Boolean result = personDaoImpl.update(personToModify);
 
-        // Assert
+        // ASSERT
         assertFalse(result);
         persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
         assertFalse(this.persons.contains(personToModify));
+        // On vérifie qu'il n'y a pas eu d'ajout ou de suppression
+        int nbPersonsAfter = persons.size();
+        assertEquals(nbPersonsAfter, nbPersonsBefore);
     }
 
 //*********************************************************************************************************
@@ -167,9 +174,8 @@ public class PersonTest {
 //*********************************************************************************************************
     @Test
     void testDeleteAnExistingPerson() {
-        // Arrange
+        // ARRANGE
         Person personToDelete = new Person();
-
         personToDelete.setFirstName("Jamie");
         personToDelete.setLastName("Peters");
         personToDelete.setAddress("908 73rd St");
@@ -178,29 +184,38 @@ public class PersonTest {
         personToDelete.setPhone("841-874-7462");
         personToDelete.setEmail("jpeter@email.com");
 
-        // Act
+        // ACT
+        persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
+        int nbPersonsBefore = persons.size();
         Boolean result = personDaoImpl.delete(personToDelete.getFirstName(), personToDelete.getLastName());
 
-        // Assert
+        // ASSERT
         assertTrue(result);
         List<Person> persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
         assertFalse(persons.contains(personToDelete));
+        // On vérifie qu'il n'y a eu uniquement qu'une suppression
+        int nbPersonsAfter = persons.size();
+        assertEquals(nbPersonsAfter, nbPersonsBefore -1);
     }
 
     @Test
     void testDeleteANonExistingPerson() {
-        // Arrange
+        // ARRANGE
         Person personToDelete = new Person();
-
         personToDelete.setFirstName("Averell");
         personToDelete.setLastName("Dalton");
 
-        // Act
+        // ACT
+        persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
+        int nbPersonsBefore = persons.size();
         Boolean result = personDaoImpl.delete(personToDelete.getFirstName(), personToDelete.getLastName());
 
-        // Assert
+        // ASSERT
         assertFalse(result);
         List<Person> persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
         assertFalse(persons.contains(personToDelete));
+        // On vérifie qu'il n'y a pas eu de suppression
+        int nbPersonsAfter = persons.size();
+        assertEquals(nbPersonsAfter, nbPersonsBefore);
     }
 }

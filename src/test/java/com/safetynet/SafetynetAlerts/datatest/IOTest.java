@@ -1,4 +1,4 @@
-package com.safetynet.safetynetalerts.iotest;
+package com.safetynet.safetynetalerts.datatest;
 
 import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.repository.JasonFileIO;
