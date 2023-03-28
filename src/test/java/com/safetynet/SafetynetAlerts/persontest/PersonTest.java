@@ -79,7 +79,7 @@ public class PersonTest {
 
         // ASSERT
         assertTrue(result);
-        // On verifie que la personne a été ajoutée
+        // On vérifie que l'ajout a été fait
         persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
         assertTrue(this.persons.contains(personToAdd));
         // On vérifie qu'il n'y a eu qu'un ajout (pas d'ajout multiple)
