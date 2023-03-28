@@ -2,7 +2,6 @@ package com.safetynet.safetynetalerts.model;
 
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class Medicalrecord{
     private String firstName;
@@ -74,16 +73,6 @@ public class Medicalrecord{
                 '}';
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Medicalrecord that = (Medicalrecord) o;
-        return Objects.equals(firstName, that.firstName) && Objects.equals(lastName, that.lastName) && Objects.equals(birthdate, that.birthdate) && Objects.equals(medications, that.medications) && Objects.equals(allergies, that.allergies);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(firstName, lastName, birthdate, medications, allergies);
-    }
+
 }
