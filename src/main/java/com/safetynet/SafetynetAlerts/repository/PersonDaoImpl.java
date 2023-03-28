@@ -46,12 +46,12 @@ public class PersonDaoImpl implements PersonDao {
 
 
     @Override
-    public Boolean update(Person personToAdd) {
+    public Boolean update(Person personToUpdate) {
         List<Person> persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
         for (Person person : persons){
-            if (person.getFirstName().equals(personToAdd.getFirstName())  && person.getLastName().equals(personToAdd.getLastName())){
+            if (person.getFirstName().equals(personToUpdate.getFirstName())  && person.getLastName().equals(personToUpdate.getLastName())){
                 persons.remove(person);
-                persons.add(personToAdd);
+                persons.add(personToUpdate);
                 JasonFileIO.writeListToJsonFile(PERSON, persons);
                 return  UPDATE_COMPLETED;
             }

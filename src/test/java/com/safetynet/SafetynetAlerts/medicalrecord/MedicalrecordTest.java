@@ -130,4 +130,80 @@ public class MedicalrecordTest {
         assertEquals(nbMedicalrecordsAfter, nbMedicalrecordsBefore);
     }
 
+
+//*********************************************************************************************************
+//  Tests unitaires de la méthode 'update' de la classe  MedicalrecordDao
+//*********************************************************************************************************
+    @Test
+    void testUpdateAnExistingPerson() {
+        // ARRANGE
+        Medicalrecord medicalrecordToUpdate = new Medicalrecord();
+        medicalrecordToUpdate.setFirstName("Sophia");
+        medicalrecordToUpdate.setLastName("Zemicks");
+        medicalrecordToUpdate.setBirthdate("03/06/1988");
+
+        ArrayList<String> medications= new ArrayList<>();
+        medications.add("aznol:60mg");
+        medications.add("hydrapermazol:900mg");
+        medications.add("pharmacol:5000mg");
+        medications.add("terazine:500mg");
+        medicalrecordToUpdate.setMedications(medications);
+
+        ArrayList<String> allergies= new ArrayList<>();
+        allergies.add("peanut");
+        allergies.add("shellfish");
+        allergies.add("aznol");
+        medicalrecordToUpdate.setAllergies(allergies);
+
+        // ACT
+        medicalrecords = JasonFileIO.readFromJsonFileToList(MEDICAL_RECORD, Medicalrecord.class);
+        int nbMedicalrecordsBefore = medicalrecords.size();
+        Boolean result = medicalrecordDaoImpl.update(medicalrecordToUpdate);
+
+        // ASSERT
+        assertTrue(result);
+        medicalrecords = JasonFileIO.readFromJsonFileToList(MEDICAL_RECORD, Medicalrecord.class);
+        assertTrue(this.medicalrecords.contains(medicalrecordToUpdate));
+
+        // On vérifie qu'il n'y a pas eu d'ajout ou de suppression
+        int nbMedicalrecordsAfter = medicalrecords.size();
+        assertEquals(nbMedicalrecordsAfter, nbMedicalrecordsBefore);
+    }
+
+
+    @Test
+    void testUpdateANonExistingPerson() {
+        // ARRANGE
+        Medicalrecord medicalrecordToUpdate = new Medicalrecord();
+        medicalrecordToUpdate.setFirstName("Averell");
+        medicalrecordToUpdate.setLastName("Dalton");
+        medicalrecordToUpdate.setBirthdate("01/01/1900");
+
+        ArrayList<String> medications= new ArrayList<>();
+        medications.add("paracetamol:1000mg");
+        medications.add("doliprane:500mg");
+        medications.add("whisky: 2l");
+        medicalrecordToUpdate.setMedications(medications);
+
+        ArrayList<String> allergies= new ArrayList<>();
+        medications.add("Lucky Luke");
+        medications.add("Jail");
+        medicalrecordToUpdate.setAllergies(allergies);
+
+
+        // ACT
+        medicalrecords = JasonFileIO.readFromJsonFileToList(MEDICAL_RECORD, Medicalrecord.class);
+        int nbMedicalrecordsBefore = medicalrecords.size();
+        Boolean result = medicalrecordDaoImpl.update(medicalrecordToUpdate);
+
+        // ASSERT
+        assertFalse(result);
+        medicalrecords = JasonFileIO.readFromJsonFileToList(MEDICAL_RECORD, Medicalrecord.class);
+        assertFalse(this.medicalrecords.contains(medicalrecordToUpdate));
+        // On vérifie qu'il n'y a pas eu d'ajout ou de suppression
+        int nbMedicalrecordsAfter = medicalrecords.size();
+        assertEquals(nbMedicalrecordsAfter, nbMedicalrecordsBefore);
+    }
+
+
 }

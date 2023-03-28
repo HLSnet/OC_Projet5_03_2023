@@ -118,24 +118,24 @@ public class PersonTest {
     @Test
     void testUpdateAnExistingPerson() {
         // ARRANGE
-        Person personToModify = new Person();
-        personToModify.setFirstName("Jamie");
-        personToModify.setLastName("Peters");
-        personToModify.setAddress("1 here St");
-        personToModify.setCity("Nowhere");
-        personToModify.setZip("00000");
-        personToModify.setPhone("012-345-6789");
-        personToModify.setEmail("jpeter.new@email.com");
+        Person personToUpdate = new Person();
+        personToUpdate.setFirstName("Jamie");
+        personToUpdate.setLastName("Peters");
+        personToUpdate.setAddress("1 here St");
+        personToUpdate.setCity("Nowhere");
+        personToUpdate.setZip("00000");
+        personToUpdate.setPhone("012-345-6789");
+        personToUpdate.setEmail("jpeter.new@email.com");
 
         // ACT
         persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
         int nbPersonsBefore = persons.size();
-        Boolean result = personDaoImpl.update(personToModify);
+        Boolean result = personDaoImpl.update(personToUpdate);
 
         // ASSERT
         assertTrue(result);
         persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
-        assertTrue(this.persons.contains(personToModify));
+        assertTrue(this.persons.contains(personToUpdate));
 
         // On vérifie qu'il n'y a pas eu d'ajout ou de suppression
         int nbPersonsAfter = persons.size();
@@ -146,24 +146,24 @@ public class PersonTest {
     @Test
     void testUpdateANonExistingPerson() {
         // ARRANGE
-        Person personToModify = new Person();
-        personToModify.setFirstName("Averell");
-        personToModify.setLastName("Dalton");
-        personToModify.setAddress("19 Saloon St");
-        personToModify.setCity("Daisy town");
-        personToModify.setZip("00000");
-        personToModify.setPhone("111-222-3333");
-        personToModify.setEmail("a.dalton@jail.com");
+        Person personToUpdate = new Person();
+        personToUpdate.setFirstName("Averell");
+        personToUpdate.setLastName("Dalton");
+        personToUpdate.setAddress("19 Saloon St");
+        personToUpdate.setCity("Daisy town");
+        personToUpdate.setZip("00000");
+        personToUpdate.setPhone("111-222-3333");
+        personToUpdate.setEmail("a.dalton@jail.com");
 
         // ACT
         persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
         int nbPersonsBefore = persons.size();
-        Boolean result = personDaoImpl.update(personToModify);
+        Boolean result = personDaoImpl.update(personToUpdate);
 
         // ASSERT
         assertFalse(result);
         persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
-        assertFalse(this.persons.contains(personToModify));
+        assertFalse(this.persons.contains(personToUpdate));
         // On vérifie qu'il n'y a pas eu d'ajout ou de suppression
         int nbPersonsAfter = persons.size();
         assertEquals(nbPersonsAfter, nbPersonsBefore);
