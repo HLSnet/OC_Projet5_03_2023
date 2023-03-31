@@ -20,6 +20,9 @@ public class PersonController {
         this.personDao = personDao;
     }
 
+    //***************************************************************************************************
+    // REQUETES GET
+    //***************************************************************************************************
 
     // Afficher toutes les personnes
     @GetMapping(value = "/person")
@@ -40,7 +43,11 @@ public class PersonController {
         return ResponseEntity.ok(personGot);
     }
 
+    //***************************************************************************************************
+    // REQUETES POST
+    //***************************************************************************************************
 
+    // Ajouter une personne
     @PostMapping(value = "/person")
     public ResponseEntity<Person> addPerson(@RequestBody Person person) {
 
@@ -58,6 +65,9 @@ public class PersonController {
         return ResponseEntity.created(location).build();
     }
 
+    //***************************************************************************************************
+    // REQUETES PUT
+    //***************************************************************************************************
 
     // Mettre à jour une personne existante (pour le moment, supposons que le prénom et le nom de
     // famille ne changent pas, mais que les autres champs peuvent être modifiés)
@@ -68,10 +78,13 @@ public class PersonController {
             //Si la personne n'existe pas dans le fichier : on renvoie le code : "204 No Content"
             return ResponseEntity.noContent().build();
         }
-        // On renvoie le code "200 OK" et la fiche de la  ressource supprimée .
+        // On renvoie le code "200 OK"
         return ResponseEntity.ok().build();
     }
 
+    //***************************************************************************************************
+    // REQUETES DELETE
+    //***************************************************************************************************
 
     // Supprimer une personne (utilisez une combinaison de prénom et de nom comme identificateur unique).
     @DeleteMapping(value = "/person/{firstName}/{lastName}")
@@ -81,7 +94,7 @@ public class PersonController {
             //Si la personne n'existe pas dans le fichier : on renvoie le code : "204 No Content"
             return ResponseEntity.noContent().build();
         }
-        // On renvoie le code "200 OK" et la fiche de la  ressource supprimée .
+        // On renvoie le code "200 OK"
         return ResponseEntity.ok().build();
 
     }

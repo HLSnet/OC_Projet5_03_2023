@@ -1,7 +1,6 @@
 package com.safetynet.safetynetalerts.controller;
 
 import com.safetynet.safetynetalerts.model.Medicalrecord;
-import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.repository.MedicalrecordDao;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +21,11 @@ public class MedicalRecordController {
         this.medicalrecordDao = medicalrecordDao;
     }
 
+
+    //***************************************************************************************************
+    // REQUETES GET
+    //***************************************************************************************************
+
     // Afficher toutes les medicalrecord
     @GetMapping(value = "/medicalrecord")
     public List<Medicalrecord> getMedicalrecord() {
@@ -41,6 +45,11 @@ public class MedicalRecordController {
         return ResponseEntity.ok(medicalrecordGot);
     }
 
+    //***************************************************************************************************
+    // REQUETES POST
+    //***************************************************************************************************
+
+    // Ajouter un medicalrecord
     @PostMapping(value = "/medicalrecord")
     public ResponseEntity<Medicalrecord> addMedicalrecord(@RequestBody Medicalrecord medicalrecord) {
 
@@ -58,6 +67,9 @@ public class MedicalRecordController {
         return ResponseEntity.created(location).build();
     }
 
+    //***************************************************************************************************
+    // REQUETES PUT
+    //***************************************************************************************************
 
     // Mettre à jour un dossier médical existant (pour le moment, supposons que le prénom et le nom de
     // famille ne changent pas, mais que les autres champs peuvent être modifiés)
@@ -65,14 +77,16 @@ public class MedicalRecordController {
     public ResponseEntity<Medicalrecord> updateMedicalrecord(@RequestBody Medicalrecord medicalrecord) {
 
         if (!medicalrecordDao.update(medicalrecord)) {
-            //Si la personne n'existe pas dans le fichier : on renvoie le code : "204 No Content"
+            //Si le dossier médical n'existe pas dans le fichier : on renvoie le code : "204 No Content"
             return ResponseEntity.noContent().build();
         }
-        // On renvoie le code "200 OK" et la fiche de la  ressource supprimée .
+        // On renvoie le code "200 OK"
         return ResponseEntity.ok().build();
     }
 
-
+    //***************************************************************************************************
+    // REQUETES DELETE
+    //***************************************************************************************************
 
     // Supprimer un dossier médical (utilisez une combinaison de prénom et de nom comme identificateur unique).
     @DeleteMapping(value = "/medicalrecord/{firstName}/{lastName}")
@@ -82,7 +96,7 @@ public class MedicalRecordController {
             //Si le dossier médical n'existe pas dans le fichier : on renvoie le code : "204 No Content"
             return ResponseEntity.noContent().build();
         }
-        // On renvoie le code "200 OK" et la fiche de la  ressource supprimée .
+        // On renvoie le code "200 OK"
         return ResponseEntity.ok().build();
 
     }

@@ -13,7 +13,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ *  Classe permettant de récupérer ou sauvegarder des listes d'objets
+ *  contenues dans le fichier json passé en paramètre à l'instanciation de l'objet
+ *
+ */
 public class JasonFileIO {
 
     private static String jasonFilePathname;
@@ -23,9 +27,17 @@ public class JasonFileIO {
     public JasonFileIO(String jasonFilePathname) {
         this.jasonFilePathname = jasonFilePathname;
         mapper = new ObjectMapper();
+
+        System.out.println("===>>>>>>>>>>>>>> " + jasonFilePathname);
     }
 
-
+    /**
+     * Method returning the list of objets from the json file
+     *
+     * @param name of the objet as written in the json file (= node name)
+     * @param class of the objet
+     * @return : the list of objets
+     */
     public static <T> List<T> readFromJsonFileToList(String nodeName, Class<T> tClass) {
 
         List<T> listObjects = new ArrayList<>();
@@ -49,7 +61,12 @@ public class JasonFileIO {
         return listObjects;
     }
 
-
+    /**
+     * Method writting  the list of objets in the json file
+     *
+     * @param name of the objet as written in the json file (= node name)
+     * @param the list of objets
+     */
     public  static <T> void writeListToJsonFile(String nodeName,  List<T> listObjects) {
 
         try {
@@ -78,7 +95,4 @@ public class JasonFileIO {
             e.printStackTrace();
         }
     }
-
-
-
 }

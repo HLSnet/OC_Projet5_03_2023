@@ -10,11 +10,15 @@ public interface FirestationDao {
 
     List<Firestation> findAll();
 
-    Firestation findByName(String firstName, String lastName);
+    Firestation  findByAdress(String adress) ;
+
+    List<Firestation>  findByStation(int station);
 
     Boolean save(Firestation firestation);
 
     Boolean update(Firestation firestation);
 
-    Boolean delete(Firestation firestation);
+    Boolean deleteStation(int station);
+
+    Boolean deleteAdress(String adress);
 }

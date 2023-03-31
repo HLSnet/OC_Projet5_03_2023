@@ -22,7 +22,7 @@ public class MedicalrecordTest {
 
     @BeforeEach
     void setUpData(){
-        SetupJsonFile.initialisation();
+        SetupJsonFile.reloadTestFile(JSONFILE_TEST_BAK_PATHNAME , JSONFILE_TEST_PATHNAME);
         new JasonFileIO(JSONFILE_TEST_PATHNAME);
         medicalrecords = JasonFileIO.readFromJsonFileToList(MEDICAL_RECORD, Medicalrecord.class);
     }

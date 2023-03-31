@@ -2,14 +2,14 @@ package com.safetynet.safetynetalerts.model;
 
 import java.util.Objects;
 
-public class Firestation{
+public class Firestation implements Comparable<Firestation>{
     private String address;
-    private String station;
+    private int station;
 
     public Firestation() {
     }
 
-    public Firestation(String address, String station) {
+    public Firestation(String address, int station) {
         this.address = address;
         this.station = station;
     }
@@ -22,11 +22,11 @@ public class Firestation{
         this.address = address;
     }
 
-    public String getStation() {
+    public int getStation() {
         return station;
     }
 
-    public void setStation(String station) {
+    public void setStation(int station) {
         this.station = station;
     }
 
@@ -43,11 +43,16 @@ public class Firestation{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Firestation that = (Firestation) o;
-        return Objects.equals(address, that.address) && Objects.equals(station, that.station);
+        return station == that.station && Objects.equals(address, that.address);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(address, station);
+    }
+
+    @Override
+    public int compareTo(Firestation firestation) {
+        return (this.station - firestation.getStation());
     }
 }

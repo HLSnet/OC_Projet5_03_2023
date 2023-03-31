@@ -1,5 +1,6 @@
 package com.safetynet.safetynetalerts;
 
+import com.safetynet.safetynetalerts.repository.FirestationDaoImpl;
 import com.safetynet.safetynetalerts.repository.JasonFileIO;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -18,7 +19,8 @@ public class SafetynetAlertsApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		// On indique le fichier json à utiliser dans l'application (notammment par les DAO)
+		// On indique le fichier json à utiliser dans l'application ( par les DAO)
 		new JasonFileIO(JSONFILE_PATHNAME);
+		FirestationDaoImpl.checkIntegrityJsonFileAndSort();
 	}
 }

@@ -8,15 +8,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
-import static com.safetynet.safetynetalerts.constants.DBConstants.JSONFILE_TEST_PATHNAME;
-import static com.safetynet.safetynetalerts.constants.DBConstants.PERSON;
+import static com.safetynet.safetynetalerts.constants.DBConstants.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 public class IOTest {
     @BeforeEach
     void setUpData(){
-        SetupJsonFile.initialisation();
+        SetupJsonFile.reloadTestFile(JSONFILE_TEST_BAK_PATHNAME , JSONFILE_TEST_PATHNAME);
         new JasonFileIO(JSONFILE_TEST_PATHNAME);
     }
 
