@@ -23,7 +23,6 @@ public class PersonTest {
     void setUpData(){
         SetupJsonFile.reloadTestFile(JSONFILE_TEST_BAK_PATHNAME , JSONFILE_TEST_PATHNAME);
         new JasonFileIO(JSONFILE_TEST_PATHNAME);
-        persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
     }
 
 
@@ -37,21 +36,23 @@ public class PersonTest {
     @Test
     void testFindAnExistingPerson() {
         // ARRANGE, ACT
+        persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
         Person person = personDaoImpl.findByName("Jamie", "Peters");
 
         // ASSERT
         assertNotNull(person);
-        assertTrue(this.persons.contains(person));
+        assertTrue(persons.contains(person));
     }
 
     @Test
     void testFindANonExistingPerson() {
         // ARRANGE, ACT
+        persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
         Person person = personDaoImpl.findByName("Averell", "Dalton");
 
         // ASSERT
         assertNull(person);
-        assertFalse(this.persons.contains(person));
+        assertFalse(persons.contains(person));
     }
 
 
@@ -80,7 +81,7 @@ public class PersonTest {
         assertTrue(result);
         // On vérifie que l'ajout a été fait
         persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
-        assertTrue(this.persons.contains(personToAdd));
+        assertTrue(persons.contains(personToAdd));
         // On vérifie qu'il n'y a eu qu'un ajout (pas d'ajout multiple)
         int nbPersonsAfter = persons.size();
         assertEquals(nbPersonsAfter, nbPersonsBefore +1 );
@@ -134,7 +135,7 @@ public class PersonTest {
         // ASSERT
         assertTrue(result);
         persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
-        assertTrue(this.persons.contains(personToUpdate));
+        assertTrue(persons.contains(personToUpdate));
 
         // On vérifie qu'il n'y a pas eu d'ajout ou de suppression
         int nbPersonsAfter = persons.size();
@@ -162,7 +163,7 @@ public class PersonTest {
         // ASSERT
         assertFalse(result);
         persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
-        assertFalse(this.persons.contains(personToUpdate));
+        assertFalse(persons.contains(personToUpdate));
         // On vérifie qu'il n'y a pas eu d'ajout ou de suppression
         int nbPersonsAfter = persons.size();
         assertEquals(nbPersonsAfter, nbPersonsBefore);

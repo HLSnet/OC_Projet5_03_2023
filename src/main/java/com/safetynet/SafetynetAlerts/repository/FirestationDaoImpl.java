@@ -1,6 +1,7 @@
 package com.safetynet.safetynetalerts.repository;
 
 import com.safetynet.safetynetalerts.model.Firestation;
+import com.safetynet.safetynetalerts.model.Person;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -91,6 +92,8 @@ public class FirestationDaoImpl implements FirestationDao {
         }
         return firestationSelected;
     }
+
+
     public Boolean save(Firestation FirestationToAdd) {
         // On recupère la liste des firestation
         List<Firestation> firestationList = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
@@ -109,14 +112,11 @@ public class FirestationDaoImpl implements FirestationDao {
         return ADDED;
     }
 
-
-
-
-
     @Override
     public Boolean update(Firestation firestation) {
         return false;
     }
+
 
     @Override
     public Boolean deleteStation(int station) {
