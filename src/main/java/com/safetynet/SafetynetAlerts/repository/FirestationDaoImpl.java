@@ -112,10 +112,21 @@ public class FirestationDaoImpl implements FirestationDao {
         return ADDED;
     }
 
+
     @Override
-    public Boolean update(Firestation firestation) {
-        return false;
+    public Boolean update(Firestation FirestationToUpdate) {
+        List<Firestation> firestations = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
+        for (Firestation firestation: firestations){
+            if (firestation.getAddress().equals(FirestationToUpdate.getAddress())  && firestation.getStation() == FirestationToUpdate.getStation()){
+                firestations.remove(firestation);
+                firestations.add(FirestationToUpdate);
+                JasonFileIO.writeListToJsonFile(FIRESTATION, firestations);
+                return  UPDATE_COMPLETED;
+            }
+        }
+        return NO_UPDATE;
     }
+
 
 
     @Override
