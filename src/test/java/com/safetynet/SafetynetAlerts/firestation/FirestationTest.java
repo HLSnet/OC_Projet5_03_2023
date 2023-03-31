@@ -233,7 +233,7 @@ public class FirestationTest {
     }
 
     @Test
-    void testDeleteANonExistingPerson() {
+    void testDeleteANonExistingStation() {
         // ARRANGE
         final int STATION_TO_DELETE = 10;
         firestations = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
@@ -258,4 +258,51 @@ public class FirestationTest {
         int nbFirestationsAfter = firestations.size();
         assertEquals(nbFirestationsAfter, nbFirestationsBefore);
     }
+
+
+    @Test
+    void testDeleteAnExistingAdress() {
+        // ARRANGE
+        Firestation firestationToDelete = new Firestation();
+        firestationToDelete.setAddress("29 15th St");
+        firestationToDelete.setStation(2);
+
+        // ACT
+        firestations = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
+        int nbFirestationsBefore = firestations.size();
+        Boolean result = firestationDaoImpl.deleteAdress(firestationToDelete.getAddress());
+
+        // ASSERT
+        assertTrue(result);
+        firestations = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
+        assertFalse(firestations.contains(firestationToDelete));
+
+        // On vérifie qu'il n'y a eu uniquement qu'une suppression
+        int nbFirestationsAfter = firestations.size();
+        assertEquals(nbFirestationsAfter, nbFirestationsBefore -1);
+    }
+
+    @Test
+    void testDeleteANonExistingAdress() {
+        // ARRANGE
+        Firestation firestationToDelete = new Firestation();
+        firestationToDelete.setAddress("Nowhere");
+        firestationToDelete.setStation(100);
+
+        // ACT
+        firestations = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
+        int nbFirestationsBefore = firestations.size();
+        Boolean result = firestationDaoImpl.deleteAdress(firestationToDelete.getAddress());
+
+        // ASSERT
+        assertFalse(result);
+        
+        firestations = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
+        assertFalse(firestations.contains(firestationToDelete));
+
+        // On vérifie qu'il n'y a pas eu de suppression
+        int nbFirestationsAfter = firestations.size();
+        assertEquals(nbFirestationsAfter, nbFirestationsBefore);
+    }
+
 }
