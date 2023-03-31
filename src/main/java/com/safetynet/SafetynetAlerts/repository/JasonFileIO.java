@@ -27,8 +27,6 @@ public class JasonFileIO {
     public JasonFileIO(String jasonFilePathname) {
         this.jasonFilePathname = jasonFilePathname;
         mapper = new ObjectMapper();
-
-        System.out.println("===>>>>>>>>>>>>>> " + jasonFilePathname);
     }
 
     /**

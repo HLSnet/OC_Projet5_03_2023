@@ -94,7 +94,7 @@ public class FirestationDaoImpl implements FirestationDao {
 
     @Override
     public Boolean save(Firestation firestation) {
-        return null;
+        return false;
     }
 
 

@@ -24,7 +24,6 @@ public class MedicalrecordTest {
     void setUpData(){
         SetupJsonFile.reloadTestFile(JSONFILE_TEST_BAK_PATHNAME , JSONFILE_TEST_PATHNAME);
         new JasonFileIO(JSONFILE_TEST_PATHNAME);
-        medicalrecords = JasonFileIO.readFromJsonFileToList(MEDICAL_RECORD, Medicalrecord.class);
     }
 
 
@@ -38,12 +37,12 @@ public class MedicalrecordTest {
     @Test
     void testFindAnExistingMedicalrecordDao() {
         // ARRANGE, ACT
-        Medicalrecord medicalrecord = medicalrecordDaoImpl.findByName("Sophia", "Zemicks");
+        Medicalrecord medicalrecord = medicalrecordDaoImpl.findByName("Felicia", "Boyd");
 
         // ASSERT
         assertNotNull(medicalrecord);
-
-        assertTrue(this.medicalrecords.contains(medicalrecord));
+        medicalrecords = JasonFileIO.readFromJsonFileToList(MEDICAL_RECORD, Medicalrecord.class);
+        assertTrue(medicalrecords.contains(medicalrecord));
     }
 
     @Test
@@ -53,7 +52,8 @@ public class MedicalrecordTest {
 
         // ASSERT
         assertNull(medicalrecord);
-        assertFalse(this.medicalrecords.contains(medicalrecord));
+        medicalrecords = JasonFileIO.readFromJsonFileToList(MEDICAL_RECORD, Medicalrecord.class);
+        assertFalse(medicalrecords.contains(medicalrecord));
     }
 
 

@@ -95,6 +95,48 @@ public class FirestationTest {
 //  Tests unitaires de la méthode 'save' de la classe  FirestationDaoImpl
 //*********************************************************************************************************
 
+    @Test
+    void testSaveNewPerson() {
+        // ARRANGE
+        Firestation firestationToAdd = new Firestation();
+        firestationToAdd.setAddress("Here St");
+        firestationToAdd.setStation(11);
+
+        // ACT
+        firestations = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
+        int nbFirestationsBefore = firestations.size();
+        Boolean result = firestationDaoImpl.save(firestationToAdd);
+
+        // ASSERT
+        assertTrue(result);
+        // On vérifie que l'ajout a été fait
+        firestations = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
+        assertTrue(this.firestations.contains(firestationToAdd));
+        // On vérifie qu'il n'y a eu qu'un ajout (pas d'ajout multiple)
+        int nbFirestationsAfter = firestations.size();
+        assertEquals(nbFirestationsAfter, nbFirestationsBefore +1 );
+    }
+
+
+    @Test
+    void testSaveAnExistingPerson() {
+        // ARRANGE
+        Firestation firestationToAdd = new Firestation();
+        firestationToAdd.setAddress("29 15th St");
+        firestationToAdd.setStation(2);
+
+        // ACT
+        firestations = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
+        int nbFirestationsBefore = firestations.size();
+        Boolean result = firestationDaoImpl.save(firestationToAdd);
+
+
+        // ASSERT
+        assertFalse(result);
+        // On vérifie qu'il n'y a pas eu d'ajout ou de suppression
+        int nbFirestationsAfter = firestations.size();
+        assertEquals(nbFirestationsAfter, nbFirestationsBefore );
+    }
 
 
 //*********************************************************************************************************
