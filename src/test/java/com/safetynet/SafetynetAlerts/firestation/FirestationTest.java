@@ -64,16 +64,18 @@ public class FirestationTest {
     @Test
     void testFindAnExistingStation() {
         // ARRANGE
+        final int STATION_TO_FIND = 1;
+
         firestations = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
         List<Firestation> firestationSelected = new ArrayList<>();
         for (Firestation firestation : firestations){
-            if (firestation.getStation() == 1 ){
+            if (firestation.getStation() == STATION_TO_FIND ){
                 firestationSelected.add(firestation);
             }
         }
 
         // ACT
-        List<Firestation> firestationsFound = firestationDaoImpl.findByStation(1);
+        List<Firestation> firestationsFound = firestationDaoImpl.findByStation(STATION_TO_FIND);
 
         // ASSERT
         assertEquals(firestationsFound.size(), firestationSelected.size());
@@ -103,9 +105,10 @@ public class FirestationTest {
         firestationToAdd.setAddress("Here St");
         firestationToAdd.setStation(11);
 
-        // ACT
         firestations = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
         int nbFirestationsBefore = firestations.size();
+
+        // ACT
         Boolean result = firestationDaoImpl.save(firestationToAdd);
 
         // ASSERT
@@ -126,11 +129,11 @@ public class FirestationTest {
         firestationToAdd.setAddress("29 15th St");
         firestationToAdd.setStation(2);
 
-        // ACT
         firestations = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
         int nbFirestationsBefore = firestations.size();
-        Boolean result = firestationDaoImpl.save(firestationToAdd);
 
+        // ACT
+        Boolean result = firestationDaoImpl.save(firestationToAdd);
 
         // ASSERT
         assertFalse(result);
@@ -151,9 +154,10 @@ public class FirestationTest {
         firestationToUpdate.setAddress("29 15th St");
         firestationToUpdate.setStation(2);
 
-        // ACT
         firestations = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
         int nbFirestationsBefore = firestations.size();
+
+        // ACT
         Boolean result = firestationDaoImpl.update(firestationToUpdate);
 
         // ASSERT
@@ -166,8 +170,6 @@ public class FirestationTest {
         assertEquals(nbFirestationsAfter, nbFirestationsBefore);
     }
 
-
-
     @Test
     void testUpdateANonExistingFirestation() {
         // ARRANGE
@@ -175,9 +177,10 @@ public class FirestationTest {
         firestationToUpdate.setAddress("nowhere");
         firestationToUpdate.setStation(0);
 
-        // ACT
         firestations = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
         int nbFirestationsBefore = firestations.size();
+
+        // ACT
         Boolean result = firestationDaoImpl.update(firestationToUpdate);
 
         // ASSERT
@@ -193,10 +196,66 @@ public class FirestationTest {
 
 
 //*********************************************************************************************************
-//  Tests unitaires de la méthode 'delete' de la classe  PersonDaoImpl
+//  Tests unitaires des méthodes 'delete' de la classe  FirestationDaoImpl
 //*********************************************************************************************************
+    @Test
+    void testDeleteAnExistingStation() {
+        // ARRANGE
+        final int STATION_TO_DELETE = 1;
+        firestations = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
+        int nbFirestationsBefore = firestations.size();
 
+        int nbStationToDelete = 0;
+        for (Firestation firestation : firestations){
+            if (firestation.getStation() == STATION_TO_DELETE ){
+                nbStationToDelete++;
+            }
+        }
 
+        // ACT
+        Boolean result = firestationDaoImpl.deleteStation(STATION_TO_DELETE);
 
+        // ASSERT
+        assertTrue(result);
 
+        firestations = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
+        boolean stationExist = false;
+        for (Firestation firestation : firestations){
+            if (firestation.getStation() == STATION_TO_DELETE ){
+                stationExist = true;
+            }
+        }
+        assertFalse(stationExist);
+
+        // On vérifie qu'il n'y a eu uniquement qu'une suppression
+        int nbFirestationsAfter = firestations.size();
+        assertEquals(nbFirestationsAfter, nbFirestationsBefore -nbStationToDelete);
+    }
+
+    @Test
+    void testDeleteANonExistingPerson() {
+        // ARRANGE
+        final int STATION_TO_DELETE = 10;
+        firestations = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
+        int nbFirestationsBefore = firestations.size();
+
+        // ACT
+        Boolean result = firestationDaoImpl.deleteStation(STATION_TO_DELETE);
+
+        // ASSERT
+        assertFalse(result);
+
+        firestations = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
+        boolean stationExist = false;
+        for (Firestation firestation : firestations){
+            if (firestation.getStation() == STATION_TO_DELETE ){
+                stationExist = true;
+            }
+        }
+        assertFalse(stationExist);
+
+        // On vérifie qu'il n'y a pas eu de suppression
+        int nbFirestationsAfter = firestations.size();
+        assertEquals(nbFirestationsAfter, nbFirestationsBefore);
+    }
 }
