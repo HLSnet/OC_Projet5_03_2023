@@ -91,11 +91,26 @@ public class FirestationDaoImpl implements FirestationDao {
         }
         return firestationSelected;
     }
+    public Boolean save(Firestation FirestationToAdd) {
+        // On recupère la liste des firestation
+        List<Firestation> firestationList = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
 
-    @Override
-    public Boolean save(Firestation firestation) {
-        return false;
+        for (Firestation firestation : firestationList){
+            if (firestation.getAddress().equals(FirestationToAdd.getAddress())  && firestation.getStation() == FirestationToAdd.getStation()){
+                // La firestation existe dans le fichier donc pas d'ajout
+                return  NOT_ADDED;
+            }
+        }
+        firestationList.add(FirestationToAdd);
+        // On trie la liste par stations
+        Collections.sort(firestationList);
+        // On écrit dans le fichier
+        JasonFileIO.writeListToJsonFile(FIRESTATION, firestationList);
+        return ADDED;
     }
+
+
+
 
 
     @Override
