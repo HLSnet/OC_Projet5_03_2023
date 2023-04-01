@@ -1,7 +1,6 @@
 package com.safetynet.safetynetalerts.repository;
 
 import com.safetynet.safetynetalerts.model.Firestation;
-import com.safetynet.safetynetalerts.model.Person;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;

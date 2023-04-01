@@ -2,7 +2,6 @@ package com.safetynet.safetynetalerts.firestation;
 
 import com.safetynet.safetynetalerts.datatest.SetupJsonFile;
 import com.safetynet.safetynetalerts.model.Firestation;
-import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.repository.FirestationDao;
 import com.safetynet.safetynetalerts.repository.JasonFileIO;
 import org.junit.jupiter.api.BeforeEach;

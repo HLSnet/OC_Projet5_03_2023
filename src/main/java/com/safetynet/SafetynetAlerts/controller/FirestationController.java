@@ -25,14 +25,14 @@ public class FirestationController {
     //***************************************************************************************************
 
     // Afficher toutes les firestation
-    @GetMapping(value = "/firestation")
+    @GetMapping(value = "/firestations")
     public List<Firestation> getAllFirestations() {
         return firestationDao.findAll();
     }
 
 
     // Afficher le numéro de station  correspondant à une adresse
-    @GetMapping(value = "/firestation/adress/{adress}")
+    @GetMapping(value = "/firestations/adress/{adress}")
     public ResponseEntity<Firestation> getFirestation(@PathVariable String adress) {
         Firestation firestationGot = firestationDao.findByAdress(adress);
 
@@ -45,7 +45,7 @@ public class FirestationController {
 
 
     // Afficher les adresses couvertes par une firestation  (on fournit un numéro de station)
-    @GetMapping(value = "/firestation/{stationNumber}")
+    @GetMapping(value = "/firestations/station/{stationNumber}")
     public ResponseEntity<List<Firestation>> getAdress(@PathVariable int stationNumber) {
         List<Firestation> firestations = firestationDao.findByStation(stationNumber);
 
@@ -61,7 +61,7 @@ public class FirestationController {
     //***************************************************************************************************
 
     // Ajouter un mapping caserne/adresse
-    @PostMapping(value = "/firestation")
+    @PostMapping(value = "/firestations")
     public ResponseEntity<Firestation> addFirestation(@RequestBody Firestation firestation) {
 
         if (!firestationDao.save(firestation)) {
@@ -78,7 +78,7 @@ public class FirestationController {
     //***************************************************************************************************
 
     // Mettre à jour le numéro de la caserne de pompiers d'une adresse
-    @PutMapping(value = "/firestation")
+    @PutMapping(value = "/firestations")
     public ResponseEntity<Firestation> updateFirestation(@RequestBody Firestation firestation) {
 
         if (!firestationDao.update(firestation)) {
@@ -94,7 +94,7 @@ public class FirestationController {
     //***************************************************************************************************
 
     //  Supprimer le mapping d'une caserne
-    @DeleteMapping(value= "/firestation/{stationNumber}")
+    @DeleteMapping(value= "/firestations/{stationNumber}")
     public ResponseEntity<Firestation> deleteStation(@PathVariable int stationNumber) {
 
         if (!firestationDao.deleteStation(stationNumber)) {
@@ -106,7 +106,7 @@ public class FirestationController {
     }
 
     //  Supprimer le mapping d'une adresse
-    @DeleteMapping(value= "/firestation/adress/{adress}")
+    @DeleteMapping(value= "/firestations/adress/{adress}")
     public ResponseEntity<Firestation> deleteAdress(@PathVariable String adress) {
 
         if (!firestationDao.deleteAdress(adress)) {
