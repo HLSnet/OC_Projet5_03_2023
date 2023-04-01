@@ -296,7 +296,7 @@ public class FirestationTest {
 
         // ASSERT
         assertFalse(result);
-        
+
         firestations = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
         assertFalse(firestations.contains(firestationToDelete));
 

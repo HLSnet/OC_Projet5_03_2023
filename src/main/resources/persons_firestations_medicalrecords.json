@@ -8,6 +8,46 @@
     "phone" : "841-874-6512",
     "email" : "jaboyd@email.com"
   }, {
+    "firstName" : "Jacob",
+    "lastName" : "Boyd",
+    "address" : "1509 Culver St",
+    "city" : "Culver",
+    "zip" : "97451",
+    "phone" : "841-874-6513",
+    "email" : "drk@email.com"
+  }, {
+    "firstName" : "Tenley",
+    "lastName" : "Boyd",
+    "address" : "1509 Culver St",
+    "city" : "Culver",
+    "zip" : "97451",
+    "phone" : "841-874-6512",
+    "email" : "tenz@email.com"
+  }, {
+    "firstName" : "Roger",
+    "lastName" : "Boyd",
+    "address" : "1509 Culver St",
+    "city" : "Culver",
+    "zip" : "97451",
+    "phone" : "841-874-6512",
+    "email" : "jaboyd@email.com"
+  }, {
+    "firstName" : "Felicia",
+    "lastName" : "Boyd",
+    "address" : "1509 Culver St",
+    "city" : "Culver",
+    "zip" : "97451",
+    "phone" : "841-874-6544",
+    "email" : "jaboyd@email.com"
+  }, {
+    "firstName" : "Jonanathan",
+    "lastName" : "Marrack",
+    "address" : "29 15th St",
+    "city" : "Culver",
+    "zip" : "97451",
+    "phone" : "841-874-6513",
+    "email" : "drk@email.com"
+  }, {
     "firstName" : "Tessa",
     "lastName" : "Carman",
     "address" : "834 Binoc Ave",
@@ -282,12 +322,6 @@
     "birthdate" : "08/06/1945",
     "medications" : [ "tradoxidine:400mg" ],
     "allergies" : [ ]
-  }, {
-    "firstName" : "Averell",
-    "lastName" : "Dalton",
-    "birthdate" : "01/01/1900",
-    "medications" : [ "paracetamol:1000mg", "doliprane:500mg", "whisky: 2l" ],
-    "allergies" : [ "Lucky Luke", "Jail" ]
   } ],
   "firestations" : [ {
     "address" : "947 E. Rose Dr",
@@ -300,9 +334,6 @@
     "station" : 1
   }, {
     "address" : "892 Downing Ct",
-    "station" : 2
-  }, {
-    "address" : "29 15th St",
     "station" : 2
   }, {
     "address" : "951 LoneTree Rd",
@@ -322,5 +353,8 @@
   }, {
     "address" : "489 Manchester St",
     "station" : 4
+  }, {
+    "address" : "29 15th St",
+    "station" : 20
   } ]
 }

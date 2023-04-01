@@ -106,7 +106,7 @@ public class FirestationController {
     }
 
     //  Supprimer le mapping d'une adresse
-    @DeleteMapping(value= "/firestation/{adress}")
+    @DeleteMapping(value= "/firestation/adress/{adress}")
     public ResponseEntity<Firestation> deleteAdress(@PathVariable String adress) {
 
         if (!firestationDao.deleteAdress(adress)) {
