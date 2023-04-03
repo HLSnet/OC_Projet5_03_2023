@@ -222,6 +222,7 @@ public class FirestationTest {
         for (Firestation firestation : firestations){
             if (firestation.getStation() == STATION_TO_DELETE ){
                 stationExist = true;
+                break;
             }
         }
         assertFalse(stationExist);

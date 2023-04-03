@@ -1,7 +1,10 @@
 package com.safetynet.safetynetalerts.model;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
+
 import java.util.Objects;
 
+@JsonFilter("filtreDynamique")
 public class Person{
     private String firstName;
     private String lastName;

@@ -1,13 +1,29 @@
 package com.safetynet.safetynetalerts.controller;
 
+import com.fasterxml.jackson.databind.ser.FilterProvider;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+import com.safetynet.safetynetalerts.dto.PersonDto;
+import com.safetynet.safetynetalerts.service.AlertService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.ParseException;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 public class ServiceController {
+
+    private final AlertService alertService;
+
+    public ServiceController(AlertService alertService) {
+        this.alertService = alertService;
+    }
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -19,9 +35,25 @@ public class ServiceController {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // http://localhost:8080/firestation?stationNumber=<station_number>
     @GetMapping("firestation")
-    public Object getPersonsRelatedToAStation(@RequestParam int stationNumber){
-        return null;
-    }
+    public ResponseEntity<MappingJacksonValue>  getPersonsRelatedToAStation(@RequestParam int stationNumber) throws ParseException {
+
+        PersonDto personDto = alertService.getPersonsRelatedToAStation(stationNumber);
+        if (Objects.isNull(personDto)) {
+            //Si la personne n'existe pas dans le fichier : on renvoie le code : "204 No Content"
+            return ResponseEntity.noContent().build();
+        }
+
+        SimpleBeanPropertyFilter filterPerson = SimpleBeanPropertyFilter.serializeAllExcept("city", "zip", "email");
+        FilterProvider listFilters = new SimpleFilterProvider().addFilter("filtreDynamique", filterPerson);
+        MappingJacksonValue personsFiltered = new MappingJacksonValue(personDto);
+        personsFiltered.setFilters(listFilters);
+
+        return ResponseEntity.ok(personsFiltered);
+        }
+
+
+
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //    Cette url doit retourner une liste d'enfants (tout individu âgé de 18 ans ou moins) habitant à cette adresse.
