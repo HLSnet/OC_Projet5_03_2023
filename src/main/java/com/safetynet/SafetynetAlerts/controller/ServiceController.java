@@ -3,6 +3,7 @@ package com.safetynet.safetynetalerts.controller;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+import com.safetynet.safetynetalerts.dto.ChildDto;
 import com.safetynet.safetynetalerts.dto.PersonDto;
 import com.safetynet.safetynetalerts.service.AlertService;
 import org.springframework.http.ResponseEntity;
@@ -59,9 +60,20 @@ public class ServiceController {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // http://localhost:8080/childAlert?address=<address>
     @GetMapping("childAlert")
-    public List<Object> getChildsdRelatedToAnAddress(@RequestParam String address){
+    public ResponseEntity<MappingJacksonValue>  getChildsdRelatedToAnAddress(@RequestParam String address){
 
-        return null;
+        List<ChildDto> childsDto = alertService.getChildsdRelatedToAnAddress(address);
+        if (Objects.isNull(childsDto)) {
+            //Si une caserne ne couvre aucune adresse : on renvoie le code : "204 No Content"
+            return ResponseEntity.noContent().build();
+        }
+
+        SimpleBeanPropertyFilter filterPerson = SimpleBeanPropertyFilter.serializeAllExcept("city", "zip", "email");
+        FilterProvider listFilters = new SimpleFilterProvider().addFilter("filtreDynamique", filterPerson);
+        MappingJacksonValue personsFiltered = new MappingJacksonValue(childsDto);
+        personsFiltered.setFilters(listFilters);
+
+        return ResponseEntity.ok(personsFiltered);
     }
 
 

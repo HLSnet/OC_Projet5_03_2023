@@ -71,7 +71,7 @@ public class AlertServiceImpl implements AlertService{
         LocalDate currentDate = LocalDate.now();
 
         List<ChildDto> childsDto  = new ArrayList<>();
-        ChildDto childDto  = new ChildDto();
+        ChildDto childDto;
 
 
         List<Person> persons = personDao.findAll();
@@ -98,6 +98,7 @@ public class AlertServiceImpl implements AlertService{
                     int age = Period.between(birthDate, currentDate).getYears();
                     // Si c'est un enfant (age <= 18) on crée un objet childDto que l'on ajoute à childsDto
                     if ( age <= 18){
+                        childDto = new ChildDto();
                         childDto.setFirstName(medicalrecord.getFirstName());
                         childDto.setLastName(medicalrecord.getLastName());
                         childDto.setAge(age);

@@ -87,9 +87,9 @@ void testFindExistingChilds() {
 
     // ASSERT
     assertEquals(childsDto.size(), 2);
-  //  assertEquals(childsDto.get(0).getFirstName(), "Tenley");
+    assertEquals(childsDto.get(0).getFirstName(), "Tenley");
     assertEquals(childsDto.get(0).getLastName(), "Boyd");
-  // assertEquals(childsDto.get(0).getAge(), 11);
+   assertEquals(childsDto.get(0).getAge(), 11);
 
     assertEquals(childsDto.get(0).getHouseholdMembers().size(), 4);
     assertEquals(childsDto.get(0).getHouseholdMembers().get(1).getFirstName(), "Jacob");
