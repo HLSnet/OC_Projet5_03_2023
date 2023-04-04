@@ -2,6 +2,9 @@ package com.safetynet.safetynetalerts.constants;
 
 public class DBConstants {
     public static final String  JSONFILE_PATHNAME = "src\\main\\resources\\persons_firestations_medicalrecords.json";
+    public static final String  JSONFILE_BAK_PATHNAME = "src\\main\\resources\\persons_firestations_medicalrecords_bak.json";
+
+
     public static final String  JSONFILE_TEST_PATHNAME = "src\\main\\resources\\persons_firestations_medicalrecords_test.json";
     public static final String  JSONFILE_TEST_BAK_PATHNAME = "src\\main\\resources\\persons_firestations_medicalrecords_test_bak.json";
 

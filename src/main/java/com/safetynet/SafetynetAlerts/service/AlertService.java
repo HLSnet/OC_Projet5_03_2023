@@ -1,6 +1,7 @@
 package com.safetynet.safetynetalerts.service;
 
 
+import com.safetynet.safetynetalerts.dto.ChildDto;
 import com.safetynet.safetynetalerts.dto.PersonDto;
 
 import java.util.List;
@@ -10,7 +11,7 @@ public interface AlertService  {
 
         public PersonDto getPersonsRelatedToAStation(int stationNumber) ;
 
-        public List<Object> getChildsdRelatedToAnAddress(String address);
+        public List<ChildDto> getChildsdRelatedToAnAddress(String address);
 
         public List<String> getPhoneRelatedToAStation(int firestation);
 
