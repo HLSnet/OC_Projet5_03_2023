@@ -1,6 +1,5 @@
 package com.safetynet.safetynetalerts.dto;
 
-import com.fasterxml.jackson.annotation.JsonFilter;
 import com.safetynet.safetynetalerts.model.Person;
 
 import java.util.ArrayList;

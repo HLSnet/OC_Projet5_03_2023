@@ -8,11 +8,10 @@ import com.safetynet.safetynetalerts.service.AlertService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.text.ParseException;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -35,11 +34,11 @@ public class ServiceController {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // http://localhost:8080/firestation?stationNumber=<station_number>
     @GetMapping("firestation")
-    public ResponseEntity<MappingJacksonValue>  getPersonsRelatedToAStation(@RequestParam int stationNumber) throws ParseException {
+    public ResponseEntity<MappingJacksonValue>  getPersonsRelatedToAStation(@RequestParam int stationNumber) {
 
         PersonDto personDto = alertService.getPersonsRelatedToAStation(stationNumber);
         if (Objects.isNull(personDto)) {
-            //Si la personne n'existe pas dans le fichier : on renvoie le code : "204 No Content"
+            //Si une caserne ne couvre aucune adresse : on renvoie le code : "204 No Content"
             return ResponseEntity.noContent().build();
         }
 
@@ -53,8 +52,6 @@ public class ServiceController {
 
 
 
-
-
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //    Cette url doit retourner une liste d'enfants (tout individu âgé de 18 ans ou moins) habitant à cette adresse.
     //    La liste doit comprendre le prénom et le nom de famille de chaque enfant, son âge et une liste des autres
@@ -63,6 +60,7 @@ public class ServiceController {
     // http://localhost:8080/childAlert?address=<address>
     @GetMapping("childAlert")
     public List<Object> getChildsdRelatedToAnAddress(@RequestParam String address){
+
         return null;
     }
 

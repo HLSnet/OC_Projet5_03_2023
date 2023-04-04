@@ -12,7 +12,6 @@ import com.safetynet.safetynetalerts.repository.PersonDao;
 import org.springframework.stereotype.Service;
 
 
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
@@ -31,7 +30,7 @@ public class AlertServiceImpl implements AlertService{
         this.medicalrecordDao = medicalrecordDao;
     }
 
-    public PersonDto getPersonsRelatedToAStation(int stationNumber) throws ParseException {
+    public PersonDto getPersonsRelatedToAStation(int stationNumber) {
 
         PersonDto personDto = new PersonDto();
 

@@ -22,7 +22,17 @@ public class JasonFileIO {
 
     private static String jasonFilePathname;
 
-    private static ObjectMapper mapper;
+    public static ObjectMapper mapper;
+
+    public static ObjectMapper getMapper() {
+        return mapper;
+    }
+
+    public static void setMapper(ObjectMapper mapper) {
+        JasonFileIO.mapper = mapper;
+    }
+
+
 
     public JasonFileIO(String jasonFilePathname) {
         this.jasonFilePathname = jasonFilePathname;
