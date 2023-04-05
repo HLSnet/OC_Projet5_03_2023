@@ -190,18 +190,23 @@ void test5() {
 //*********************************************************************************************************
 //  Tests unitaires de la méthode 'getMailRelatedToACity' de la classe  AlertServiceImpl
 //*********************************************************************************************************
-@Test
-void test61() {
-    // ARRANGE
+    @Test
+    void  testFindMailsWithExistingCity() {
+        // ARRANGE, ACT
+        List<String> mails = alertService.getMailsRelatedToACity("Culver");
 
+        // ASSERT
+        assertEquals(mails.size(), 23);
+        assertEquals(mails.get(1), "drk@email.com");
+    }
 
-    // ACT
-
-
-
-    // ASSERT
-
-}
+    @Test
+    void testFindMailsWithNoExistingAddress() {
+        // ARRANGE,  ACT
+        List<String> mails = alertService.getMailsRelatedToACity("Paris");
+        // ASSERT
+        assertNull(mails);
+    }
 
 
 

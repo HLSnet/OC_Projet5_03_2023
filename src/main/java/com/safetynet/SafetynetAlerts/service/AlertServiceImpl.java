@@ -146,7 +146,14 @@ public class AlertServiceImpl implements AlertService{
         return null;
     }
 
-    public List<String> getMailRelatedToACity(String city) {
-        return null;
+    public List<String> getMailsRelatedToACity(String city) {
+        List<Person> persons = personDao.findAll();
+        List<String> mails = new ArrayList<>();
+        for (Person person: persons){
+            if (person.getCity().equals(city)){
+                mails.add(person.getEmail());
+            }
+        }
+        return mails.isEmpty()? null : mails;
     }
 }

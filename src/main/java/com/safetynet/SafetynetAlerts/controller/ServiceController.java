@@ -143,8 +143,15 @@ public class ServiceController {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // http://localhost:8080/communityEmail?city=<city>
     @GetMapping("communityEmail")
-    public List<String> getMailRelatedToACity(@RequestParam String city){
-        return null;
+    public ResponseEntity<List<String>> getMailRelatedToACity(@RequestParam String city){
+
+        List<String> mails = alertService.getMailsRelatedToACity(city);
+        if (Objects.isNull(mails)) {
+            //Si une caserne ne couvre aucune adresse : on renvoie le code : "204 No Content"
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.ok(mails);
     }
 
 

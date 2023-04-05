@@ -21,5 +21,5 @@ public interface AlertService  {
 
         public List<Object> getInfoPerson(String firstName, String lastName);
 
-        public List<String> getMailRelatedToACity(String city);
+        public List<String> getMailsRelatedToACity(String city);
 }
