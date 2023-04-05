@@ -2,7 +2,7 @@ package com.safetynet.safetynetalerts.service;
 
 
 import com.safetynet.safetynetalerts.dto.ChildDto;
-import com.safetynet.safetynetalerts.dto.PersonDto;
+import com.safetynet.safetynetalerts.dto.PersonsGivenStationDto;
 import com.safetynet.safetynetalerts.model.Firestation;
 import com.safetynet.safetynetalerts.model.Medicalrecord;
 import com.safetynet.safetynetalerts.model.Person;
@@ -32,9 +32,9 @@ public class AlertServiceImpl implements AlertService{
         this.medicalrecordDao = medicalrecordDao;
     }
 
-    public PersonDto getPersonsRelatedToAStation(int stationNumber) {
+    public PersonsGivenStationDto getPersonsRelatedToAStation(int stationNumber) {
 
-        PersonDto personDto = new PersonDto();
+        PersonsGivenStationDto personsGivenStationDto = new PersonsGivenStationDto();
 
         List<Person> persons = personDao.findAll();
         List<Firestation> firestations = firestationDao.findByStation(stationNumber);
@@ -47,22 +47,23 @@ public class AlertServiceImpl implements AlertService{
         for (Firestation firestation: firestations) {
             for (Person person: persons){
                 if (firestation.getAddress().equals(person.getAddress())){
-                    personDto.getPersons().add(person);
+                    personsGivenStationDto.getPersons().add(person);
                     for (Medicalrecord medicalrecord: medicalrecords){
                         if (medicalrecord.getFirstName().equals(person.getFirstName())  && medicalrecord.getLastName().equals(person.getLastName())){
                             birthDate = LocalDate.parse(medicalrecord.getBirthdate(), formatter);
 
                             if ((Period.between(birthDate, currentDate).getYears()) > 18){
-                                personDto.setNbAdult(personDto.getNbAdult() + 1) ;
+                                personsGivenStationDto.setNbAdult(personsGivenStationDto.getNbAdult() + 1) ;
                             }
-                            else {personDto.setNbChild(personDto.getNbChild() + 1); }
+                            else {
+                                personsGivenStationDto.setNbChild(personsGivenStationDto.getNbChild() + 1); }
                         }
                     }
                 }
             }
         }
 
-        return personDto.getPersons().isEmpty()? null : personDto;
+        return personsGivenStationDto.getPersons().isEmpty()? null : personsGivenStationDto;
     }
 
     public List<ChildDto> getChildsdRelatedToAnAddress(String address) {
@@ -111,12 +112,26 @@ public class AlertServiceImpl implements AlertService{
                 }
             }
         }
-
         return childsDto.isEmpty()? null : childsDto;
     }
 
-    public List<String> getPhoneRelatedToAStation(int firestation) {
-        return null;
+    public List<String> getPhoneNumbersRelatedToAStation(int stationNumber) {
+        List<Person> persons = personDao.findAll();
+        List<Firestation> firestations = firestationDao.findByStation(stationNumber);
+        List<String> phoneNumbers = new ArrayList<>();
+
+
+        for (Firestation firestation: firestations) {
+                if (firestation.getStation() == stationNumber){
+                    for (Person person: persons){{
+                        if (firestation.getAddress().equals(person.getAddress())){
+                            phoneNumbers.add(person.getPhone());
+                        }
+                    }
+                }
+            }
+        }
+        return phoneNumbers.isEmpty()? null : phoneNumbers;
     }
 
     public List<Object> getPersonsRelatedToAnAddress(String address) {

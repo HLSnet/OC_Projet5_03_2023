@@ -9,7 +9,7 @@ public class ChildDto {
     private String firstName;
     private String lastName;
     private int age;
-    private List<Person> householdMembers = new ArrayList<>();
+    private List<Person> householdMembers ;
 
     public String getFirstName() {
         return firstName;

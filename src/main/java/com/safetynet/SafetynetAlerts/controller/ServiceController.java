@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.safetynet.safetynetalerts.dto.ChildDto;
-import com.safetynet.safetynetalerts.dto.PersonDto;
+import com.safetynet.safetynetalerts.dto.PersonsGivenStationDto;
 import com.safetynet.safetynetalerts.service.AlertService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJacksonValue;
@@ -37,15 +37,15 @@ public class ServiceController {
     @GetMapping("firestation")
     public ResponseEntity<MappingJacksonValue>  getPersonsRelatedToAStation(@RequestParam int stationNumber) {
 
-        PersonDto personDto = alertService.getPersonsRelatedToAStation(stationNumber);
-        if (Objects.isNull(personDto)) {
+        PersonsGivenStationDto personsGivenStationDto = alertService.getPersonsRelatedToAStation(stationNumber);
+        if (Objects.isNull(personsGivenStationDto)) {
             //Si une caserne ne couvre aucune adresse : on renvoie le code : "204 No Content"
             return ResponseEntity.noContent().build();
         }
 
         SimpleBeanPropertyFilter filterPerson = SimpleBeanPropertyFilter.serializeAllExcept("city", "zip", "email");
         FilterProvider listFilters = new SimpleFilterProvider().addFilter("filtreDynamique", filterPerson);
-        MappingJacksonValue personsFiltered = new MappingJacksonValue(personDto);
+        MappingJacksonValue personsFiltered = new MappingJacksonValue(personsGivenStationDto);
         personsFiltered.setFilters(listFilters);
 
         return ResponseEntity.ok(personsFiltered);
@@ -85,8 +85,15 @@ public class ServiceController {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // http://localhost:8080/phoneAlert?firestation=<firestation_number>
     @GetMapping("phoneAlert")
-    public List<String> getPhoneRelatedToAStation(@RequestParam int firestation){
-        return null;
+    public ResponseEntity<List<String>> getPhoneRelatedToAStation(@RequestParam int firestation){
+
+        List<String> phoneNumbers = alertService.getPhoneNumbersRelatedToAStation(firestation);
+        if (Objects.isNull(phoneNumbers)) {
+            //Si une caserne ne couvre aucune adresse : on renvoie le code : "204 No Content"
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.ok(phoneNumbers);
     }
 
 

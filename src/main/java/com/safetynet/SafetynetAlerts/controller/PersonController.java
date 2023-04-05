@@ -1,8 +1,12 @@
 package com.safetynet.safetynetalerts.controller;
 
+import com.fasterxml.jackson.databind.ser.FilterProvider;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.repository.PersonDao;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -26,21 +30,34 @@ public class PersonController {
 
     // Afficher toutes les personnes
     @GetMapping(value = "/person")
-    public List<Person> getPersons() {
-        return personDao.findAll();
+    public MappingJacksonValue getPersons() {
+        List<Person> persons = personDao.findAll();
+
+        SimpleBeanPropertyFilter filterPerson = SimpleBeanPropertyFilter.serializeAll();
+        FilterProvider listFilters = new SimpleFilterProvider().addFilter("filtreDynamique", filterPerson);
+        MappingJacksonValue personsFiltered = new MappingJacksonValue(persons);
+        personsFiltered.setFilters(listFilters);
+
+        return personsFiltered;
     }
 
 
     // Afficher les informations d'une personne en fournissant son lastName et firstName
     @GetMapping(value = "/person/{firstName}/{lastName}")
-    public ResponseEntity<Person> getPerson(@PathVariable String firstName, @PathVariable  String lastName) {
+    public ResponseEntity<MappingJacksonValue> getPerson(@PathVariable String firstName, @PathVariable  String lastName) {
         Person personGot = personDao.findByName(firstName, lastName);
 
         if (Objects.isNull(personGot)) {
             //Si la personne n'existe pas dans le fichier : on renvoie le code : "204 No Content"
             return ResponseEntity.noContent().build();
         }
-        return ResponseEntity.ok(personGot);
+
+        SimpleBeanPropertyFilter filterPerson = SimpleBeanPropertyFilter.serializeAll();
+        FilterProvider listFilters = new SimpleFilterProvider().addFilter("filtreDynamique", filterPerson);
+        MappingJacksonValue personFiltered = new MappingJacksonValue(personGot);
+        personFiltered.setFilters(listFilters);
+
+        return ResponseEntity.ok(personFiltered);
     }
 
     //***************************************************************************************************
@@ -49,7 +66,7 @@ public class PersonController {
 
     // Ajouter une personne
     @PostMapping(value = "/person")
-    public ResponseEntity<Person> addPerson(@RequestBody Person person) {
+    public ResponseEntity<String> addPerson(@RequestBody Person person) {
 
         if (!personDao.save(person)) {
             //On renvoie le code : "204 No Content"
@@ -72,7 +89,7 @@ public class PersonController {
     // Mettre à jour une personne existante (pour le moment, supposons que le prénom et le nom de
     // famille ne changent pas, mais que les autres champs peuvent être modifiés)
     @PutMapping(value = "/person")
-    public ResponseEntity<Person> updatePerson(@RequestBody Person person) {
+    public ResponseEntity<String> updatePerson(@RequestBody Person person) {
 
         if (!personDao.update(person)) {
             //Si la personne n'existe pas dans le fichier : on renvoie le code : "204 No Content"
@@ -88,7 +105,7 @@ public class PersonController {
 
     // Supprimer une personne (utilisez une combinaison de prénom et de nom comme identificateur unique).
     @DeleteMapping(value = "/person/{firstName}/{lastName}")
-    public ResponseEntity<Person> deletePerson(@PathVariable String firstName, @PathVariable  String lastName) {
+    public ResponseEntity<String> deletePerson(@PathVariable String firstName, @PathVariable  String lastName) {
 
         if (!personDao.delete(firstName, lastName)) {
             //Si la personne n'existe pas dans le fichier : on renvoie le code : "204 No Content"

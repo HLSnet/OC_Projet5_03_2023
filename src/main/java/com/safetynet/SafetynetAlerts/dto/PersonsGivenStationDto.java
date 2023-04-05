@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class PersonDto {
+public class PersonsGivenStationDto {
 
     private List<Person> persons = new ArrayList<>();
     private int nbAdult = 0;
