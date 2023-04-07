@@ -2,6 +2,7 @@ package com.safetynet.safetynetalerts.controller;
 
 import com.safetynet.safetynetalerts.model.Medicalrecord;
 import com.safetynet.safetynetalerts.repository.MedicalrecordDao;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -14,13 +15,8 @@ import java.util.Objects;
 @RestController
 public class MedicalRecordController {
 
-    // Remarque : attributs définis en private final afin que Spring se charge d'en fabriquer une instance (à préfèrer à @Autowired)
-    private final MedicalrecordDao medicalrecordDao;
-
-    public MedicalRecordController(MedicalrecordDao medicalrecordDao) {
-        this.medicalrecordDao = medicalrecordDao;
-    }
-
+    @Autowired
+    MedicalrecordDao medicalrecordDao;
 
     //***************************************************************************************************
     // REQUETES GET
@@ -98,7 +94,5 @@ public class MedicalRecordController {
         }
         // On renvoie le code "200 OK"
         return ResponseEntity.ok().build();
-
     }
-
 }

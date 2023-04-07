@@ -1,12 +1,9 @@
 package com.safetynet.safetynetalerts.controller;
 
-import com.fasterxml.jackson.databind.ser.FilterProvider;
-import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
-import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.repository.PersonDao;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -17,12 +14,8 @@ import java.util.Objects;
 @RestController
 public class PersonController {
 
-    // Remarque : attributs définis en private final afin que Spring se charge d'en fabriquer une instance (à préfèrer à @Autowired)
-    private final PersonDao personDao;
-
-    public PersonController(PersonDao personDao) {
-        this.personDao = personDao;
-    }
+    @Autowired
+    PersonDao personDao;
 
     //***************************************************************************************************
     // REQUETES GET
@@ -30,21 +23,14 @@ public class PersonController {
 
     // Afficher toutes les personnes
     @GetMapping(value = "/person")
-    public MappingJacksonValue getPersons() {
+    public List<Person> getPersons() {
         List<Person> persons = personDao.findAll();
-
-        SimpleBeanPropertyFilter filterPerson = SimpleBeanPropertyFilter.serializeAll();
-        FilterProvider listFilters = new SimpleFilterProvider().addFilter("filtreDynamique", filterPerson);
-        MappingJacksonValue personsFiltered = new MappingJacksonValue(persons);
-        personsFiltered.setFilters(listFilters);
-
-        return personsFiltered;
+        return persons;
     }
-
 
     // Afficher les informations d'une personne en fournissant son lastName et firstName
     @GetMapping(value = "/person/{firstName}/{lastName}")
-    public ResponseEntity<MappingJacksonValue> getPerson(@PathVariable String firstName, @PathVariable  String lastName) {
+    public ResponseEntity<Person> getPerson(@PathVariable String firstName, @PathVariable  String lastName) {
         Person personGot = personDao.findByName(firstName, lastName);
 
         if (Objects.isNull(personGot)) {
@@ -52,12 +38,7 @@ public class PersonController {
             return ResponseEntity.noContent().build();
         }
 
-        SimpleBeanPropertyFilter filterPerson = SimpleBeanPropertyFilter.serializeAll();
-        FilterProvider listFilters = new SimpleFilterProvider().addFilter("filtreDynamique", filterPerson);
-        MappingJacksonValue personFiltered = new MappingJacksonValue(personGot);
-        personFiltered.setFilters(listFilters);
-
-        return ResponseEntity.ok(personFiltered);
+        return ResponseEntity.ok(personGot);
     }
 
     //***************************************************************************************************

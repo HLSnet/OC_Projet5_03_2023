@@ -2,6 +2,7 @@ package com.safetynet.safetynetalerts.controller;
 
 import com.safetynet.safetynetalerts.model.Firestation;
 import com.safetynet.safetynetalerts.repository.FirestationDao;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,12 +14,8 @@ import java.util.Objects;
 @RestController
 public class FirestationController {
 
-    // Remarque : attributs définis en private final afin que Spring se charge d'en fabriquer une instance (à préfèrer à @Autowired)
-    private final FirestationDao firestationDao;
-
-    public FirestationController (FirestationDao firestationDao) {
-        this.firestationDao = firestationDao;
-    }
+    @Autowired
+    FirestationDao firestationDao;
 
     //***************************************************************************************************
     // REQUETES GET
@@ -70,7 +67,7 @@ public class FirestationController {
         }
 
         // On renvoie le code "201 Created"
-        return new ResponseEntity<>(null, HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     //***************************************************************************************************

@@ -20,8 +20,10 @@ public class IOTest {
     void setUpData(){
         SetupJsonFile.reloadTestFile(JSONFILE_TEST_BAK_PATHNAME , JSONFILE_TEST_PATHNAME);
         new JasonFileIO(JSONFILE_TEST_PATHNAME);
-        FilterProvider filters = new SimpleFilterProvider().addFilter("filtreDynamique", SimpleBeanPropertyFilter.serializeAll());
-        JasonFileIO.setMapper(JasonFileIO.getMapper().setFilterProvider(filters));
+
+        // Version 1
+//        FilterProvider filters = new SimpleFilterProvider().addFilter("filtreDynamique", SimpleBeanPropertyFilter.serializeAll());
+//        JasonFileIO.setMapper(JasonFileIO.getMapper().setFilterProvider(filters));
     }
 
     @Test

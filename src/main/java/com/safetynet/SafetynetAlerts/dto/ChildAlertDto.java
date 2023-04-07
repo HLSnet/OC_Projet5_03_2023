@@ -1,15 +1,13 @@
 package com.safetynet.safetynetalerts.dto;
 
-import com.safetynet.safetynetalerts.model.Person;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChildDto {
+public class ChildAlertDto {
     private String firstName;
     private String lastName;
     private int age;
-    private List<Person> householdMembers ;
+    private List<ChildAlertPersonDto> householdMembers ;
 
     public String getFirstName() {
         return firstName;
@@ -35,11 +33,15 @@ public class ChildDto {
         this.age = age;
     }
 
-    public List<Person> getHouseholdMembers() {
+    public List<ChildAlertPersonDto> getHouseholdMembers() {
+        List<ChildAlertPersonDto> householdMembers = new ArrayList<>(this.householdMembers);
         return householdMembers;
     }
 
-    public void setHouseholdMembers(List<Person> householdMembers) {
-        this.householdMembers = householdMembers;
+    public void setHouseholdMembers(List<ChildAlertPersonDto> householdMembers) {
+        List<ChildAlertPersonDto> householdMembersToSet = new ArrayList<>(householdMembers);
+        this.householdMembers = householdMembersToSet;
     }
+
+
 }

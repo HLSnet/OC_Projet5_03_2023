@@ -1,8 +1,10 @@
 package com.safetynet.safetynetalerts.service;
 
 
-import com.safetynet.safetynetalerts.dto.ChildDto;
-import com.safetynet.safetynetalerts.dto.PersonsGivenStationDto;
+import com.safetynet.safetynetalerts.dto.ChildAlertDto;
+import com.safetynet.safetynetalerts.dto.ChildAlertPersonDto;
+import com.safetynet.safetynetalerts.dto.FirestationDto;
+import com.safetynet.safetynetalerts.dto.FirestationPersonDto;
 import com.safetynet.safetynetalerts.model.Firestation;
 import com.safetynet.safetynetalerts.model.Medicalrecord;
 import com.safetynet.safetynetalerts.model.Person;
@@ -10,6 +12,7 @@ import com.safetynet.safetynetalerts.repository.FirestationDao;
 import com.safetynet.safetynetalerts.repository.MedicalrecordDao;
 import com.safetynet.safetynetalerts.repository.PersonDao;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
@@ -21,20 +24,19 @@ import java.util.List;
 
 @Service
 public class AlertServiceImpl implements AlertService{
+    @Autowired
+    PersonDao personDao;
 
-    private final PersonDao personDao;
-    private final FirestationDao firestationDao;
-    private final MedicalrecordDao medicalrecordDao;
+    @Autowired
+    FirestationDao firestationDao;
 
-    public AlertServiceImpl(PersonDao personDao, FirestationDao firestationDao, MedicalrecordDao medicalrecordDao) {
-        this.personDao = personDao;
-        this.firestationDao = firestationDao;
-        this.medicalrecordDao = medicalrecordDao;
-    }
+    @Autowired
+    MedicalrecordDao medicalrecordDao;
 
-    public PersonsGivenStationDto getPersonsRelatedToAStation(int stationNumber) {
+    public FirestationDto getPersonsRelatedToAStation(int stationNumber) {
 
-        PersonsGivenStationDto personsGivenStationDto = new PersonsGivenStationDto();
+        FirestationDto firestationDto = new FirestationDto();
+        FirestationPersonDto firestationPersonDto;
 
         List<Person> persons = personDao.findAll();
         List<Firestation> firestations = firestationDao.findByStation(stationNumber);
@@ -44,52 +46,70 @@ public class AlertServiceImpl implements AlertService{
         LocalDate birthDate ;
         LocalDate currentDate = LocalDate.now();
 
+
         for (Firestation firestation: firestations) {
             for (Person person: persons){
                 if (firestation.getAddress().equals(person.getAddress())){
-                    personsGivenStationDto.getPersons().add(person);
+                    firestationPersonDto= new FirestationPersonDto();
+                    firestationPersonDto.setFirstName(person.getFirstName());
+                    firestationPersonDto.setLastName(person.getLastName());
+                    firestationPersonDto.setAddress(person.getAddress());
+                    firestationPersonDto.setPhone(person.getPhone());
+
+                    List<FirestationPersonDto> listFirestationPersonDto = firestationDto.getPersons();
+                    listFirestationPersonDto.add(firestationPersonDto);
+                    firestationDto.setPersons(listFirestationPersonDto);
+
+
                     for (Medicalrecord medicalrecord: medicalrecords){
                         if (medicalrecord.getFirstName().equals(person.getFirstName())  && medicalrecord.getLastName().equals(person.getLastName())){
                             birthDate = LocalDate.parse(medicalrecord.getBirthdate(), formatter);
 
                             if ((Period.between(birthDate, currentDate).getYears()) > 18){
-                                personsGivenStationDto.setNbAdult(personsGivenStationDto.getNbAdult() + 1) ;
+                                firestationDto.setNbAdult(firestationDto.getNbAdult() + 1) ;
                             }
                             else {
-                                personsGivenStationDto.setNbChild(personsGivenStationDto.getNbChild() + 1); }
+                                firestationDto.setNbChild(firestationDto.getNbChild() + 1); }
+                            break;
                         }
                     }
                 }
             }
         }
 
-        return personsGivenStationDto.getPersons().isEmpty()? null : personsGivenStationDto;
+        return firestationDto.getPersons().isEmpty()? null : firestationDto;
     }
 
-    public List<ChildDto> getChildsdRelatedToAnAddress(String address) {
+    public List<ChildAlertDto> getChildsdRelatedToAnAddress(String address) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
         LocalDate birthDate ;
         LocalDate currentDate = LocalDate.now();
 
-        List<ChildDto> childsDto  = new ArrayList<>();
-        ChildDto childDto;
+        List<ChildAlertDto> childsAlertDto  = new ArrayList<>();
+        ChildAlertDto childAlertDto;
 
 
         List<Person> persons = personDao.findAll();
         List<Medicalrecord> medicalrecords = medicalrecordDao.findAll();
 
-        List<Person> personsFound = new ArrayList<>();
+        List<ChildAlertPersonDto> householdMembersFound = new ArrayList<>();
+        ChildAlertPersonDto childAlertPersonDto;
 
-        // On récupère toutes les personnes ayant l'adresse fournie
+        // On récupère toutes les personnes ayant l'adresse fournie (les membres du foyer)
         for (Person person: persons) {
             if (person.getAddress().equals(address)) {
-                personsFound.add(person);
+                childAlertPersonDto = new ChildAlertPersonDto();
+                childAlertPersonDto.setFirstName(person.getFirstName());
+                childAlertPersonDto.setLastName(person.getLastName());
+                childAlertPersonDto.setPhone(person.getPhone());
+                childAlertPersonDto.setEmail(person.getEmail());
+                householdMembersFound.add(childAlertPersonDto);
             }
         }
 
-        List<Person> householdMembers = new ArrayList<>(personsFound);
+
         int index = -1;
-        for (Person person: personsFound) {
+        for (ChildAlertPersonDto person: householdMembersFound) {
             index++;
             // On recherche dans medicalrecord la personne ayant le firstName et LastName recherchés
             for (Medicalrecord medicalrecord: medicalrecords){
@@ -97,22 +117,23 @@ public class AlertServiceImpl implements AlertService{
                     // On calcule l'âge en fonction de l'année de naissance
                     birthDate = LocalDate.parse(medicalrecord.getBirthdate(), formatter);
                     int age = Period.between(birthDate, currentDate).getYears();
-                    // Si c'est un enfant (age <= 18) on crée un objet childDto que l'on ajoute à childsDto
+                    // Si c'est un enfant (age <= 18) on crée un objet ChildAlertDto que l'on ajoute à childsAlertDto
                     if ( age <= 18){
-                        childDto = new ChildDto();
-                        childDto.setFirstName(medicalrecord.getFirstName());
-                        childDto.setLastName(medicalrecord.getLastName());
-                        childDto.setAge(age);
-                        childDto.setHouseholdMembers(new ArrayList<Person>(householdMembers));
-                        childDto.getHouseholdMembers().remove(index);
+                        childAlertDto = new ChildAlertDto();
+                        childAlertDto.setFirstName(medicalrecord.getFirstName());
+                        childAlertDto.setLastName(medicalrecord.getLastName());
+                        childAlertDto.setAge(age);
+                        ArrayList<ChildAlertPersonDto> householdMembersMinusChild = new ArrayList<ChildAlertPersonDto>(householdMembersFound);
+                        householdMembersMinusChild.remove(index);
+                        childAlertDto.setHouseholdMembers(householdMembersMinusChild);
 
-                        childsDto.add(childDto);
+                        childsAlertDto.add(childAlertDto);
                     }
                     break;
                 }
             }
         }
-        return childsDto.isEmpty()? null : childsDto;
+        return childsAlertDto.isEmpty()? null : childsAlertDto   ;
     }
 
     public List<String> getPhoneNumbersRelatedToAStation(int stationNumber) {
@@ -123,11 +144,10 @@ public class AlertServiceImpl implements AlertService{
 
         for (Firestation firestation: firestations) {
                 if (firestation.getStation() == stationNumber){
-                    for (Person person: persons){{
+                    for (Person person: persons){
                         if (firestation.getAddress().equals(person.getAddress())){
                             phoneNumbers.add(person.getPhone());
                         }
-                    }
                 }
             }
         }

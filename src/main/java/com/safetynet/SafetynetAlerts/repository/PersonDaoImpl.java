@@ -1,9 +1,6 @@
 package com.safetynet.safetynetalerts.repository;
 
 
-import com.fasterxml.jackson.databind.ser.FilterProvider;
-import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
-import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.safetynet.safetynetalerts.model.Person;
 import org.springframework.stereotype.Repository;
 
@@ -45,9 +42,6 @@ public class PersonDaoImpl implements PersonDao {
         }
         persons.add(personToAdd);
 
-        FilterProvider filters = new SimpleFilterProvider().addFilter("filtreDynamique", SimpleBeanPropertyFilter.serializeAll());
-        JasonFileIO.setMapper(JasonFileIO.getMapper().setFilterProvider(filters));
-
         JasonFileIO.writeListToJsonFile(PERSON, persons);
         return ADDED;
     }
@@ -60,9 +54,6 @@ public class PersonDaoImpl implements PersonDao {
             if (person.getFirstName().equals(personToUpdate.getFirstName())  && person.getLastName().equals(personToUpdate.getLastName())){
                 persons.remove(person);
                 persons.add(personToUpdate);
-
-                FilterProvider filters = new SimpleFilterProvider().addFilter("filtreDynamique", SimpleBeanPropertyFilter.serializeAll());
-                JasonFileIO.setMapper(JasonFileIO.getMapper().setFilterProvider(filters));
 
                 JasonFileIO.writeListToJsonFile(PERSON, persons);
                 return  UPDATE_COMPLETED;
@@ -77,9 +68,6 @@ public class PersonDaoImpl implements PersonDao {
         for (Person person : persons){
             if (person.getFirstName().equals(firstName)  && person.getLastName().equals(lastName)){
                 persons.remove(person);
-
-                FilterProvider filters = new SimpleFilterProvider().addFilter("filtreDynamique", SimpleBeanPropertyFilter.serializeAll());
-                JasonFileIO.setMapper(JasonFileIO.getMapper().setFilterProvider(filters));
 
                 JasonFileIO.writeListToJsonFile(PERSON, persons);
                 return  DELETION_COMPLETED;

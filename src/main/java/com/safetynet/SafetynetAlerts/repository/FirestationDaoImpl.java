@@ -15,9 +15,9 @@ public class FirestationDaoImpl implements FirestationDao {
 //  UTILITAIRE
 //***********************************************************************************************************
     /**
-     * Objectif :
+     * Objectif : "nettoyer" les données dans le node firestation du fichier Json
      *
-     * 1/ Supprimer 2 types de redondances de données:
+     * 1/ Supprimer 2 types de redondances de données :
      *
      *  - redondance de mapping caserne/adresse
      *  - redondance d'adresse (une adresse ne peut être desservie que par une unique caserne de pompier)
@@ -27,7 +27,7 @@ public class FirestationDaoImpl implements FirestationDao {
      * Remarque : appelée 1 fois au démarrage de l'application, l'application gérant
      *            l'unicité des données transmises durant son utilisation.
      */
-    public static void checkIntegrityJsonFileAndSort() {
+    public static void checkIntegrityJsonFileFirestationAndSort() {
         // On recupère la liste des firestation
         List<Firestation> firestationList = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
 

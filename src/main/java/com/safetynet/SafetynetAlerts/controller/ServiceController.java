@@ -1,13 +1,9 @@
 package com.safetynet.safetynetalerts.controller;
 
-import com.fasterxml.jackson.databind.ser.FilterProvider;
-import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
-import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
-import com.safetynet.safetynetalerts.dto.ChildDto;
-import com.safetynet.safetynetalerts.dto.PersonsGivenStationDto;
+import com.safetynet.safetynetalerts.dto.ChildAlertDto;
+import com.safetynet.safetynetalerts.dto.FirestationDto;
 import com.safetynet.safetynetalerts.service.AlertService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,20 +31,13 @@ public class ServiceController {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // http://localhost:8080/firestation?stationNumber=<station_number>
     @GetMapping("firestation")
-    public ResponseEntity<MappingJacksonValue>  getPersonsRelatedToAStation(@RequestParam int stationNumber) {
-
-        PersonsGivenStationDto personsGivenStationDto = alertService.getPersonsRelatedToAStation(stationNumber);
-        if (Objects.isNull(personsGivenStationDto)) {
+    public ResponseEntity<FirestationDto>  getPersonsRelatedToAStation(@RequestParam int stationNumber) {
+        FirestationDto firestationDto = alertService.getPersonsRelatedToAStation(stationNumber);
+        if (Objects.isNull(firestationDto)) {
             //Si une caserne ne couvre aucune adresse : on renvoie le code : "204 No Content"
             return ResponseEntity.noContent().build();
         }
-
-        SimpleBeanPropertyFilter filterPerson = SimpleBeanPropertyFilter.serializeAllExcept("city", "zip", "email");
-        FilterProvider listFilters = new SimpleFilterProvider().addFilter("filtreDynamique", filterPerson);
-        MappingJacksonValue personsFiltered = new MappingJacksonValue(personsGivenStationDto);
-        personsFiltered.setFilters(listFilters);
-
-        return ResponseEntity.ok(personsFiltered);
+        return ResponseEntity.ok(firestationDto);
         }
 
 
@@ -60,23 +49,14 @@ public class ServiceController {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // http://localhost:8080/childAlert?address=<address>
     @GetMapping("childAlert")
-    public ResponseEntity<MappingJacksonValue>  getChildsdRelatedToAnAddress(@RequestParam String address){
-
-        List<ChildDto> childsDto = alertService.getChildsdRelatedToAnAddress(address);
-        if (Objects.isNull(childsDto)) {
+    public ResponseEntity<List<ChildAlertDto>>  getChildsdRelatedToAnAddress(@RequestParam String address){
+        List<ChildAlertDto> childAlertDto = alertService.getChildsdRelatedToAnAddress(address);
+        if (Objects.isNull(childAlertDto)) {
             //Si une caserne ne couvre aucune adresse : on renvoie le code : "204 No Content"
             return ResponseEntity.noContent().build();
         }
-
-        SimpleBeanPropertyFilter filterPerson = SimpleBeanPropertyFilter.serializeAllExcept("city", "zip", "email");
-        FilterProvider listFilters = new SimpleFilterProvider().addFilter("filtreDynamique", filterPerson);
-        MappingJacksonValue personsFiltered = new MappingJacksonValue(childsDto);
-        personsFiltered.setFilters(listFilters);
-
-        return ResponseEntity.ok(personsFiltered);
+        return ResponseEntity.ok(childAlertDto);
     }
-
-
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -95,8 +75,6 @@ public class ServiceController {
 
         return ResponseEntity.ok(phoneNumbers);
     }
-
-
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -153,7 +131,4 @@ public class ServiceController {
 
         return ResponseEntity.ok(mails);
     }
-
-
-
 }

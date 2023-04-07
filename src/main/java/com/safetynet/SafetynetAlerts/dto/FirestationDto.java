@@ -1,23 +1,23 @@
 package com.safetynet.safetynetalerts.dto;
 
-import com.safetynet.safetynetalerts.model.Person;
-
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class PersonsGivenStationDto {
+public class FirestationDto {
 
-    private List<Person> persons = new ArrayList<>();
+    private List<FirestationPersonDto> persons = new ArrayList<>();
     private int nbAdult = 0;
     private int nbChild = 0;
 
-    public List<Person> getPersons() {
+    public List<FirestationPersonDto> getPersons() {
+        List<FirestationPersonDto> persons = new ArrayList<>(this.persons);
         return persons;
     }
 
-    public void setPersons(List<Person> persons) {
-        this.persons = persons;
+    public void setPersons(List<FirestationPersonDto> persons) {
+        List<FirestationPersonDto> personsToSet = new ArrayList<>(persons);
+        this.persons = personsToSet;
     }
 
     public int getNbAdult() {
@@ -35,5 +35,4 @@ public class PersonsGivenStationDto {
     public void setNbChild(int nbChild) {
         this.nbChild = nbChild;
     }
-
 }
