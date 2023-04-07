@@ -1,8 +1,5 @@
 package com.safetynet.safetynetalerts.datatest;
 
-import com.fasterxml.jackson.databind.ser.FilterProvider;
-import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
-import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.repository.JasonFileIO;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,10 +17,6 @@ public class IOTest {
     void setUpData(){
         SetupJsonFile.reloadTestFile(JSONFILE_TEST_BAK_PATHNAME , JSONFILE_TEST_PATHNAME);
         new JasonFileIO(JSONFILE_TEST_PATHNAME);
-
-        // Version 1
-//        FilterProvider filters = new SimpleFilterProvider().addFilter("filtreDynamique", SimpleBeanPropertyFilter.serializeAll());
-//        JasonFileIO.setMapper(JasonFileIO.getMapper().setFilterProvider(filters));
     }
 
     @Test

@@ -1,6 +1,7 @@
 package com.safetynet.safetynetalerts.controller;
 
 import com.safetynet.safetynetalerts.dto.ChildAlertDto;
+import com.safetynet.safetynetalerts.dto.FireDto;
 import com.safetynet.safetynetalerts.dto.FirestationDto;
 import com.safetynet.safetynetalerts.service.AlertService;
 import org.springframework.http.ResponseEntity;
@@ -84,9 +85,19 @@ public class ServiceController {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // http://localhost:8080/fire?address=<address>
     @GetMapping("fire")
-    public List<Object> getPersonsRelatedToAnAddress(@RequestParam String address){
-        return null;
+    public ResponseEntity<FireDto> getPersonsRelatedToAnAddress(@RequestParam String address){
+        FireDto fireDto = alertService.getPersonsRelatedToAnAddress(address);
+            if (Objects.isNull(fireDto)) {
+                //Si une caserne ne couvre aucune adresse : on renvoie le code : "204 No Content"
+                return ResponseEntity.noContent().build();
+            }
+            return ResponseEntity.ok(fireDto);
     }
+
+
+
+
+
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

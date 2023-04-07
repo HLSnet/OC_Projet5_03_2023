@@ -1,9 +1,7 @@
 package com.safetynet.safetynetalerts.serviceTest;
 
 import com.safetynet.safetynetalerts.datatest.SetupJsonFile;
-import com.safetynet.safetynetalerts.dto.ChildAlertDto;
-import com.safetynet.safetynetalerts.dto.FirestationPersonDto;
-import com.safetynet.safetynetalerts.dto.FirestationDto;
+import com.safetynet.safetynetalerts.dto.*;
 import com.safetynet.safetynetalerts.repository.FirestationDaoImpl;
 import com.safetynet.safetynetalerts.repository.JasonFileIO;
 import com.safetynet.safetynetalerts.service.AlertService;
@@ -13,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.safetynet.safetynetalerts.constants.DBConstants.*;
@@ -128,17 +127,39 @@ public class ServiceTest {
 //*********************************************************************************************************
 @Test
 void  testFindPersonsWithExistingAddress() {
-    // ARRANGE
+    // ARRANGE, ACT
+    FireDto  fireDto = alertService.getPersonsRelatedToAnAddress("1509 Culver St");
 
+    FirePersonDto firePersonDto = new FirePersonDto();
+    firePersonDto.setLastName("Boyd");
+    firePersonDto.setPhone("841-874-6544");
+    firePersonDto.setEmail("jaboyd@email.com");
+    firePersonDto.setAge(37);
 
-    // ACT
+    ArrayList<String> medications = new ArrayList<>();
+    medications.add("tetracyclaz:650mg");
+    firePersonDto.setMedications(medications);
 
-
+    ArrayList<String> allergies = new ArrayList<>();
+    allergies.add("xilliathal");
+    firePersonDto.setAllergies(allergies);
 
     // ASSERT
-
+    assertEquals(fireDto.getStation(), 3);
+    assertTrue(fireDto.getHouseholdMembers().contains(firePersonDto));
 }
 
+    @Test
+    void testFindPersonsWithNoExistingAddress() {
+        // ARRANGE
+        int stationNumber = 30;
+
+        // ACT
+        FirestationDto fireDto = alertService.getPersonsRelatedToAStation(stationNumber);
+
+        // ASSERT
+        assertNull(fireDto);
+    }
 
 
 //*********************************************************************************************************

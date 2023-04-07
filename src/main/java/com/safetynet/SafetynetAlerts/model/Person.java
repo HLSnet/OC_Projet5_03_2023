@@ -2,8 +2,6 @@ package com.safetynet.safetynetalerts.model;
 
 import java.util.Objects;
 
-// Version 1
-//@JsonFilter("filtreDynamique")
 public class Person{
     private String firstName;
     private String lastName;

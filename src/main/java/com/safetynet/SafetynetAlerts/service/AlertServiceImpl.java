@@ -1,10 +1,7 @@
 package com.safetynet.safetynetalerts.service;
 
 
-import com.safetynet.safetynetalerts.dto.ChildAlertDto;
-import com.safetynet.safetynetalerts.dto.ChildAlertPersonDto;
-import com.safetynet.safetynetalerts.dto.FirestationDto;
-import com.safetynet.safetynetalerts.dto.FirestationPersonDto;
+import com.safetynet.safetynetalerts.dto.*;
 import com.safetynet.safetynetalerts.model.Firestation;
 import com.safetynet.safetynetalerts.model.Medicalrecord;
 import com.safetynet.safetynetalerts.model.Person;
@@ -34,18 +31,12 @@ public class AlertServiceImpl implements AlertService{
     MedicalrecordDao medicalrecordDao;
 
     public FirestationDto getPersonsRelatedToAStation(int stationNumber) {
-
         FirestationDto firestationDto = new FirestationDto();
         FirestationPersonDto firestationPersonDto;
 
         List<Person> persons = personDao.findAll();
         List<Firestation> firestations = firestationDao.findByStation(stationNumber);
         List<Medicalrecord> medicalrecords = medicalrecordDao.findAll();
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-        LocalDate birthDate ;
-        LocalDate currentDate = LocalDate.now();
-
 
         for (Firestation firestation: firestations) {
             for (Person person: persons){
@@ -60,12 +51,10 @@ public class AlertServiceImpl implements AlertService{
                     listFirestationPersonDto.add(firestationPersonDto);
                     firestationDto.setPersons(listFirestationPersonDto);
 
-
                     for (Medicalrecord medicalrecord: medicalrecords){
                         if (medicalrecord.getFirstName().equals(person.getFirstName())  && medicalrecord.getLastName().equals(person.getLastName())){
-                            birthDate = LocalDate.parse(medicalrecord.getBirthdate(), formatter);
 
-                            if ((Period.between(birthDate, currentDate).getYears()) > 18){
+                            if (calculateAge(medicalrecord.getBirthdate()) > 18){
                                 firestationDto.setNbAdult(firestationDto.getNbAdult() + 1) ;
                             }
                             else {
@@ -76,18 +65,12 @@ public class AlertServiceImpl implements AlertService{
                 }
             }
         }
-
         return firestationDto.getPersons().isEmpty()? null : firestationDto;
     }
 
     public List<ChildAlertDto> getChildsdRelatedToAnAddress(String address) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-        LocalDate birthDate ;
-        LocalDate currentDate = LocalDate.now();
-
         List<ChildAlertDto> childsAlertDto  = new ArrayList<>();
         ChildAlertDto childAlertDto;
-
 
         List<Person> persons = personDao.findAll();
         List<Medicalrecord> medicalrecords = medicalrecordDao.findAll();
@@ -107,23 +90,20 @@ public class AlertServiceImpl implements AlertService{
             }
         }
 
-
         int index = -1;
         for (ChildAlertPersonDto person: householdMembersFound) {
             index++;
             // On recherche dans medicalrecord la personne ayant le firstName et LastName recherchés
             for (Medicalrecord medicalrecord: medicalrecords){
                 if (medicalrecord.getFirstName().equals(person.getFirstName())  && medicalrecord.getLastName().equals(person.getLastName())){
-                    // On calcule l'âge en fonction de l'année de naissance
-                    birthDate = LocalDate.parse(medicalrecord.getBirthdate(), formatter);
-                    int age = Period.between(birthDate, currentDate).getYears();
+                    int age = calculateAge(medicalrecord.getBirthdate());
                     // Si c'est un enfant (age <= 18) on crée un objet ChildAlertDto que l'on ajoute à childsAlertDto
                     if ( age <= 18){
                         childAlertDto = new ChildAlertDto();
                         childAlertDto.setFirstName(medicalrecord.getFirstName());
                         childAlertDto.setLastName(medicalrecord.getLastName());
                         childAlertDto.setAge(age);
-                        ArrayList<ChildAlertPersonDto> householdMembersMinusChild = new ArrayList<ChildAlertPersonDto>(householdMembersFound);
+                        ArrayList<ChildAlertPersonDto> householdMembersMinusChild = new ArrayList<>(householdMembersFound);
                         householdMembersMinusChild.remove(index);
                         childAlertDto.setHouseholdMembers(householdMembersMinusChild);
 
@@ -140,8 +120,6 @@ public class AlertServiceImpl implements AlertService{
         List<Person> persons = personDao.findAll();
         List<Firestation> firestations = firestationDao.findByStation(stationNumber);
         List<String> phoneNumbers = new ArrayList<>();
-
-
         for (Firestation firestation: firestations) {
                 if (firestation.getStation() == stationNumber){
                     for (Person person: persons){
@@ -154,8 +132,38 @@ public class AlertServiceImpl implements AlertService{
         return phoneNumbers.isEmpty()? null : phoneNumbers;
     }
 
-    public List<Object> getPersonsRelatedToAnAddress(String address) {
-        return null;
+    public FireDto getPersonsRelatedToAnAddress(String address) {
+        FireDto fireDto = new FireDto();
+
+        List<Person> persons = personDao.findAll();
+        List<Medicalrecord> medicalrecords = medicalrecordDao.findAll();
+
+        fireDto.setStation(firestationDao.findByAdress(address).getStation());
+
+        List<FirePersonDto> householdMembersFound = new ArrayList<>();
+        FirePersonDto firePersonDto;
+
+        // On récupère toutes les personnes ayant l'adresse fournie (les membres du foyer)
+        for (Person person: persons) {
+            if (person.getAddress().equals(address)) {
+                firePersonDto = new FirePersonDto();
+                firePersonDto.setLastName(person.getLastName());
+                firePersonDto.setPhone(person.getPhone());
+                firePersonDto.setEmail(person.getEmail());
+
+                for (Medicalrecord medicalrecord : medicalrecords) {
+                    if (medicalrecord.getFirstName().equals(person.getFirstName()) && medicalrecord.getLastName().equals(person.getLastName())) {
+                        firePersonDto.setAge(calculateAge(medicalrecord.getBirthdate()));
+                        firePersonDto.setMedications(medicalrecord.getMedications());
+                        firePersonDto.setAllergies(medicalrecord.getAllergies());
+                        break;
+                    }
+                }
+                householdMembersFound.add(firePersonDto);
+            }
+        }
+        fireDto.setHouseholdMembers(householdMembersFound);
+        return fireDto.getHouseholdMembers().isEmpty()? null : fireDto;
     }
 
     public List<String> getHouseRelatedToAStation(List<Integer> stations) {
@@ -175,5 +183,14 @@ public class AlertServiceImpl implements AlertService{
             }
         }
         return mails.isEmpty()? null : mails;
+    }
+
+
+    int calculateAge(String birthdate){
+        int age;
+        LocalDate birthDate = LocalDate.parse(birthdate, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+        LocalDate currentDate = LocalDate.now();
+        age = Period.between(birthDate, currentDate).getYears();
+        return age;
     }
 }
