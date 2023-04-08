@@ -185,16 +185,40 @@ void test4() {
 //*********************************************************************************************************
 @Test
 void  testGetInfoPersonOfAnExistingPerson() {
-    // ARRANGE
+    // ARRANGE, ACT
+    List<InfoPersonDto> infoPersonsDto = alertService.getInfoPerson( "Sophia", "Zemicks");
 
+    InfoPersonDto infoPersonDto = new InfoPersonDto();
+    infoPersonDto.setLastName("Zemicks");
+    infoPersonDto.setAddress("892 Downing Ct");
+    infoPersonDto.setAge(35);
+    infoPersonDto.setEmail("soph@email.com");
 
-    // ACT
+    ArrayList<String> medications = new ArrayList<>();
+    medications.add("aznol:60mg");
+    medications.add("hydrapermazol:900mg");
+    medications.add("pharmacol:5000mg");
+    medications.add("terazine:500mg");
+    infoPersonDto.setMedications(medications);
 
-
+    ArrayList<String> allergies = new ArrayList<>();
+    allergies.add("peanut");
+    allergies.add("shellfish");
+    allergies.add("aznol");
+    infoPersonDto.setAllergies(allergies);
 
     // ASSERT
-
+    assertTrue(infoPersonsDto.contains(infoPersonDto));
+    assertEquals(infoPersonsDto.size(), 3);
 }
+    @Test
+    void testGetInfoPersonOfNoExistingPerson() {
+        // ARRANGE,  ACT
+        List<InfoPersonDto> infoPersonsDto = alertService.getInfoPerson( "Averell", "Dalton");
+
+        // ASSERT
+        assertNull(infoPersonsDto);
+    }
 
 //*********************************************************************************************************
 //  Tests unitaires de la méthode 'getMailRelatedToACity' de la classe  AlertServiceImpl
@@ -207,7 +231,6 @@ void  testGetInfoPersonOfAnExistingPerson() {
         // ASSERT
         assertEquals(communityEmail.size(), 23);
         assertEquals(communityEmail.get(1), "drk@email.com");
-
     }
 
     @Test
@@ -218,7 +241,4 @@ void  testGetInfoPersonOfAnExistingPerson() {
         // ASSERT
         assertNull(mails);
     }
-
-
-
 }

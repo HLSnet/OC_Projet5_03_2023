@@ -3,6 +3,7 @@ package com.safetynet.safetynetalerts.controller;
 import com.safetynet.safetynetalerts.dto.ChildAlertDto;
 import com.safetynet.safetynetalerts.dto.FireDto;
 import com.safetynet.safetynetalerts.dto.FirestationDto;
+import com.safetynet.safetynetalerts.dto.InfoPersonDto;
 import com.safetynet.safetynetalerts.service.AlertService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,7 +36,7 @@ public class ServiceController {
     public ResponseEntity<FirestationDto>  getPersonsRelatedToAStation(@RequestParam int stationNumber) {
         FirestationDto firestationDto = alertService.getPersonsRelatedToAStation(stationNumber);
         if (Objects.isNull(firestationDto)) {
-            //Si une caserne ne couvre aucune adresse : on renvoie le code : "204 No Content"
+            // On renvoie le code : "204 No Content"
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(firestationDto);
@@ -53,7 +54,7 @@ public class ServiceController {
     public ResponseEntity<List<ChildAlertDto>>  getChildsdRelatedToAnAddress(@RequestParam String address){
         List<ChildAlertDto> childAlertDto = alertService.getChildsdRelatedToAnAddress(address);
         if (Objects.isNull(childAlertDto)) {
-            //Si une caserne ne couvre aucune adresse : on renvoie le code : "204 No Content"
+            // On renvoie le code : "204 No Content"
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(childAlertDto);
@@ -70,7 +71,7 @@ public class ServiceController {
 
         List<String> phoneNumbers = alertService.getPhoneNumbersRelatedToAStation(firestation);
         if (Objects.isNull(phoneNumbers)) {
-            //Si une caserne ne couvre aucune adresse : on renvoie le code : "204 No Content"
+            // On renvoie le code : "204 No Content"
             return ResponseEntity.noContent().build();
         }
 
@@ -88,7 +89,7 @@ public class ServiceController {
     public ResponseEntity<FireDto> getPersonsRelatedToAnAddress(@RequestParam String address){
         FireDto fireDto = alertService.getPersonsRelatedToAnAddress(address);
             if (Objects.isNull(fireDto)) {
-                //Si une caserne ne couvre aucune adresse : on renvoie le code : "204 No Content"
+                // On renvoie le code : "204 No Content"
                 return ResponseEntity.noContent().build();
             }
             return ResponseEntity.ok(fireDto);
@@ -121,9 +122,16 @@ public class ServiceController {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // http://localhost:8080/personInfo?firstName=<firstName>&lastName=<lastName>
     @GetMapping("personInfo")
-    public List<Object> getInfoPerson(@RequestParam String firstName, @RequestParam String lastName){
-        return null;
+    public ResponseEntity<List<InfoPersonDto>> getInfoPerson(@RequestParam String firstName, @RequestParam String lastName){
+        List<InfoPersonDto> InfoPersonsDto = alertService.getInfoPerson(firstName, lastName);
+        if (Objects.isNull(InfoPersonsDto)) {
+            // On renvoie le code : "204 No Content"
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.ok(InfoPersonsDto);
     }
+
 
 
 
@@ -136,7 +144,7 @@ public class ServiceController {
 
         List<String> mails = alertService.getMailsRelatedToACity(city);
         if (Objects.isNull(mails)) {
-            //Si une caserne ne couvre aucune adresse : on renvoie le code : "204 No Content"
+            // On renvoie le code : "204 No Content"
             return ResponseEntity.noContent().build();
         }
 

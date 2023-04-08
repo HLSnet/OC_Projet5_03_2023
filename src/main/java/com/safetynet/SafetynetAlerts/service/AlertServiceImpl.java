@@ -166,12 +166,41 @@ public class AlertServiceImpl implements AlertService{
         return fireDto.getHouseholdMembers().isEmpty()? null : fireDto;
     }
 
+
+
     public List<String> getHouseRelatedToAStation(List<Integer> stations) {
         return null;
     }
 
-    public List<Object> getInfoPerson(String firstName, String lastName) {
-        return null;
+
+
+    public List<InfoPersonDto> getInfoPerson(String firstName, String lastName) {
+        List<InfoPersonDto> infoPersonsDto = new ArrayList<>();
+        InfoPersonDto infoPersonDto;
+
+        List<Person> persons = personDao.findAll();
+        List<Medicalrecord> medicalrecords = medicalrecordDao.findAll();
+
+        for (Person person: persons){
+            if (person.getLastName().equals(lastName)){
+                infoPersonDto= new InfoPersonDto();
+                infoPersonDto.setLastName(person.getLastName());
+                infoPersonDto.setAddress(person.getAddress());
+                infoPersonDto.setEmail(person.getEmail());
+
+                for (Medicalrecord medicalrecord : medicalrecords) {
+                    if (medicalrecord.getFirstName().equals(person.getFirstName()) && medicalrecord.getLastName().equals(lastName)) {
+                        infoPersonDto.setAge(calculateAge(medicalrecord.getBirthdate()));
+                        infoPersonDto.setMedications(medicalrecord.getMedications());
+                        infoPersonDto.setAllergies(medicalrecord.getAllergies());
+                        break;
+                    }
+                }
+                infoPersonsDto.add(infoPersonDto);
+            }
+        }
+
+        return infoPersonsDto.isEmpty()? null : infoPersonsDto;
     }
 
     public List<String> getMailsRelatedToACity(String city) {

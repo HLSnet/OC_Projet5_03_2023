@@ -4,6 +4,7 @@ package com.safetynet.safetynetalerts.service;
 import com.safetynet.safetynetalerts.dto.ChildAlertDto;
 import com.safetynet.safetynetalerts.dto.FireDto;
 import com.safetynet.safetynetalerts.dto.FirestationDto;
+import com.safetynet.safetynetalerts.dto.InfoPersonDto;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ public interface AlertService  {
 
         public List<String> getHouseRelatedToAStation(List<Integer> stations);
 
-        public List<Object> getInfoPerson(String firstName, String lastName);
+        public List<InfoPersonDto> getInfoPerson(String firstName, String lastName);
 
         public List<String> getMailsRelatedToACity(String city);
 }
