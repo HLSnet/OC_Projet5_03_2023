@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.safetynet.safetynetalerts.constants.DBConstants.*;
@@ -31,8 +32,11 @@ public class ServiceTest {
     }
 
 
+
 //*********************************************************************************************************
-//  Tests unitaires de la méthode 'getPersonsRelatedToAStation' de la classe  AlertServiceImpl
+// URL1 : http://localhost:8080/firestation?stationNumber=<station_number>
+//
+// Tests unitaires de la méthode 'getPersonsRelatedToAStation' de la classe  AlertServiceImpl
 //*********************************************************************************************************
     @Test
     void testFindPersonsWithAnExistingStation() {
@@ -71,7 +75,9 @@ public class ServiceTest {
     }
 
 //*********************************************************************************************************
-//  Tests unitaires de la méthode 'getChildsdRelatedToAnAddress' de la classe  AlertServiceImpl
+// URL2 :  http://localhost:8080/childAlert?address=<address>
+//
+// Tests unitaires de la méthode 'getChildsdRelatedToAnAddress' de la classe  AlertServiceImpl
 //*********************************************************************************************************
     @Test
     void testFindChildsWithExistingAddress() {
@@ -100,8 +106,11 @@ public class ServiceTest {
         assertNull(childsDto);
     }
 
+
 //*********************************************************************************************************
-//  Tests unitaires de la méthode 'getPhoneRelatedToAStation' de la classe  AlertServiceImpl
+// URL3 : http://localhost:8080/phoneAlert?firestation=<firestation_number>
+//
+// Tests unitaires de la méthode 'getPhoneRelatedToAStation' de la classe  AlertServiceImpl
 //*********************************************************************************************************
     @Test
     void  testFindPhoneNumbersWithExistingStation() {
@@ -122,95 +131,123 @@ public class ServiceTest {
     }
 
 
+
 //*********************************************************************************************************
-//  Tests unitaires de la méthode 'getPersonsRelatedToAnAddress' de la classe  AlertServiceImpl
+// URL4 : http://localhost:8080/fire?address=<address>
+//
+// Tests unitaires de la méthode 'getPersonsRelatedToAnAddress' de la classe  AlertServiceImpl
 //*********************************************************************************************************
-@Test
-void  testFindPersonsWithExistingAddress() {
-    // ARRANGE, ACT
-    FireDto  fireDto = alertService.getPersonsRelatedToAnAddress("1509 Culver St");
+    @Test
+    void  testFindPersonsWithExistingAddress() {
+        // ARRANGE, ACT
+        FireDto  fireDto = alertService.getPersonsRelatedToAnAddress("1509 Culver St");
 
-    FirePersonDto firePersonDto = new FirePersonDto();
-    firePersonDto.setLastName("Boyd");
-    firePersonDto.setPhone("841-874-6544");
-    firePersonDto.setEmail("jaboyd@email.com");
-    firePersonDto.setAge(37);
+        FirePersonDto firePersonDto = new FirePersonDto();
+        firePersonDto.setLastName("Boyd");
+        firePersonDto.setPhone("841-874-6544");
+        firePersonDto.setEmail("jaboyd@email.com");
+        firePersonDto.setAge(37);
 
-    ArrayList<String> medications = new ArrayList<>();
-    medications.add("tetracyclaz:650mg");
-    firePersonDto.setMedications(medications);
+        ArrayList<String> medications = new ArrayList<>();
+        medications.add("tetracyclaz:650mg");
+        firePersonDto.setMedications(medications);
 
-    ArrayList<String> allergies = new ArrayList<>();
-    allergies.add("xilliathal");
-    firePersonDto.setAllergies(allergies);
+        ArrayList<String> allergies = new ArrayList<>();
+        allergies.add("xilliathal");
+        firePersonDto.setAllergies(allergies);
 
-    // ASSERT
-    assertEquals(fireDto.getStation(), 3);
-    assertTrue(fireDto.getHouseholdMembers().contains(firePersonDto));
-}
+        // ASSERT
+        assertEquals(fireDto.getStation(), 3);
+        assertTrue(fireDto.getHouseholdMembers().contains(firePersonDto));
+    }
 
     @Test
     void testFindPersonsWithNoExistingAddress() {
-        // ARRANGE
-        int stationNumber = 30;
-
-        // ACT
-        FirestationDto fireDto = alertService.getPersonsRelatedToAStation(stationNumber);
-
         // ASSERT
-        assertNull(fireDto);
+        assertNull(alertService.getPersonsRelatedToAnAddress("Nowhere"));
     }
 
 
+
 //*********************************************************************************************************
-//  Tests unitaires de la méthode 'getHouseRelatedToAStation' de la classe  AlertServiceImpl
+// URL5 : http://localhost:8080/flood/stations?stations=<a list of station_numbers>
+//
+// Tests unitaires de la méthode 'getHousesRelatedToAStation' de la classe  AlertServiceImpl
 //*********************************************************************************************************
-@Test
-void test4() {
-    // ARRANGE
+    @Test
+    void testFindPersonsWithExistingStations() {
+        // ARRANGE
+        List<Integer> stations = Arrays.asList(3,4);
 
+        FloodPersonDto floodPersonDto = new FloodPersonDto();
+        floodPersonDto.setFirstName("Felicia");
+        floodPersonDto.setLastName("Boyd");
+        floodPersonDto.setPhone("841-874-6544");
+        floodPersonDto.setAge(37);
 
-    // ACT
+        ArrayList<String> medications = new ArrayList<>();
+        medications.add("tetracyclaz:650mg");
+        floodPersonDto.setMedications(medications);
 
+        ArrayList<String> allergies = new ArrayList<>();
+        allergies.add("xilliathal");
+        floodPersonDto.setAllergies(allergies);
 
+        // ACT
+        FloodDto floodDto = alertService.getHousesRelatedToAListOfStations(stations);
 
-    // ASSERT
+        // ASSERT
+        assertEquals(floodDto.getMapHousePersons().size(), 5);
+        assertEquals(floodDto.getMapHousePersons().get("112 Steppes Pl").size(), 3);
+        assertTrue(floodDto.getMapHousePersons().get("1509 Culver St").contains(floodPersonDto));
+    }
+    @Test
+    void testFindPersonsWithNoExistingStations() {
+        // ARRANGE
+        List<Integer> stations = Arrays.asList(20,30);
 
+        // ACT
+        FloodDto floodDto = alertService.getHousesRelatedToAListOfStations(stations);
+
+        // ASSERT
+        assertNull(floodDto);
 }
 
 
 
 //*********************************************************************************************************
-//  Tests unitaires de la méthode 'getInfoPerson' de la classe  AlertServiceImpl
+// URL6 : http://localhost:8080/personInfo?firstName=<firstName>&lastName=<lastName>
+//
+// Tests unitaires de la méthode 'getInfoPerson' de la classe  AlertServiceImpl
 //*********************************************************************************************************
-@Test
-void  testGetInfoPersonOfAnExistingPerson() {
-    // ARRANGE, ACT
-    List<InfoPersonDto> infoPersonsDto = alertService.getInfoPerson( "Sophia", "Zemicks");
+    @Test
+    void  testGetInfoPersonOfAnExistingPerson() {
+        // ARRANGE, ACT
+        List<InfoPersonDto> infoPersonsDto = alertService.getInfoPerson( "Sophia", "Zemicks");
 
-    InfoPersonDto infoPersonDto = new InfoPersonDto();
-    infoPersonDto.setLastName("Zemicks");
-    infoPersonDto.setAddress("892 Downing Ct");
-    infoPersonDto.setAge(35);
-    infoPersonDto.setEmail("soph@email.com");
+        InfoPersonDto infoPersonDto = new InfoPersonDto();
+        infoPersonDto.setLastName("Zemicks");
+        infoPersonDto.setAddress("892 Downing Ct");
+        infoPersonDto.setAge(35);
+        infoPersonDto.setEmail("soph@email.com");
 
-    ArrayList<String> medications = new ArrayList<>();
-    medications.add("aznol:60mg");
-    medications.add("hydrapermazol:900mg");
-    medications.add("pharmacol:5000mg");
-    medications.add("terazine:500mg");
-    infoPersonDto.setMedications(medications);
+        ArrayList<String> medications = new ArrayList<>();
+        medications.add("aznol:60mg");
+        medications.add("hydrapermazol:900mg");
+        medications.add("pharmacol:5000mg");
+        medications.add("terazine:500mg");
+        infoPersonDto.setMedications(medications);
 
-    ArrayList<String> allergies = new ArrayList<>();
-    allergies.add("peanut");
-    allergies.add("shellfish");
-    allergies.add("aznol");
-    infoPersonDto.setAllergies(allergies);
+        ArrayList<String> allergies = new ArrayList<>();
+        allergies.add("peanut");
+        allergies.add("shellfish");
+        allergies.add("aznol");
+        infoPersonDto.setAllergies(allergies);
 
-    // ASSERT
-    assertTrue(infoPersonsDto.contains(infoPersonDto));
-    assertEquals(infoPersonsDto.size(), 3);
-}
+        // ASSERT
+        assertTrue(infoPersonsDto.contains(infoPersonDto));
+        assertEquals(infoPersonsDto.size(), 3);
+    }
     @Test
     void testGetInfoPersonOfNoExistingPerson() {
         // ARRANGE,  ACT
@@ -220,8 +257,11 @@ void  testGetInfoPersonOfAnExistingPerson() {
         assertNull(infoPersonsDto);
     }
 
+
 //*********************************************************************************************************
-//  Tests unitaires de la méthode 'getMailRelatedToACity' de la classe  AlertServiceImpl
+// URL7 :  http://localhost:8080/communityEmail?city=<city>
+//
+// Tests unitaires de la méthode 'getMailRelatedToACity' de la classe  AlertServiceImpl
 //*********************************************************************************************************
     @Test
     void  testFindMailsWithExistingCity() {

@@ -17,7 +17,9 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class AlertServiceImpl implements AlertService{
@@ -30,6 +32,9 @@ public class AlertServiceImpl implements AlertService{
     @Autowired
     MedicalrecordDao medicalrecordDao;
 
+    ///////////////////////////////////////////////////////////////////////////////////
+    // URL1 : http://localhost:8080/firestation?stationNumber=<station_number>
+    ///////////////////////////////////////////////////////////////////////////////////
     public FirestationDto getPersonsRelatedToAStation(int stationNumber) {
         FirestationDto firestationDto = new FirestationDto();
         FirestationPersonDto firestationPersonDto;
@@ -68,6 +73,9 @@ public class AlertServiceImpl implements AlertService{
         return firestationDto.getPersons().isEmpty()? null : firestationDto;
     }
 
+    ///////////////////////////////////////////////////////////////////////////////////
+    // URL2 :  http://localhost:8080/childAlert?address=<address>
+    ///////////////////////////////////////////////////////////////////////////////////
     public List<ChildAlertDto> getChildsdRelatedToAnAddress(String address) {
         List<ChildAlertDto> childsAlertDto  = new ArrayList<>();
         ChildAlertDto childAlertDto;
@@ -116,6 +124,9 @@ public class AlertServiceImpl implements AlertService{
         return childsAlertDto.isEmpty()? null : childsAlertDto   ;
     }
 
+    ///////////////////////////////////////////////////////////////////////////////////
+    // URL3 : http://localhost:8080/phoneAlert?firestation=<firestation_number>
+    ///////////////////////////////////////////////////////////////////////////////////
     public List<String> getPhoneNumbersRelatedToAStation(int stationNumber) {
         List<Person> persons = personDao.findAll();
         List<Firestation> firestations = firestationDao.findByStation(stationNumber);
@@ -132,48 +143,98 @@ public class AlertServiceImpl implements AlertService{
         return phoneNumbers.isEmpty()? null : phoneNumbers;
     }
 
+    ///////////////////////////////////////////////////////////////////////////////////
+    // URL4 : http://localhost:8080/fire?address=<address>
+    ///////////////////////////////////////////////////////////////////////////////////
     public FireDto getPersonsRelatedToAnAddress(String address) {
         FireDto fireDto = new FireDto();
 
         List<Person> persons = personDao.findAll();
         List<Medicalrecord> medicalrecords = medicalrecordDao.findAll();
-
-        fireDto.setStation(firestationDao.findByAdress(address).getStation());
+        Firestation firestation = firestationDao.findByAdress(address);
 
         List<FirePersonDto> householdMembersFound = new ArrayList<>();
-        FirePersonDto firePersonDto;
+        if (firestation != null) {
+            fireDto.setStation(firestationDao.findByAdress(address).getStation());
+            FirePersonDto firePersonDto;
+            // On récupère toutes les personnes ayant l'adresse fournie (les membres du foyer)
+            for (Person person : persons) {
+                if (person.getAddress().equals(address)) {
+                    firePersonDto = new FirePersonDto();
+                    firePersonDto.setLastName(person.getLastName());
+                    firePersonDto.setPhone(person.getPhone());
+                    firePersonDto.setEmail(person.getEmail());
 
-        // On récupère toutes les personnes ayant l'adresse fournie (les membres du foyer)
-        for (Person person: persons) {
-            if (person.getAddress().equals(address)) {
-                firePersonDto = new FirePersonDto();
-                firePersonDto.setLastName(person.getLastName());
-                firePersonDto.setPhone(person.getPhone());
-                firePersonDto.setEmail(person.getEmail());
-
-                for (Medicalrecord medicalrecord : medicalrecords) {
-                    if (medicalrecord.getFirstName().equals(person.getFirstName()) && medicalrecord.getLastName().equals(person.getLastName())) {
-                        firePersonDto.setAge(calculateAge(medicalrecord.getBirthdate()));
-                        firePersonDto.setMedications(medicalrecord.getMedications());
-                        firePersonDto.setAllergies(medicalrecord.getAllergies());
-                        break;
+                    for (Medicalrecord medicalrecord : medicalrecords) {
+                        if (medicalrecord.getFirstName().equals(person.getFirstName()) && medicalrecord.getLastName().equals(person.getLastName())) {
+                            firePersonDto.setAge(calculateAge(medicalrecord.getBirthdate()));
+                            firePersonDto.setMedications(medicalrecord.getMedications());
+                            firePersonDto.setAllergies(medicalrecord.getAllergies());
+                            break;
+                        }
                     }
+                    householdMembersFound.add(firePersonDto);
                 }
-                householdMembersFound.add(firePersonDto);
             }
         }
         fireDto.setHouseholdMembers(householdMembersFound);
         return fireDto.getHouseholdMembers().isEmpty()? null : fireDto;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////
+    // URL5 : http://localhost:8080/flood/stations?stations=<a list of station_numbers>
+    ////////////////////////////////////////////////////////////////////////////////////
+    public FloodDto getHousesRelatedToAListOfStations(List<Integer> stations) {
+        FloodDto floodDto = null;
 
+        List<Person> persons = personDao.findAll();
+        List<Firestation> firestations = firestationDao.findAll();
+        List<Medicalrecord> medicalrecords = medicalrecordDao.findAll();
 
-    public List<String> getHouseRelatedToAStation(List<Integer> stations) {
-        return null;
+        List<String> addresses = new ArrayList<>();
+        for (int station: stations){
+            for (Firestation firestation : firestations){
+                if (firestation.getStation() == station){
+                    addresses.add(firestation.getAddress());
+                }
+            }
+        }
+
+        if (!addresses.isEmpty()) {
+            List<FloodPersonDto> floodPersonDtos;
+            floodDto = new FloodDto();
+            Map<String, List<FloodPersonDto>> mapHousePersons = new HashMap<>();
+
+            FloodPersonDto floodPersonDto;
+            for (String address : addresses) {
+                floodPersonDtos = new ArrayList<>();
+                for (Person person : persons) {
+                    if (person.getAddress().equals(address)) {
+                        floodPersonDto = new FloodPersonDto();
+                        floodPersonDto.setFirstName(person.getFirstName());
+                        floodPersonDto.setLastName(person.getLastName());
+                        floodPersonDto.setPhone(person.getPhone());
+                        for (Medicalrecord medicalrecord : medicalrecords) {
+                            if (medicalrecord.getFirstName().equals(person.getFirstName()) && medicalrecord.getLastName().equals(person.getLastName())) {
+                                floodPersonDto.setAge(calculateAge(medicalrecord.getBirthdate()));
+                                floodPersonDto.setMedications(medicalrecord.getMedications());
+                                floodPersonDto.setAllergies(medicalrecord.getAllergies());
+                                break;
+                            }
+                        }
+                        floodPersonDtos.add(floodPersonDto);
+                    }
+                }
+                mapHousePersons.put(address, floodPersonDtos);
+            }
+            floodDto.setMapHousePersons(mapHousePersons);
+        }
+        return floodDto;
     }
 
-
-
+    /////////////////////////////////////////////////////////////////////////////////////
+    // URL6 : http://localhost:8080/personInfo?firstName=<firstName>&lastName=<lastName>
+    /////////////////////////////////////////////////////////////////////////////////////
     public List<InfoPersonDto> getInfoPerson(String firstName, String lastName) {
         List<InfoPersonDto> infoPersonsDto = new ArrayList<>();
         InfoPersonDto infoPersonDto;
@@ -203,6 +264,9 @@ public class AlertServiceImpl implements AlertService{
         return infoPersonsDto.isEmpty()? null : infoPersonsDto;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////
+    // URL7 :  http://localhost:8080/communityEmail?city=<city>
+    ////////////////////////////////////////////////////////////////////////////////////
     public List<String> getMailsRelatedToACity(String city) {
         List<Person> persons = personDao.findAll();
         List<String> mails = new ArrayList<>();

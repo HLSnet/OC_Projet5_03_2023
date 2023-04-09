@@ -49,7 +49,7 @@ public class FirestationTest {
     @Test
     void testFindANonExistingAdress() {
         // ARRANGE, ACT
-        Firestation firestation = firestationDaoImpl.findByAdress("8920 Downing Ct");
+        Firestation firestation = firestationDaoImpl.findByAdress("Nowhere");
 
         // ASSERT
         assertNull(firestation);

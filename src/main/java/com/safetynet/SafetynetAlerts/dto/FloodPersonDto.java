@@ -3,14 +3,22 @@ package com.safetynet.safetynetalerts.dto;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class InfoPersonDto {
 
+public class FloodPersonDto {
+    private String firstName;
     private String lastName;
-    private String address;
+    private String phone;
     private int age;
-    private String email;
     private ArrayList<String> medications;
     private ArrayList<String> allergies;
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
     public String getLastName() {
         return lastName;
@@ -20,12 +28,12 @@ public class InfoPersonDto {
         this.lastName = lastName;
     }
 
-    public String getAddress() {
-        return address;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public int getAge() {
@@ -34,14 +42,6 @@ public class InfoPersonDto {
 
     public void setAge(int age) {
         this.age = age;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public ArrayList<String> getMedications() {
@@ -69,12 +69,12 @@ public class InfoPersonDto {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        InfoPersonDto that = (InfoPersonDto) o;
-        return age == that.age && Objects.equals(lastName, that.lastName) && Objects.equals(address, that.address) && Objects.equals(email, that.email) && Objects.equals(medications, that.medications) && Objects.equals(allergies, that.allergies);
+        FloodPersonDto that = (FloodPersonDto) o;
+        return age == that.age && Objects.equals(firstName, that.firstName) && Objects.equals(lastName, that.lastName) && Objects.equals(phone, that.phone) && Objects.equals(medications, that.medications) && Objects.equals(allergies, that.allergies);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(lastName, address, age, email, medications, allergies);
+        return Objects.hash(firstName, lastName, phone, age, medications, allergies);
     }
 }
