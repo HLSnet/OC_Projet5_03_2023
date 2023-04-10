@@ -13,9 +13,6 @@ public class FirePersonDto {
         private ArrayList<String> medications;
         private ArrayList<String> allergies;
 
-    public String getPhone() {
-        return phone;
-    }
 
     public void setPhone(String phone) {
         this.phone = phone;
@@ -37,27 +34,14 @@ public class FirePersonDto {
         this.phone = address;
     }
 
-    public int getAge() {
-        return age;
-    }
-
     public void setAge(int age) {
         this.age = age;
-    }
-
-    public String getEmail() {
-        return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
     }
 
-
-    public ArrayList<String> getMedications() {
-        ArrayList<String> medications = new ArrayList<>(this.medications);
-        return medications;
-    }
 
     public void setMedications(ArrayList<String> medications) {
         ArrayList<String> medicationsToSet = new ArrayList<>(medications);

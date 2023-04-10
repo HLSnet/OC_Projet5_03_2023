@@ -32,10 +32,6 @@ public class FirestationPersonDto {
         this.address = address;
     }
 
-    public String getPhone() {
-        return phone;
-    }
-
     public void setPhone(String phone) {
         this.phone = phone;
     }

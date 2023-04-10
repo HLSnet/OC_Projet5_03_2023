@@ -37,7 +37,6 @@ public class PersonController {
             //Si la personne n'existe pas dans le fichier : on renvoie le code : "204 No Content"
             return ResponseEntity.noContent().build();
         }
-
         return ResponseEntity.ok(personGot);
     }
 
@@ -94,8 +93,5 @@ public class PersonController {
         }
         // On renvoie le code "200 OK"
         return ResponseEntity.ok().build();
-
     }
-
-
 }

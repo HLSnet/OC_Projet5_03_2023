@@ -49,12 +49,12 @@ public class ServiceController {
     // http://localhost:8080/childAlert?address=<address>
     @GetMapping("childAlert")
     public ResponseEntity<List<ChildAlertDto>>  getChildsdRelatedToAnAddress(@RequestParam String address){
-        List<ChildAlertDto> childAlertDto = alertService.getChildsdRelatedToAnAddress(address);
-        if (Objects.isNull(childAlertDto)) {
+        List<ChildAlertDto> childAlertDtos = alertService.getChildsdRelatedToAnAddress(address);
+        if (Objects.isNull(childAlertDtos)) {
             // On renvoie le code : "204 No Content"
             return ResponseEntity.noContent().build();
         }
-        return ResponseEntity.ok(childAlertDto);
+        return ResponseEntity.ok(childAlertDtos);
     }
 
 
@@ -71,7 +71,6 @@ public class ServiceController {
             // On renvoie le code : "204 No Content"
             return ResponseEntity.noContent().build();
         }
-
         return ResponseEntity.ok(phoneNumbers);
     }
 
@@ -84,7 +83,6 @@ public class ServiceController {
     // http://localhost:8080/fire?address=<address>
     @GetMapping("fire")
     public ResponseEntity<FireDto> getPersonsRelatedToAnAddress(@RequestParam String address){
-        System.out.println("okkkk   " + address);
         FireDto fireDto = alertService.getPersonsRelatedToAnAddress(address);
             if (Objects.isNull(fireDto)) {
                 // On renvoie le code : "204 No Content"
@@ -120,13 +118,12 @@ public class ServiceController {
     // http://localhost:8080/personInfo?firstName=<firstName>&lastName=<lastName>
     @GetMapping("personInfo")
     public ResponseEntity<List<InfoPersonDto>> getInfoPerson(@RequestParam String firstName, @RequestParam String lastName){
-        List<InfoPersonDto> InfoPersonsDto = alertService.getInfoPerson(firstName, lastName);
-        if (Objects.isNull(InfoPersonsDto)) {
+        List<InfoPersonDto> InfoPersonDtos = alertService.getInfoPerson(firstName, lastName);
+        if (Objects.isNull(InfoPersonDtos)) {
             // On renvoie le code : "204 No Content"
             return ResponseEntity.noContent().build();
         }
-
-        return ResponseEntity.ok(InfoPersonsDto);
+        return ResponseEntity.ok(InfoPersonDtos);
     }
 
 
@@ -142,7 +139,6 @@ public class ServiceController {
             // On renvoie le code : "204 No Content"
             return ResponseEntity.noContent().build();
         }
-
         return ResponseEntity.ok(mails);
     }
 }

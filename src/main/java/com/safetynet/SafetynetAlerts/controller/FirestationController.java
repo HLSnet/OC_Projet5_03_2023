@@ -65,7 +65,6 @@ public class FirestationController {
             //On renvoie le code : "204 No Content"
             return ResponseEntity.noContent().build();
         }
-
         // On renvoie le code "201 Created"
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

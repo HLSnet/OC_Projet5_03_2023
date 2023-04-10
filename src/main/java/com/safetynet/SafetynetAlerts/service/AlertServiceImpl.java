@@ -77,7 +77,7 @@ public class AlertServiceImpl implements AlertService{
     // URL2 :  http://localhost:8080/childAlert?address=<address>
     ///////////////////////////////////////////////////////////////////////////////////
     public List<ChildAlertDto> getChildsdRelatedToAnAddress(String address) {
-        List<ChildAlertDto> childsAlertDto  = new ArrayList<>();
+        List<ChildAlertDto> childAlertDtos  = new ArrayList<>();
         ChildAlertDto childAlertDto;
 
         List<Person> persons = personDao.findAll();
@@ -105,7 +105,7 @@ public class AlertServiceImpl implements AlertService{
             for (Medicalrecord medicalrecord: medicalrecords){
                 if (medicalrecord.getFirstName().equals(person.getFirstName())  && medicalrecord.getLastName().equals(person.getLastName())){
                     int age = calculateAge(medicalrecord.getBirthdate());
-                    // Si c'est un enfant (age <= 18) on crée un objet ChildAlertDto que l'on ajoute à childsAlertDto
+                    // Si c'est un enfant (age <= 18) on crée un objet ChildAlertDto que l'on ajoute à childAlertDtos
                     if ( age <= 18){
                         childAlertDto = new ChildAlertDto();
                         childAlertDto.setFirstName(medicalrecord.getFirstName());
@@ -115,13 +115,13 @@ public class AlertServiceImpl implements AlertService{
                         householdMembersMinusChild.remove(index);
                         childAlertDto.setHouseholdMembers(householdMembersMinusChild);
 
-                        childsAlertDto.add(childAlertDto);
+                        childAlertDtos.add(childAlertDto);
                     }
                     break;
                 }
             }
         }
-        return childsAlertDto.isEmpty()? null : childsAlertDto   ;
+        return childAlertDtos.isEmpty()? null : childAlertDtos;
     }
 
     ///////////////////////////////////////////////////////////////////////////////////
@@ -236,7 +236,7 @@ public class AlertServiceImpl implements AlertService{
     // URL6 : http://localhost:8080/personInfo?firstName=<firstName>&lastName=<lastName>
     /////////////////////////////////////////////////////////////////////////////////////
     public List<InfoPersonDto> getInfoPerson(String firstName, String lastName) {
-        List<InfoPersonDto> infoPersonsDto = new ArrayList<>();
+        List<InfoPersonDto> infoPersonDtos = new ArrayList<>();
         InfoPersonDto infoPersonDto;
 
         List<Person> persons = personDao.findAll();
@@ -257,11 +257,10 @@ public class AlertServiceImpl implements AlertService{
                         break;
                     }
                 }
-                infoPersonsDto.add(infoPersonDto);
+                infoPersonDtos.add(infoPersonDto);
             }
         }
-
-        return infoPersonsDto.isEmpty()? null : infoPersonsDto;
+        return infoPersonDtos.isEmpty()? null : infoPersonDtos;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////
@@ -277,7 +276,6 @@ public class AlertServiceImpl implements AlertService{
         }
         return mails.isEmpty()? null : mails;
     }
-
 
     int calculateAge(String birthdate){
         int age;

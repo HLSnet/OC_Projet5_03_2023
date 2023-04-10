@@ -28,32 +28,18 @@ public class FloodPersonDto {
         this.lastName = lastName;
     }
 
-    public String getPhone() {
-        return phone;
-    }
-
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    public int getAge() {
-        return age;
     }
 
     public void setAge(int age) {
         this.age = age;
     }
 
-    public ArrayList<String> getMedications() {
-        ArrayList<String> medications = new ArrayList<>(this.medications);
-        return medications;
-    }
-
     public void setMedications(ArrayList<String> medications) {
         ArrayList<String> medicationsToSet = new ArrayList<>(medications);
         this.medications = medicationsToSet;
     }
-
 
     public ArrayList<String> getAllergies() {
         ArrayList<String> allergies = new ArrayList<>(this.allergies);

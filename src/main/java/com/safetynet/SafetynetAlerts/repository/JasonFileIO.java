@@ -24,7 +24,6 @@ public class JasonFileIO {
 
     static ObjectMapper mapper;
 
-
     public JasonFileIO(String jasonFilePathname) {
         this.jasonFilePathname = jasonFilePathname;
         mapper = new ObjectMapper();
