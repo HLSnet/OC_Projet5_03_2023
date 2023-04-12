@@ -8,6 +8,8 @@ public class FirestationPersonDto {
     private String address;
     private String phone;
 
+
+
     public String getFirstName() {
         return firstName;
     }
@@ -36,6 +38,10 @@ public class FirestationPersonDto {
         this.phone = phone;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -47,5 +53,26 @@ public class FirestationPersonDto {
     @Override
     public int hashCode() {
         return Objects.hash(firstName, lastName, address, phone);
+    }
+
+
+    public FirestationPersonDto(String firstName, String lastName, String address, String phone) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.phone = phone;
+    }
+
+    public FirestationPersonDto() {
+    }
+
+    @Override
+    public String toString() {
+        return "FirestationPersonDto{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", address='" + address + '\'' +
+                ", phone='" + phone + '\'' +
+                '}';
     }
 }

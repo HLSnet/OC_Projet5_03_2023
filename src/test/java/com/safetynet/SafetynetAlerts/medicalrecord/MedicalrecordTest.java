@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.safetynet.safetynetalerts.constants.DBConstants.*;
@@ -63,21 +64,17 @@ public class MedicalrecordTest {
     @Test
     void testSaveNewPerson() {
         // ARRANGE
-        Medicalrecord medicalrecordToAdd = new Medicalrecord();
-        medicalrecordToAdd.setFirstName("Averell");
-        medicalrecordToAdd.setLastName("Dalton");
-        medicalrecordToAdd.setBirthdate("01/01/1900");
-
-        ArrayList<String> medications= new ArrayList<>();
-        medications.add("paracetamol:1000mg");
-        medications.add("doliprane:500mg");
-        medications.add("whisky: 2l");
-        medicalrecordToAdd.setMedications(medications);
-
-        ArrayList<String> allergies= new ArrayList<>();
-        medications.add("Lucky Luke");
-        medications.add("Jail");
-        medicalrecordToAdd.setAllergies(allergies);
+        Medicalrecord medicalrecordToAdd = new Medicalrecord(
+            "Averell",
+            "Dalton",
+            "01/01/1900",
+            new ArrayList<>(Arrays.asList(
+                "paracetamol:1000mg",
+                "doliprane:500mg",
+                "whisky: 2l")),
+            new ArrayList<>(Arrays.asList(
+                    "Lucky Luke",
+                    "Jail")));
 
         // ACT
         medicalrecords = JasonFileIO.readFromJsonFileToList(MEDICAL_RECORD, Medicalrecord.class);
@@ -98,23 +95,19 @@ public class MedicalrecordTest {
     @Test
     void testSaveAnExistingPerson() {
         // ARRANGE
-        Medicalrecord medicalrecordToAdd = new Medicalrecord();
-        medicalrecordToAdd.setFirstName("Sophia");
-        medicalrecordToAdd.setLastName("Zemicks");
-        medicalrecordToAdd.setBirthdate("03/06/1988");
-
-        ArrayList<String> medications= new ArrayList<>();
-        medications.add("aznol:60mg");
-        medications.add("hydrapermazol:900mg");
-        medications.add("pharmacol:5000mg");
-        medications.add("terazine:500mg");
-        medicalrecordToAdd.setMedications(medications);
-
-        ArrayList<String> allergies= new ArrayList<>();
-        allergies.add("peanut");
-        allergies.add("shellfish");
-        allergies.add("aznol");
-        medicalrecordToAdd.setAllergies(allergies);
+        Medicalrecord medicalrecordToAdd = new Medicalrecord(
+                "Sophia",
+                "Zemicks",
+                "03/06/1988",
+                new ArrayList<>(Arrays.asList(
+                        "aznol:60mg",
+                        "hydrapermazol:900mg",
+                        "pharmacol:5000mg",
+                        "terazine:500mg")),
+                new ArrayList<>(Arrays.asList(
+                        "peanut",
+                        "shellfish",
+                        "aznol")));
 
 
         // ACT
@@ -136,23 +129,19 @@ public class MedicalrecordTest {
     @Test
     void testUpdateAnExistingPerson() {
         // ARRANGE
-        Medicalrecord medicalrecordToUpdate = new Medicalrecord();
-        medicalrecordToUpdate.setFirstName("Sophia");
-        medicalrecordToUpdate.setLastName("Zemicks");
-        medicalrecordToUpdate.setBirthdate("03/06/1988");
-
-        ArrayList<String> medications= new ArrayList<>();
-        medications.add("aznol:60mg");
-        medications.add("hydrapermazol:900mg");
-        medications.add("pharmacol:5000mg");
-        medications.add("terazine:500mg");
-        medicalrecordToUpdate.setMedications(medications);
-
-        ArrayList<String> allergies= new ArrayList<>();
-        allergies.add("peanut");
-        allergies.add("shellfish");
-        allergies.add("aznol");
-        medicalrecordToUpdate.setAllergies(allergies);
+        Medicalrecord medicalrecordToUpdate = new Medicalrecord(
+                "Sophia",
+                "Zemicks",
+                "03/06/1988",
+                new ArrayList<>(Arrays.asList(
+                        "aznol:60mg",
+                        "hydrapermazol:900mg",
+                        "pharmacol:5000mg",
+                        "terazine:500mg")),
+                new ArrayList<>(Arrays.asList(
+                        "peanut",
+                        "shellfish",
+                        "aznol")));
 
         // ACT
         medicalrecords = JasonFileIO.readFromJsonFileToList(MEDICAL_RECORD, Medicalrecord.class);
@@ -173,21 +162,17 @@ public class MedicalrecordTest {
     @Test
     void testUpdateANonExistingPerson() {
         // ARRANGE
-        Medicalrecord medicalrecordToUpdate = new Medicalrecord();
-        medicalrecordToUpdate.setFirstName("Averell");
-        medicalrecordToUpdate.setLastName("Dalton");
-        medicalrecordToUpdate.setBirthdate("01/01/1900");
-
-        ArrayList<String> medications= new ArrayList<>();
-        medications.add("paracetamol:1000mg");
-        medications.add("doliprane:500mg");
-        medications.add("whisky: 2l");
-        medicalrecordToUpdate.setMedications(medications);
-
-        ArrayList<String> allergies= new ArrayList<>();
-        medications.add("Lucky Luke");
-        medications.add("Jail");
-        medicalrecordToUpdate.setAllergies(allergies);
+        Medicalrecord medicalrecordToUpdate = new Medicalrecord(
+                "Averell",
+                "Dalton",
+                "01/01/1900",
+                new ArrayList<>(Arrays.asList(
+                        "paracetamol:1000mg",
+                        "doliprane:500mg",
+                        "whisky: 2l")),
+                new ArrayList<>(Arrays.asList(
+                        "Lucky Luke",
+                        "Jail")));
 
 
         // ACT
@@ -210,23 +195,20 @@ public class MedicalrecordTest {
     @Test
     void testDeleteAnExistingPerson() {
         // ARRANGE
-        Medicalrecord medicalrecordToDelete = new Medicalrecord();
-        medicalrecordToDelete.setFirstName("Sophia");
-        medicalrecordToDelete.setLastName("Zemicks");
-        medicalrecordToDelete.setBirthdate("03/06/1988");
+        Medicalrecord medicalrecordToDelete = new Medicalrecord(
+                "Sophia",
+                "Zemicks",
+                "03/06/1988",
+                new ArrayList<>(Arrays.asList(
+                        "aznol:60mg",
+                        "hydrapermazol:900mg",
+                        "pharmacol:5000mg",
+                        "terazine:500mg")),
+                new ArrayList<>(Arrays.asList(
+                        "peanut",
+                        "shellfish",
+                        "aznol")));
 
-        ArrayList<String> medications= new ArrayList<>();
-        medications.add("aznol:60mg");
-        medications.add("hydrapermazol:900mg");
-        medications.add("pharmacol:5000mg");
-        medications.add("terazine:500mg");
-        medicalrecordToDelete.setMedications(medications);
-
-        ArrayList<String> allergies= new ArrayList<>();
-        allergies.add("peanut");
-        allergies.add("shellfish");
-        allergies.add("aznol");
-        medicalrecordToDelete.setAllergies(allergies);
 
         // ACT
         medicalrecords = JasonFileIO.readFromJsonFileToList(MEDICAL_RECORD, Medicalrecord.class);

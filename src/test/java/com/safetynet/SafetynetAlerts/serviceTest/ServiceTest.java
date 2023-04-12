@@ -1,4 +1,4 @@
-package com.safetynet.safetynetalerts.serviceTest;
+package com.safetynet.safetynetalerts.servicetest;
 
 import com.safetynet.safetynetalerts.datatest.SetupJsonFile;
 import com.safetynet.safetynetalerts.dto.*;
@@ -43,12 +43,11 @@ public class ServiceTest {
         // ARRANGE
         int stationNumber = 2;
 
-        FirestationPersonDto firestationPersonDto = new FirestationPersonDto();
-
-        firestationPersonDto.setFirstName("Warren");
-        firestationPersonDto.setLastName("Zemicks");
-        firestationPersonDto.setAddress("892 Downing Ct");
-        firestationPersonDto.setPhone("841-874-7512");
+        FirestationPersonDto firestationPersonDto = new FirestationPersonDto(
+            "Warren",
+            "Zemicks",
+            "892 Downing Ct",
+            "841-874-7512");
 
         // ACT
         FirestationDto firestationDto = alertService.getPersonsRelatedToAStation(stationNumber);
@@ -142,19 +141,14 @@ public class ServiceTest {
         // ARRANGE, ACT
         FireDto  fireDto = alertService.getPersonsRelatedToAnAddress("1509 Culver St");
 
-        FirePersonDto firePersonDto = new FirePersonDto();
-        firePersonDto.setLastName("Boyd");
-        firePersonDto.setPhone("841-874-6544");
-        firePersonDto.setEmail("jaboyd@email.com");
-        firePersonDto.setAge(37);
+        FirePersonDto firePersonDto = new FirePersonDto(
+                "Boyd",
+                "841-874-6544",
+                37,
+                "jaboyd@email.com",
+                new ArrayList<>(Arrays.asList("tetracyclaz:650mg")),
+                new ArrayList<>(Arrays.asList("xilliathal")));
 
-        ArrayList<String> medications = new ArrayList<>();
-        medications.add("tetracyclaz:650mg");
-        firePersonDto.setMedications(medications);
-
-        ArrayList<String> allergies = new ArrayList<>();
-        allergies.add("xilliathal");
-        firePersonDto.setAllergies(allergies);
 
         // ASSERT
         assertEquals(fireDto.getStation(), 3);
@@ -179,19 +173,13 @@ public class ServiceTest {
         // ARRANGE
         List<Integer> stations = Arrays.asList(3,4);
 
-        FloodPersonDto floodPersonDto = new FloodPersonDto();
-        floodPersonDto.setFirstName("Felicia");
-        floodPersonDto.setLastName("Boyd");
-        floodPersonDto.setPhone("841-874-6544");
-        floodPersonDto.setAge(37);
-
-        ArrayList<String> medications = new ArrayList<>();
-        medications.add("tetracyclaz:650mg");
-        floodPersonDto.setMedications(medications);
-
-        ArrayList<String> allergies = new ArrayList<>();
-        allergies.add("xilliathal");
-        floodPersonDto.setAllergies(allergies);
+        FloodPersonDto floodPersonDto = new FloodPersonDto(
+                "Felicia",
+                "Boyd",
+                "841-874-6544",
+                37,
+                new ArrayList<>(Arrays.asList("tetracyclaz:650mg")),
+                new ArrayList<>(Arrays.asList("xilliathal")));
 
         // ACT
         FloodDto floodDto = alertService.getHousesRelatedToAListOfStations(stations);
@@ -225,24 +213,20 @@ public class ServiceTest {
         // ARRANGE, ACT
         List<InfoPersonDto> infoPersonsDto = alertService.getInfoPerson( "Sophia", "Zemicks");
 
-        InfoPersonDto infoPersonDto = new InfoPersonDto();
-        infoPersonDto.setLastName("Zemicks");
-        infoPersonDto.setAddress("892 Downing Ct");
-        infoPersonDto.setAge(35);
-        infoPersonDto.setEmail("soph@email.com");
-
-        ArrayList<String> medications = new ArrayList<>();
-        medications.add("aznol:60mg");
-        medications.add("hydrapermazol:900mg");
-        medications.add("pharmacol:5000mg");
-        medications.add("terazine:500mg");
-        infoPersonDto.setMedications(medications);
-
-        ArrayList<String> allergies = new ArrayList<>();
-        allergies.add("peanut");
-        allergies.add("shellfish");
-        allergies.add("aznol");
-        infoPersonDto.setAllergies(allergies);
+        InfoPersonDto infoPersonDto = new InfoPersonDto(
+            "Zemicks",
+            "892 Downing Ct",
+            35,
+            "soph@email.com",
+            new ArrayList<>(Arrays.asList(
+                    "aznol:60mg",
+                    "hydrapermazol:900mg",
+                    "pharmacol:5000mg",
+                    "terazine:500mg")),
+            new ArrayList<>(Arrays.asList(
+                    "peanut",
+                    "shellfish",
+                    "aznol")));
 
         // ASSERT
         assertTrue(infoPersonsDto.contains(infoPersonDto));

@@ -32,6 +32,7 @@ public class ServiceController {
     @GetMapping("firestation")
     public ResponseEntity<FirestationDto>  getPersonsRelatedToAStation(@RequestParam int stationNumber) {
         FirestationDto firestationDto = alertService.getPersonsRelatedToAStation(stationNumber);
+        System.out.println(firestationDto); //DEBUG
         if (Objects.isNull(firestationDto)) {
             // On renvoie le code : "204 No Content"
             return ResponseEntity.noContent().build();

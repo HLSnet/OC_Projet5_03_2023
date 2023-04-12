@@ -42,6 +42,21 @@ public class FirePersonDto {
         this.email = email;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public ArrayList<String> getMedications() {
+        return medications;
+    }
 
     public void setMedications(ArrayList<String> medications) {
         ArrayList<String> medicationsToSet = new ArrayList<>(medications);
@@ -71,4 +86,18 @@ public class FirePersonDto {
     public int hashCode() {
         return Objects.hash(lastName, phone, age, email, medications, allergies);
     }
+
+
+    public FirePersonDto(String lastName, String phone, int age, String email, ArrayList<String> medications, ArrayList<String> allergies) {
+        this.lastName = lastName;
+        this.phone = phone;
+        this.age = age;
+        this.email = email;
+        this.medications = medications;
+        this.allergies = allergies;
+    }
+
+    public FirePersonDto() {
+    }
+
 }

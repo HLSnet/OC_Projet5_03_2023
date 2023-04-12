@@ -12,6 +12,8 @@ public class FloodPersonDto {
     private ArrayList<String> medications;
     private ArrayList<String> allergies;
 
+
+
     public String getFirstName() {
         return firstName;
     }
@@ -51,6 +53,18 @@ public class FloodPersonDto {
         this.allergies = allergiesToSet;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public ArrayList<String> getMedications() {
+        return medications;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -62,5 +76,17 @@ public class FloodPersonDto {
     @Override
     public int hashCode() {
         return Objects.hash(firstName, lastName, phone, age, medications, allergies);
+    }
+
+    public FloodPersonDto(String firstName, String lastName, String phone, int age, ArrayList<String> medications, ArrayList<String> allergies) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phone = phone;
+        this.age = age;
+        this.medications = medications;
+        this.allergies = allergies;
+    }
+
+    public FloodPersonDto() {
     }
 }

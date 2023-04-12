@@ -63,14 +63,14 @@ public class PersonTest {
     @Test
     void testSaveNewPerson() {
         // ARRANGE
-        Person personToAdd = new Person();
-        personToAdd.setFirstName("Averell");
-        personToAdd.setLastName("Dalton");
-        personToAdd.setAddress("19 Saloon St");
-        personToAdd.setCity("Daisy town");
-        personToAdd.setZip("00000");
-        personToAdd.setPhone("111-222-3333");
-        personToAdd.setEmail("a.dalton@jail.com");
+        Person personToAdd = new Person(
+                "Averell",
+                "Dalton",
+                "19 Saloon St",
+                "Daisy town",
+                "00000",
+                "111-222-3333",
+                "a.dalton@jail.com");
 
         // ACT
         persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
@@ -91,14 +91,15 @@ public class PersonTest {
     @Test
     void testSaveAnExistingPerson() {
         // ARRANGE
-        Person personToAdd = new Person();
-        personToAdd.setFirstName("Jamie");
-        personToAdd.setLastName("Peters");
-		personToAdd.setAddress("908 73rd St");
-		personToAdd.setCity("Culver");
-		personToAdd.setZip("97451");
-		personToAdd.setPhone("841-874-7462");
-		personToAdd.setEmail("jpeter@email.com");
+        Person personToAdd = new Person(
+                "Jamie",
+                "Peters",
+                "908 73rd St",
+                "Culver",
+                "97451",
+                "841-874-7462",
+                "jpeter@email.com");
+
 
         // ACT
         persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
@@ -118,14 +119,15 @@ public class PersonTest {
     @Test
     void testUpdateAnExistingPerson() {
         // ARRANGE
-        Person personToUpdate = new Person();
-        personToUpdate.setFirstName("Jamie");
-        personToUpdate.setLastName("Peters");
-        personToUpdate.setAddress("1 here St");
-        personToUpdate.setCity("Nowhere");
-        personToUpdate.setZip("00000");
-        personToUpdate.setPhone("012-345-6789");
-        personToUpdate.setEmail("jpeter.new@email.com");
+        Person personToUpdate = new Person(
+                "Jamie",
+                "Peters",
+                "1 here St",
+                "Nowhere",
+                "00000",
+                "012-345-6789",
+                "jpeter.new@email.com");
+
 
         // ACT
         persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
@@ -146,14 +148,14 @@ public class PersonTest {
     @Test
     void testUpdateANonExistingPerson() {
         // ARRANGE
-        Person personToUpdate = new Person();
-        personToUpdate.setFirstName("Averell");
-        personToUpdate.setLastName("Dalton");
-        personToUpdate.setAddress("19 Saloon St");
-        personToUpdate.setCity("Daisy town");
-        personToUpdate.setZip("00000");
-        personToUpdate.setPhone("111-222-3333");
-        personToUpdate.setEmail("a.dalton@jail.com");
+        Person personToUpdate = new Person(
+                "Averell",
+                "Dalton",
+                "19 Saloon St",
+                "Daisy town",
+                "00000",
+                "111-222-3333",
+                "a.dalton@jail.com");
 
         // ACT
         persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
@@ -175,14 +177,14 @@ public class PersonTest {
     @Test
     void testDeleteAnExistingPerson() {
         // ARRANGE
-        Person personToDelete = new Person();
-        personToDelete.setFirstName("Jamie");
-        personToDelete.setLastName("Peters");
-        personToDelete.setAddress("908 73rd St");
-        personToDelete.setCity("Culver");
-        personToDelete.setZip("97451");
-        personToDelete.setPhone("841-874-7462");
-        personToDelete.setEmail("jpeter@email.com");
+        Person personToDelete = new Person(
+                "Jamie",
+                "Peters",
+                "908 73rd St",
+                "Culver",
+                "97451",
+                "841-874-7462",
+                "jpeter@email.com");
 
         // ACT
         persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);

@@ -36,24 +36,31 @@ public class AlertServiceImpl implements AlertService{
     // URL1 : http://localhost:8080/firestation?stationNumber=<station_number>
     ///////////////////////////////////////////////////////////////////////////////////
     public FirestationDto getPersonsRelatedToAStation(int stationNumber) {
+        // On instancie l'objet DTO à renvoyer
         FirestationDto firestationDto = new FirestationDto();
-        FirestationPersonDto firestationPersonDto;
 
-        List<Person> persons = personDao.findAll();
+        // On récupère la liste des firestation ayant le numéro de station demandé
         List<Firestation> firestations = firestationDao.findByStation(stationNumber);
+
+        // On récupère les listes des personnes et des dossiers médicaux
+        List<Person> persons = personDao.findAll();
         List<Medicalrecord> medicalrecords = medicalrecordDao.findAll();
 
+        FirestationPersonDto firestationPersonDto;
         for (Firestation firestation: firestations) {
             for (Person person: persons){
                 if (firestation.getAddress().equals(person.getAddress())){
-                    firestationPersonDto= new FirestationPersonDto();
-                    firestationPersonDto.setFirstName(person.getFirstName());
-                    firestationPersonDto.setLastName(person.getLastName());
-                    firestationPersonDto.setAddress(person.getAddress());
-                    firestationPersonDto.setPhone(person.getPhone());
+                    firestationPersonDto= new FirestationPersonDto(
+                            person.getFirstName(),
+                            person.getLastName(),
+                            person.getAddress(),
+                            person.getPhone());
 
+                    // On récupère la listes (une copie) des personnes correspondant au critère de recherche
                     List<FirestationPersonDto> listFirestationPersonDto = firestationDto.getPersons();
+                    // On y ajoute la nouvelle personne
                     listFirestationPersonDto.add(firestationPersonDto);
+                    // On met à jour la liste
                     firestationDto.setPersons(listFirestationPersonDto);
 
                     for (Medicalrecord medicalrecord: medicalrecords){
@@ -89,11 +96,11 @@ public class AlertServiceImpl implements AlertService{
         // On récupère toutes les personnes ayant l'adresse fournie (les membres du foyer)
         for (Person person: persons) {
             if (person.getAddress().equals(address)) {
-                childAlertPersonDto = new ChildAlertPersonDto();
-                childAlertPersonDto.setFirstName(person.getFirstName());
-                childAlertPersonDto.setLastName(person.getLastName());
-                childAlertPersonDto.setPhone(person.getPhone());
-                childAlertPersonDto.setEmail(person.getEmail());
+                childAlertPersonDto = new ChildAlertPersonDto(
+                        person.getFirstName(),
+                        person.getLastName(),
+                        person.getPhone(),
+                        person.getEmail());
                 householdMembersFound.add(childAlertPersonDto);
             }
         }
@@ -107,13 +114,15 @@ public class AlertServiceImpl implements AlertService{
                     int age = calculateAge(medicalrecord.getBirthdate());
                     // Si c'est un enfant (age <= 18) on crée un objet ChildAlertDto que l'on ajoute à childAlertDtos
                     if ( age <= 18){
-                        childAlertDto = new ChildAlertDto();
-                        childAlertDto.setFirstName(medicalrecord.getFirstName());
-                        childAlertDto.setLastName(medicalrecord.getLastName());
-                        childAlertDto.setAge(age);
+                        // On créé la liste de personnes habitant avec l'enfant
                         ArrayList<ChildAlertPersonDto> householdMembersMinusChild = new ArrayList<>(householdMembersFound);
                         householdMembersMinusChild.remove(index);
-                        childAlertDto.setHouseholdMembers(householdMembersMinusChild);
+
+                        childAlertDto = new ChildAlertDto(
+                                medicalrecord.getFirstName(),
+                                medicalrecord.getLastName(),
+                                age,
+                                householdMembersMinusChild);
 
                         childAlertDtos.add(childAlertDto);
                     }

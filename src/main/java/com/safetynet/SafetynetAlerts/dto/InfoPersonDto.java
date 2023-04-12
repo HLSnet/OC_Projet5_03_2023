@@ -12,6 +12,18 @@ public class InfoPersonDto {
     private ArrayList<String> medications;
     private ArrayList<String> allergies;
 
+    public int getAge() {
+        return age;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public ArrayList<String> getMedications() {
+        return medications;
+    }
+
     public String getLastName() {
         return lastName;
     }
@@ -62,5 +74,17 @@ public class InfoPersonDto {
     @Override
     public int hashCode() {
         return Objects.hash(lastName, address, age, email, medications, allergies);
+    }
+
+    public InfoPersonDto(String lastName, String address, int age, String email, ArrayList<String> medications, ArrayList<String> allergies) {
+        this.lastName = lastName;
+        this.address = address;
+        this.age = age;
+        this.email = email;
+        this.medications = medications;
+        this.allergies = allergies;
+    }
+
+    public InfoPersonDto() {
     }
 }

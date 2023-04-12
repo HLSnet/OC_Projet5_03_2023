@@ -43,5 +43,13 @@ public class ChildAlertDto {
         this.householdMembers = householdMembersToSet;
     }
 
+    public ChildAlertDto(String firstName, String lastName, int age, List<ChildAlertPersonDto> householdMembers) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.householdMembers = householdMembers;
+    }
 
+    public ChildAlertDto() {
+    }
 }

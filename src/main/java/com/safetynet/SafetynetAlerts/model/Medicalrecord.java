@@ -14,7 +14,13 @@ public class Medicalrecord{
     public Medicalrecord() {
     }
 
-
+    public Medicalrecord(String firstName, String lastName, String birthdate, ArrayList<String> medications, ArrayList<String> allergies) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthdate = birthdate;
+        this.medications = medications;
+        this.allergies = allergies;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -36,9 +42,6 @@ public class Medicalrecord{
         return birthdate;
     }
 
-    public void setBirthdate(String birthdate) {
-        this.birthdate = birthdate;
-    }
 
 
     public ArrayList<String> getMedications() {
@@ -46,10 +49,6 @@ public class Medicalrecord{
         return medications;
     }
 
-    public void setMedications(ArrayList<String> medications) {
-        ArrayList<String> medicationsToSet = new ArrayList<>(medications);
-        this.medications = medicationsToSet;
-    }
 
     public ArrayList<String> getAllergies() {
         ArrayList<String> allergies = new ArrayList<>(this.allergies);

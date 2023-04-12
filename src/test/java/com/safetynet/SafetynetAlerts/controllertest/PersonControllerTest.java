@@ -52,14 +52,14 @@ public class PersonControllerTest {
         @Test
         public void testGetPersonOk() throws Exception {
                 // test 1 : la personne existe
-                Person person = new Person();
-                person.setFirstName("Averell");
-                person.setLastName("Dalton");
-                person.setAddress("19 Saloon St");
-                person.setCity("Daisy town");
-                person.setZip("00000");
-                person.setPhone("111-222-3333");
-                person.setEmail("a.dalton@jail.com");
+                Person person = new Person(
+                        "Averell",
+                        "Dalton",
+                        "19 Saloon St",
+                        "Daisy town",
+                        "00000",
+                        "111-222-3333",
+                        "a.dalton@jail.com");
 
                 when(personDao.findByName("Averell", "Dalton")).thenReturn(person);
 
@@ -94,14 +94,14 @@ public class PersonControllerTest {
         @Test
         public void testPostPersonOk() throws Exception {
                 // test 1 : La personne n'existe pas dans le fichier : ajout possible
-                Person person = new Person();
-                person.setFirstName("Averell");
-                person.setLastName("Dalton");
-                person.setAddress("19 Saloon St");
-                person.setCity("Daisy town");
-                person.setZip("00000");
-                person.setPhone("111-222-3333");
-                person.setEmail("a.dalton@jail.com");
+                Person person = new Person(
+                        "Averell",
+                        "Dalton",
+                        "19 Saloon St",
+                        "Daisy town",
+                        "00000",
+                        "111-222-3333",
+                        "a.dalton@jail.com");
 
                 when(personDao.save(person)).thenReturn(true);
 
@@ -118,14 +118,14 @@ public class PersonControllerTest {
         @Test
         public void testPostPersonNok() throws Exception {
                 // test 2 : la personne existe déja dans le fichier : pas d'ajout
-                Person person = new Person();
-                person.setFirstName("Averell");
-                person.setLastName("Dalton");
-                person.setAddress("19 Saloon St");
-                person.setCity("Daisy town");
-                person.setZip("00000");
-                person.setPhone("111-222-3333");
-                person.setEmail("a.dalton@jail.com");
+                Person person = new Person(
+                        "Averell",
+                        "Dalton",
+                        "19 Saloon St",
+                        "Daisy town",
+                        "00000",
+                        "111-222-3333",
+                        "a.dalton@jail.com");
 
                 when(personDao.save(person)).thenReturn(false);
                        mockMvc.perform(post("/person")
@@ -143,14 +143,14 @@ public class PersonControllerTest {
         @Test
         public void testPutPersonOk() throws Exception {
                 // test 1 : La personne existe dans le fichier : modification possible
-                Person person = new Person();
-                person.setFirstName("Averell");
-                person.setLastName("Dalton");
-                person.setAddress("19 Saloon St");
-                person.setCity("Daisy town");
-                person.setZip("00000");
-                person.setPhone("111-222-3333");
-                person.setEmail("a.dalton@jail.com");
+                Person person = new Person(
+                        "Averell",
+                        "Dalton",
+                        "19 Saloon St",
+                        "Daisy town",
+                        "00000",
+                        "111-222-3333",
+                        "a.dalton@jail.com");
 
                 when(personDao.update(person)).thenReturn(true);
 
@@ -166,14 +166,14 @@ public class PersonControllerTest {
         @Test
         public void testPutPersonNok() throws Exception {
                 // test 2 : La personne n'existe pas dans le fichier : modification impossible
-                Person person = new Person();
-                person.setFirstName("Averell");
-                person.setLastName("Dalton");
-                person.setAddress("19 Saloon St");
-                person.setCity("Daisy town");
-                person.setZip("00000");
-                person.setPhone("111-222-3333");
-                person.setEmail("a.dalton@jail.com");
+                Person person = new Person(
+                        "Averell",
+                        "Dalton",
+                        "19 Saloon St",
+                        "Daisy town",
+                        "00000",
+                        "111-222-3333",
+                        "a.dalton@jail.com");
 
                 mockMvc.perform(put("/person")
                                 .contentType(MediaType.APPLICATION_JSON)

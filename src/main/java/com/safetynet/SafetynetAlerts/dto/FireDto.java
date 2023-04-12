@@ -38,4 +38,13 @@ public class FireDto {
     public int hashCode() {
         return Objects.hash(station, householdMembers);
     }
+
+    public FireDto(int station, List<FirePersonDto> householdMembers) {
+        this.station = station;
+        this.householdMembers = householdMembers;
+    }
+
+    public FireDto() {
+    }
+
 }
