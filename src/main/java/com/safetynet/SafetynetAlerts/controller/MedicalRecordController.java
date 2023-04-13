@@ -86,7 +86,7 @@ public class MedicalRecordController {
 
     // Supprimer un dossier médical (utilisez une combinaison de prénom et de nom comme identificateur unique).
     @DeleteMapping(value = "/medicalrecord/{firstName}/{lastName}")
-    public ResponseEntity<Void> deletePerson(@PathVariable String firstName, @PathVariable  String lastName) {
+    public ResponseEntity<Void> deleteMedicalrecord(@PathVariable String firstName, @PathVariable  String lastName) {
 
         if (!medicalrecordDao.delete(firstName, lastName)) {
             //Si le dossier médical n'existe pas dans le fichier : on renvoie le code : "204 No Content"

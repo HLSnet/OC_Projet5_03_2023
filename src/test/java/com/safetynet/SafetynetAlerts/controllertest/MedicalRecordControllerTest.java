@@ -93,114 +93,132 @@ public class MedicalRecordControllerTest {
     //***************************************************************************************************
     // TESTS REQUETES POST
     //***************************************************************************************************
-//    @Test
-//    public void testPostPersonOk() throws Exception {
-//        // test 1 : La personne n'existe pas dans le fichier : ajout possible
-//        Person person = new Person();
-//        person.setFirstName("Averell");
-//        person.setLastName("Dalton");
-//        person.setAddress("19 Saloon St");
-//        person.setCity("Daisy town");
-//        person.setZip("00000");
-//        person.setPhone("111-222-3333");
-//        person.setEmail("a.dalton@jail.com");
-//
-//        when(personDao.save(person)).thenReturn(true);
-//
-//        mockMvc.perform(post("/person")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(new ObjectMapper().writeValueAsString(person)))
-//                .andExpect(status().isCreated()) // On vérifie que le code de réponse est "201 Created"
-//                .andExpect(header().string("Location", "http://localhost/person/Averell/Dalton"));
-//
-//        verify(personDao, times(1)).save(person);
-//    }
+    @Test
+    public void testAddMedicalrecordOk() throws Exception {
+        // test 1 : le dossier médical n'existe pas dans le fichier : ajout possible
+        Medicalrecord medicalrecord = new Medicalrecord(
+                "Averell",
+                "Dalton",
+                "01/01/1900",
+                new ArrayList<>(Arrays.asList(
+                        "paracetamol:1000mg",
+                        "doliprane:500mg",
+                        "whisky: 2l")),
+                new ArrayList<>(Arrays.asList(
+                        "Lucky Luke",
+                        "Jail")));
 
+        when(medicalrecordDao.save(medicalrecord)).thenReturn(true);
 
-//    @Test
-//    public void testPostPersonNok() throws Exception {
-//        // test 2 : la personne existe déja dans le fichier : pas d'ajout
-//        Person person = new Person();
-//        person.setFirstName("Averell");
-//        person.setLastName("Dalton");
-//        person.setAddress("19 Saloon St");
-//        person.setCity("Daisy town");
-//        person.setZip("00000");
-//        person.setPhone("111-222-3333");
-//        person.setEmail("a.dalton@jail.com");
-//
-//        when(personDao.save(person)).thenReturn(false);
-//        mockMvc.perform(post("/person")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(new ObjectMapper().writeValueAsString(person)))
-//                .andExpect(status().isNoContent());
-//
-//        verify(personDao, times(1)).save(person);
-//    }
+        mockMvc.perform(post("/medicalrecord")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(medicalrecord)))
+                .andExpect(status().isCreated())// On vérifie que le code de réponse est "201 Created"
+                .andExpect(header().string("Location", "http://localhost/medicalrecord/Averell/Dalton"));
+
+        verify(medicalrecordDao, times(1)).save(medicalrecord);
+    }
+
+    @Test
+    public void testAddMedicalrecordNok() throws Exception {
+        // test 2 : le dossier médical existe déja dans le fichier : pas d'ajout
+        Medicalrecord medicalrecord = new Medicalrecord(
+                "Averell",
+                "Dalton",
+                "01/01/1900",
+                new ArrayList<>(Arrays.asList(
+                        "paracetamol:1000mg",
+                        "doliprane:500mg",
+                        "whisky: 2l")),
+                new ArrayList<>(Arrays.asList(
+                        "Lucky Luke",
+                        "Jail")));
+
+        when(medicalrecordDao.save(medicalrecord)).thenReturn(false);
+
+        mockMvc.perform(post("/medicalrecord")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(medicalrecord)))
+                .andExpect(status().isNoContent());
+
+        verify(medicalrecordDao, times(1)).save(medicalrecord);
+    }
 
 
     //***************************************************************************************************
     // TESTS REQUETES PUT
     //***************************************************************************************************
-//    @Test
-//    public void testPutPersonOk() throws Exception {
-//        // test 1 : La personne existe dans le fichier : modification possible
-//        Person person = new Person();
-//        person.setFirstName("Averell");
-//        person.setLastName("Dalton");
-//        person.setAddress("19 Saloon St");
-//        person.setCity("Daisy town");
-//        person.setZip("00000");
-//        person.setPhone("111-222-3333");
-//        person.setEmail("a.dalton@jail.com");
-//
-//        when(personDao.update(person)).thenReturn(true);
-//
-//        mockMvc.perform(put("/person")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(new ObjectMapper().writeValueAsString(person)))
-//                .andExpect(status().isOk());
-//
-//        verify(personDao, times(1)).update(person);
-//    }
-//
-//
-//    @Test
-//    public void testPutPersonNok() throws Exception {
-//        // test 2 : La personne n'existe pas dans le fichier : modification impossible
-//        Person person = new Person();
-//        person.setFirstName("Averell");
-//        person.setLastName("Dalton");
-//        person.setAddress("19 Saloon St");
-//        person.setCity("Daisy town");
-//        person.setZip("00000");
-//        person.setPhone("111-222-3333");
-//        person.setEmail("a.dalton@jail.com");
-//
-//        mockMvc.perform(put("/person")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(new ObjectMapper().writeValueAsString(person)))
-//                .andExpect(status().isNoContent());
-//
-//        verify(personDao, times(1)).update(person);
-//    }
+    @Test
+    public void testUpdateMedicalrecordOk() throws Exception {
+        // test 1 : le dossier médical existe dans le fichier : modification possible
+        Medicalrecord medicalrecord = new Medicalrecord(
+                "Averell",
+                "Dalton",
+                "01/01/1900",
+                new ArrayList<>(Arrays.asList(
+                        "paracetamol:1000mg",
+                        "doliprane:500mg",
+                        "whisky: 2l")),
+                new ArrayList<>(Arrays.asList(
+                        "Lucky Luke",
+                        "Jail")));
+
+        when(medicalrecordDao.update(medicalrecord)).thenReturn(true);
+
+        mockMvc.perform(put("/medicalrecord")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(medicalrecord)))
+                .andExpect(status().isOk());
+
+        verify(medicalrecordDao, times(1)).update(medicalrecord);
+    }
+
+    @Test
+    public void testUpdateMedicalrecordNok() throws Exception {
+        // test 2 : le dossier médical  n'existe pas dans le fichier : modification impossible
+        Medicalrecord medicalrecord = new Medicalrecord(
+                "Averell",
+                "Dalton",
+                "01/01/1900",
+                new ArrayList<>(Arrays.asList(
+                        "paracetamol:1000mg",
+                        "doliprane:500mg",
+                        "whisky: 2l")),
+                new ArrayList<>(Arrays.asList(
+                        "Lucky Luke",
+                        "Jail")));
+
+        when(medicalrecordDao.update(medicalrecord)).thenReturn(false);
+
+        mockMvc.perform(put("/medicalrecord")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(medicalrecord)))
+                .andExpect(status().isNoContent());
+
+        verify(medicalrecordDao, times(1)).update(medicalrecord);
+    }
+
 
     //***************************************************************************************************
     // TESTS REQUETES DELETE
     //***************************************************************************************************
-//    @Test
-//    public void testDelatePersonOk() throws Exception {
-//        when(personDao.delete("Averell", "Dalton")).thenReturn(true);
-//        mockMvc.perform(delete("/person/Averell/Dalton"));
-//
-//    }
-//
-//    @Test
-//    public void testDeletePersonNok() throws Exception {
-//        // test 2 : la personne n'existe pas
-//        when(personDao.delete("Averell", "Dalton")).thenReturn(false);
-//        mockMvc.perform(get("/person/Averell/Dalton"))
-//                .andExpect(status().isNoContent());
-//    }
+    @Test
+    public void testDeleteMedicalrecordOk() throws Exception {
+        // test 1 : le dossier médical existe : suppression possible
+        when(medicalrecordDao.delete("Averell", "Dalton")).thenReturn(true);
+        mockMvc.perform(delete("/medicalrecord/Averell/Dalton"))
+                .andExpect(status().isOk());
+        verify(medicalrecordDao, times(1)).delete("Averell", "Dalton");
+
+    }
+
+    @Test
+    public void testDeleteMedicalrecordNok() throws Exception {
+        // test 2 : le dossier médical n'existe pas : suppression impossible
+        when(medicalrecordDao.delete("Averell", "Dalton")).thenReturn(false);
+        mockMvc.perform(delete("/medicalrecord/Averell/Dalton"))
+                .andExpect(status().isNoContent());
+        verify(medicalrecordDao, times(1)).delete("Averell", "Dalton");
+    }
 
 }

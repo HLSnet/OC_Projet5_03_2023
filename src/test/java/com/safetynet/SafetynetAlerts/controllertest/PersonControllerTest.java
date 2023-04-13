@@ -188,6 +188,7 @@ public class PersonControllerTest {
         //***************************************************************************************************
         @Test
         public void testDeletePersonOk() throws Exception {
+                // test 1 : la personne existe : suppression possible
                 when(personDao.delete("Averell", "Dalton")).thenReturn(true);
                 mockMvc.perform(delete("/person/Averell/Dalton"))
                       .andExpect(status().isOk());
@@ -197,7 +198,7 @@ public class PersonControllerTest {
 
         @Test
         public void testDeletePersonNok() throws Exception {
-                // test 2 : la personne n'existe pas
+                // test 2 : la personne n'existe pas : suppression impossible
                 when(personDao.delete("Averell", "Dalton")).thenReturn(false);
                 mockMvc.perform(delete("/person/Averell/Dalton"))
                         .andExpect(status().isNoContent());
