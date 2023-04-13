@@ -51,24 +51,7 @@ public class MedicalRecordControllerTest {
     @Test
     public void testGetMedicalrecordOk() throws Exception {
         // test 1 : le dossier médical existe
-        List<Medicalrecord> medicalrecords = new ArrayList<>();
-
         Medicalrecord medicalrecord = new Medicalrecord(
-                "Sophia",
-                "Zemicks",
-                "03/06/1988",
-                new ArrayList<>(Arrays.asList(
-                        "aznol:60mg",
-                        "hydrapermazol:900mg",
-                        "pharmacol:5000mg",
-                        "terazine:500mg")),
-                new ArrayList<>(Arrays.asList(
-                        "peanut",
-                        "shellfish",
-                        "aznol")));
-        medicalrecords.add(medicalrecord);
-
-        medicalrecord = new Medicalrecord(
                 "Averell",
                 "Dalton",
                 "01/01/1900",
@@ -79,39 +62,33 @@ public class MedicalRecordControllerTest {
                 new ArrayList<>(Arrays.asList(
                         "Lucky Luke",
                         "Jail")));
-        medicalrecords.add(medicalrecord);
-
-
-
-
-
 
         when(medicalrecordDao.findByName("Averell", "Dalton")).thenReturn(medicalrecord);
-//
-//        mockMvc.perform(get("/medicalrecord/Averell/Dalton"))
-//                .andExpect(status().isOk())
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.firstName").value("Averell"))
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.lastName").value("Dalton"))
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.address").value("19 Saloon St"))
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.city").value("Daisy town"))
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.zip").value("00000"))
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.phone").value("111-222-3333"))
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("a.dalton@jail.com"));
-//
-//        verify(personDao, times(1)).findByName("Averell", "Dalton");
-//
-//    }
 
-//    @Test
-//    public void testGetPersonNok() throws Exception {
-//        // test 2 : la personne n'existe pas
-//        when(personDao.findByName("Averell", "Dalton")).thenReturn(null);
-//        mockMvc.perform(get("/person/Averell/Dalton"))
-//                .andExpect(status().isNoContent());
-//
-//        verify(personDao, times(1)).findByName("Averell", "Dalton");
-//    }
-//
+        mockMvc.perform(get("/medicalrecord/Averell/Dalton"))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.firstName").value("Averell"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.lastName").value("Dalton"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.birthdate").value("01/01/1900"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.medications.[0]").value("paracetamol:1000mg"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.medications.[1]").value("doliprane:500mg"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.medications.[2]").value("whisky: 2l"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.allergies.[0]").value("Lucky Luke"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.allergies.[1]").value("Jail"));
+
+        verify(medicalrecordDao, times(1)).findByName("Averell", "Dalton");
+    }
+
+    @Test
+    public void testGetMedicalrecordNok() throws Exception {
+        // test 2 : la personne n'existe pas
+        when(medicalrecordDao.findByName("Averell", "Dalton")).thenReturn(null);
+        mockMvc.perform(get("/medicalrecord/Averell/Dalton"))
+                .andExpect(status().isNoContent());
+
+        verify(medicalrecordDao, times(1)).findByName("Averell", "Dalton");
+    }
+
 
     //***************************************************************************************************
     // TESTS REQUETES POST

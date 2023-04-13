@@ -38,19 +38,20 @@ public class FloodPersonDto {
         this.age = age;
     }
 
+    public ArrayList<String> getMedications() {
+        return new ArrayList<>(this.medications);
+    }
+
     public void setMedications(ArrayList<String> medications) {
-        ArrayList<String> medicationsToSet = new ArrayList<>(medications);
-        this.medications = medicationsToSet;
+        this.medications = new ArrayList<>(medications);
     }
 
     public ArrayList<String> getAllergies() {
-        ArrayList<String> allergies = new ArrayList<>(this.allergies);
-        return allergies;
+        return new ArrayList<>(this.allergies);
     }
 
     public void setAllergies(ArrayList<String> allergies) {
-        ArrayList<String> allergiesToSet = new ArrayList<>(allergies);
-        this.allergies = allergiesToSet;
+        this.allergies = new ArrayList<>(allergies);
     }
 
     public String getPhone() {
@@ -61,9 +62,7 @@ public class FloodPersonDto {
         return age;
     }
 
-    public ArrayList<String> getMedications() {
-        return medications;
-    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -83,8 +82,8 @@ public class FloodPersonDto {
         this.lastName = lastName;
         this.phone = phone;
         this.age = age;
-        this.medications = medications;
-        this.allergies = allergies;
+        this.medications = new ArrayList<>(medications);
+        this.allergies = new ArrayList<>(allergies);
     }
 
     public FloodPersonDto() {

@@ -55,23 +55,19 @@ public class FirePersonDto {
     }
 
     public ArrayList<String> getMedications() {
-        return medications;
+        return new ArrayList<>(this.medications);
     }
 
     public void setMedications(ArrayList<String> medications) {
-        ArrayList<String> medicationsToSet = new ArrayList<>(medications);
-        this.medications = medicationsToSet;
+        this.medications = new ArrayList<>(medications);
     }
 
-
     public ArrayList<String> getAllergies() {
-        ArrayList<String> allergies = new ArrayList<>(this.allergies);
-        return allergies;
+       return new ArrayList<>(this.allergies);
     }
 
     public void setAllergies(ArrayList<String> allergies) {
-        ArrayList<String> allergiesToSet = new ArrayList<>(allergies);
-        this.allergies = allergiesToSet;
+        this.allergies = new ArrayList<>(allergies);
     }
 
     @Override
@@ -93,8 +89,8 @@ public class FirePersonDto {
         this.phone = phone;
         this.age = age;
         this.email = email;
-        this.medications = medications;
-        this.allergies = allergies;
+        this.medications = new ArrayList<>(medications);
+        this.allergies = new ArrayList<>(allergies);
     }
 
     public FirePersonDto() {

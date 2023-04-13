@@ -46,7 +46,7 @@ public class PersonController {
 
     // Ajouter une personne
     @PostMapping(value = "/person")
-    public ResponseEntity<String> addPerson(@RequestBody Person person) {
+    public ResponseEntity<Void> addPerson(@RequestBody Person person) {
 
         if (!personDao.save(person)) {
             //On renvoie le code : "204 No Content"
@@ -69,7 +69,7 @@ public class PersonController {
     // Mettre à jour une personne existante (pour le moment, supposons que le prénom et le nom de
     // famille ne changent pas, mais que les autres champs peuvent être modifiés)
     @PutMapping(value = "/person")
-    public ResponseEntity<String> updatePerson(@RequestBody Person person) {
+    public ResponseEntity<Void> updatePerson(@RequestBody Person person) {
 
         if (!personDao.update(person)) {
             //Si la personne n'existe pas dans le fichier : on renvoie le code : "204 No Content"
@@ -85,7 +85,7 @@ public class PersonController {
 
     // Supprimer une personne (utilisez une combinaison de prénom et de nom comme identificateur unique).
     @DeleteMapping(value = "/person/{firstName}/{lastName}")
-    public ResponseEntity<String> deletePerson(@PathVariable String firstName, @PathVariable  String lastName) {
+    public ResponseEntity<Void> deletePerson(@PathVariable String firstName, @PathVariable  String lastName) {
 
         if (!personDao.delete(firstName, lastName)) {
             //Si la personne n'existe pas dans le fichier : on renvoie le code : "204 No Content"

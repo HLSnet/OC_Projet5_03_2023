@@ -12,17 +12,6 @@ public class InfoPersonDto {
     private ArrayList<String> medications;
     private ArrayList<String> allergies;
 
-    public int getAge() {
-        return age;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public ArrayList<String> getMedications() {
-        return medications;
-    }
 
     public String getLastName() {
         return lastName;
@@ -40,27 +29,36 @@ public class InfoPersonDto {
         this.address = address;
     }
 
+    public int getAge() {
+        return age;
+    }
+
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
     }
 
+    public ArrayList<String> getMedications() {
+        return new ArrayList<>(this.medications);
+    }
+
     public void setMedications(ArrayList<String> medications) {
-        ArrayList<String> medicationsToSet = new ArrayList<>(medications);
-        this.medications = medicationsToSet;
+        this.medications = new ArrayList<>(medications);
     }
 
     public ArrayList<String> getAllergies() {
-        ArrayList<String> allergies = new ArrayList<>(this.allergies);
-        return allergies;
+        return new ArrayList<>(this.allergies);
     }
 
     public void setAllergies(ArrayList<String> allergies) {
-        ArrayList<String> allergiesToSet = new ArrayList<>(allergies);
-        this.allergies = allergiesToSet;
+        this.allergies = new ArrayList<>(allergies);
     }
 
     @Override
@@ -81,8 +79,8 @@ public class InfoPersonDto {
         this.address = address;
         this.age = age;
         this.email = email;
-        this.medications = medications;
-        this.allergies = allergies;
+        this.medications = new ArrayList<>(medications);
+        this.allergies = new ArrayList<>(allergies);
     }
 
     public InfoPersonDto() {

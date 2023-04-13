@@ -11,7 +11,7 @@ public class FirestationDto {
     private int nbChild = 0;
 
     public FirestationDto(List<FirestationPersonDto> persons, int nbAdult, int nbChild) {
-        this.persons = persons;
+        this.persons = new ArrayList<>(persons);
         this.nbAdult = nbAdult;
         this.nbChild = nbChild;
     }
@@ -20,13 +20,11 @@ public class FirestationDto {
     }
 
     public List<FirestationPersonDto> getPersons() {
-        List<FirestationPersonDto> persons = new ArrayList<>(this.persons);
-        return persons;
+               return new ArrayList<>(this.persons);
     }
 
     public void setPersons(List<FirestationPersonDto> persons) {
-        List<FirestationPersonDto> personsToSet = new ArrayList<>(persons);
-        this.persons = personsToSet;
+        this.persons = new ArrayList<>(persons);
     }
 
     public int getNbAdult() {

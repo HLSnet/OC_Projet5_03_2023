@@ -47,7 +47,7 @@ public class MedicalRecordController {
 
     // Ajouter un medicalrecord
     @PostMapping(value = "/medicalrecord")
-    public ResponseEntity<Medicalrecord> addMedicalrecord(@RequestBody Medicalrecord medicalrecord) {
+    public ResponseEntity<Void> addMedicalrecord(@RequestBody Medicalrecord medicalrecord) {
 
         if (!medicalrecordDao.save(medicalrecord)) {
             //On renvoie le code : "204 No Content"
@@ -70,7 +70,7 @@ public class MedicalRecordController {
     // Mettre à jour un dossier médical existant (pour le moment, supposons que le prénom et le nom de
     // famille ne changent pas, mais que les autres champs peuvent être modifiés)
     @PutMapping(value = "/medicalrecord")
-    public ResponseEntity<Medicalrecord> updateMedicalrecord(@RequestBody Medicalrecord medicalrecord) {
+    public ResponseEntity<Void> updateMedicalrecord(@RequestBody Medicalrecord medicalrecord) {
 
         if (!medicalrecordDao.update(medicalrecord)) {
             //Si le dossier médical n'existe pas dans le fichier : on renvoie le code : "204 No Content"
@@ -86,7 +86,7 @@ public class MedicalRecordController {
 
     // Supprimer un dossier médical (utilisez une combinaison de prénom et de nom comme identificateur unique).
     @DeleteMapping(value = "/medicalrecord/{firstName}/{lastName}")
-    public ResponseEntity<Medicalrecord> deletePerson(@PathVariable String firstName, @PathVariable  String lastName) {
+    public ResponseEntity<Void> deletePerson(@PathVariable String firstName, @PathVariable  String lastName) {
 
         if (!medicalrecordDao.delete(firstName, lastName)) {
             //Si le dossier médical n'existe pas dans le fichier : on renvoie le code : "204 No Content"

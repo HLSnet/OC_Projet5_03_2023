@@ -34,20 +34,18 @@ public class ChildAlertDto {
     }
 
     public List<ChildAlertPersonDto> getHouseholdMembers() {
-        List<ChildAlertPersonDto> householdMembers = new ArrayList<>(this.householdMembers);
-        return householdMembers;
+        return new ArrayList<>(this.householdMembers);
     }
 
     public void setHouseholdMembers(List<ChildAlertPersonDto> householdMembers) {
-        List<ChildAlertPersonDto> householdMembersToSet = new ArrayList<>(householdMembers);
-        this.householdMembers = householdMembersToSet;
+        this.householdMembers = new ArrayList<>(householdMembers);
     }
 
     public ChildAlertDto(String firstName, String lastName, int age, List<ChildAlertPersonDto> householdMembers) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
-        this.householdMembers = householdMembers;
+        this.householdMembers = new ArrayList<>(householdMembers);
     }
 
     public ChildAlertDto() {

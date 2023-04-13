@@ -187,9 +187,11 @@ public class PersonControllerTest {
         // TESTS REQUETES DELETE
         //***************************************************************************************************
         @Test
-        public void testDelatePersonOk() throws Exception {
+        public void testDeletePersonOk() throws Exception {
                 when(personDao.delete("Averell", "Dalton")).thenReturn(true);
-                mockMvc.perform(delete("/person/Averell/Dalton"));
+                mockMvc.perform(delete("/person/Averell/Dalton"))
+                      .andExpect(status().isOk());
+                verify(personDao, times(1)).delete("Averell", "Dalton");
 
         }
 
@@ -197,7 +199,8 @@ public class PersonControllerTest {
         public void testDeletePersonNok() throws Exception {
                 // test 2 : la personne n'existe pas
                 when(personDao.delete("Averell", "Dalton")).thenReturn(false);
-                mockMvc.perform(get("/person/Averell/Dalton"))
+                mockMvc.perform(delete("/person/Averell/Dalton"))
                         .andExpect(status().isNoContent());
+                verify(personDao, times(1)).delete("Averell", "Dalton");
         }
 }

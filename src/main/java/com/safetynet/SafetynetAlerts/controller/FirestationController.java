@@ -59,7 +59,7 @@ public class FirestationController {
 
     // Ajouter un mapping caserne/adresse
     @PostMapping(value = "/firestations")
-    public ResponseEntity<Firestation> addFirestation(@RequestBody Firestation firestation) {
+    public ResponseEntity<Void> addFirestation(@RequestBody Firestation firestation) {
 
         if (!firestationDao.save(firestation)) {
             //On renvoie le code : "204 No Content"
@@ -75,7 +75,7 @@ public class FirestationController {
 
     // Mettre à jour le numéro de la caserne de pompiers d'une adresse
     @PutMapping(value = "/firestations")
-    public ResponseEntity<Firestation> updateFirestation(@RequestBody Firestation firestation) {
+    public ResponseEntity<Void> updateFirestation(@RequestBody Firestation firestation) {
 
         if (!firestationDao.update(firestation)) {
             //Si le mapping caserne/adresse n'existe pas dans le fichier : on renvoie le code : "204 No Content"
@@ -91,7 +91,7 @@ public class FirestationController {
 
     //  Supprimer le mapping d'une caserne
     @DeleteMapping(value= "/firestations/{stationNumber}")
-    public ResponseEntity<Firestation> deleteStation(@PathVariable int stationNumber) {
+    public ResponseEntity<Void> deleteStation(@PathVariable int stationNumber) {
 
         if (!firestationDao.deleteStation(stationNumber)) {
             //Si la station n'est dans aucun mapping caserne/adresse : on renvoie le code : "204 No Content"
@@ -103,7 +103,7 @@ public class FirestationController {
 
     //  Supprimer le mapping d'une adresse
     @DeleteMapping(value= "/firestations/adress/{adress}")
-    public ResponseEntity<Firestation> deleteAdress(@PathVariable String adress) {
+    public ResponseEntity<Void> deleteAdress(@PathVariable String adress) {
 
         if (!firestationDao.deleteAdress(adress)) {
             //Si le mapping caserne/adresse pas dans le fichier : on renvoie le code : "204 No Content"

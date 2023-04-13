@@ -17,13 +17,11 @@ public class FireDto {
     }
 
     public List<FirePersonDto> getHouseholdMembers() {
-        List<FirePersonDto> householdMembers = new ArrayList<>(this.householdMembers);
-        return householdMembers;
+        return new ArrayList<>(this.householdMembers);
     }
 
     public void setHouseholdMembers(List<FirePersonDto> householdMembers) {
-        List<FirePersonDto> householdMembersToSet = new ArrayList<>(householdMembers);
-        this.householdMembers = householdMembersToSet;
+        this.householdMembers = new ArrayList<>(householdMembers);
     }
 
     @Override
@@ -41,7 +39,7 @@ public class FireDto {
 
     public FireDto(int station, List<FirePersonDto> householdMembers) {
         this.station = station;
-        this.householdMembers = householdMembers;
+        this.householdMembers = new ArrayList<>(householdMembers);
     }
 
     public FireDto() {
