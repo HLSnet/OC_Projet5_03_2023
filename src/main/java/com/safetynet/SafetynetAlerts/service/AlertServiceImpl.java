@@ -56,12 +56,12 @@ public class AlertServiceImpl implements AlertService{
                             person.getAddress(),
                             person.getPhone());
 
-                    // On récupère la listes (une copie) des personnes correspondant au critère de recherche
-                    List<FirestationPersonDto> listFirestationPersonDto = firestationDto.getPersons();
+                    // On récupère la liste (une copie) des personnes correspondant au critère de recherche
+                    List<FirestationPersonDto> firestationPersonDtos = firestationDto.getPersons();
                     // On y ajoute la nouvelle personne
-                    listFirestationPersonDto.add(firestationPersonDto);
+                    firestationPersonDtos.add(firestationPersonDto);
                     // On met à jour la liste
-                    firestationDto.setPersons(listFirestationPersonDto);
+                    firestationDto.setPersons(firestationPersonDtos);
 
                     for (Medicalrecord medicalrecord: medicalrecords){
                         if (medicalrecord.getFirstName().equals(person.getFirstName())  && medicalrecord.getLastName().equals(person.getLastName())){

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -53,7 +54,7 @@ public class ServiceController {
         List<ChildAlertDto> childAlertDtos = alertService.getChildsdRelatedToAnAddress(address);
         if (Objects.isNull(childAlertDtos)) {
             // On renvoie le code : "204 No Content"
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.ok(Collections.emptyList());
         }
         return ResponseEntity.ok(childAlertDtos);
     }
