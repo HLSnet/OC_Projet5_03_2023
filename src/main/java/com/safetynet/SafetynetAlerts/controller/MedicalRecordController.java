@@ -23,6 +23,7 @@ public class MedicalRecordController {
     //***************************************************************************************************
 
     // Afficher toutes les medicalrecord
+    // http://localhost:8080/medicalrecord
     @GetMapping(value = "/medicalrecord")
     public List<Medicalrecord> getMedicalrecord() {
         return medicalrecordDao.findAll();
@@ -30,6 +31,7 @@ public class MedicalRecordController {
 
 
     // Afficher les informations d'un dossier médical en fournissant son lastName et firstName
+    // http://localhost:8080/medicalrecord/{firstName}/{lastName}
     @GetMapping(value = "/medicalrecord/{firstName}/{lastName}")
     public ResponseEntity<Medicalrecord> getMedicalrecord(@PathVariable String firstName, @PathVariable  String lastName) {
         Medicalrecord medicalrecordGot = medicalrecordDao.findByName(firstName, lastName);
@@ -42,10 +44,11 @@ public class MedicalRecordController {
     }
 
     //***************************************************************************************************
-    // REQUETES POST
+    // REQUETE POST
     //***************************************************************************************************
 
     // Ajouter un medicalrecord
+    // http://localhost:8080/medicalrecord
     @PostMapping(value = "/medicalrecord")
     public ResponseEntity<Void> addMedicalrecord(@RequestBody Medicalrecord medicalrecord) {
 
@@ -64,11 +67,12 @@ public class MedicalRecordController {
     }
 
     //***************************************************************************************************
-    // REQUETES PUT
+    // REQUETE PUT
     //***************************************************************************************************
 
     // Mettre à jour un dossier médical existant (pour le moment, supposons que le prénom et le nom de
     // famille ne changent pas, mais que les autres champs peuvent être modifiés)
+    // http://localhost:8080/medicalrecord
     @PutMapping(value = "/medicalrecord")
     public ResponseEntity<Void> updateMedicalrecord(@RequestBody Medicalrecord medicalrecord) {
 
@@ -81,10 +85,11 @@ public class MedicalRecordController {
     }
 
     //***************************************************************************************************
-    // REQUETES DELETE
+    // REQUETE DELETE
     //***************************************************************************************************
 
     // Supprimer un dossier médical (utilisez une combinaison de prénom et de nom comme identificateur unique).
+    // http://localhost:8080/medicalrecord/{firstName}/{lastName}
     @DeleteMapping(value = "/medicalrecord/{firstName}/{lastName}")
     public ResponseEntity<Void> deleteMedicalrecord(@PathVariable String firstName, @PathVariable  String lastName) {
 

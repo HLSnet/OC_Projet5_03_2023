@@ -32,12 +32,11 @@ public class ServiceTest {
     }
 
 
-
-//*********************************************************************************************************
-// URL1 : http://localhost:8080/firestation?stationNumber=<station_number>
-//
-// Tests unitaires de la méthode 'getPersonsRelatedToAStation' de la classe  AlertServiceImpl
-//*********************************************************************************************************
+    //*********************************************************************************************************
+    // URL1 : http://localhost:8080/firestation?stationNumber=<station_number>
+    //
+    // Tests unitaires de la méthode 'getPersonsRelatedToAStation' de la classe  AlertServiceImpl
+    //*********************************************************************************************************
     @Test
     void testFindPersonsWithAnExistingStation() {
         // ARRANGE
@@ -73,11 +72,11 @@ public class ServiceTest {
         assertNull(firestationDto);
     }
 
-//*********************************************************************************************************
-// URL2 :  http://localhost:8080/childAlert?address=<address>
-//
-// Tests unitaires de la méthode 'getChildsdRelatedToAnAddress' de la classe  AlertServiceImpl
-//*********************************************************************************************************
+    //*********************************************************************************************************
+    // URL2 :  http://localhost:8080/childAlert?address=<address>
+    //
+    // Tests unitaires de la méthode 'getChildsdRelatedToAnAddress' de la classe  AlertServiceImpl
+    //*********************************************************************************************************
     @Test
     void testFindChildsWithExistingAddress() {
         // ARRANGE , ACT
@@ -106,11 +105,11 @@ public class ServiceTest {
     }
 
 
-//*********************************************************************************************************
-// URL3 : http://localhost:8080/phoneAlert?firestation=<firestation_number>
-//
-// Tests unitaires de la méthode 'getPhoneRelatedToAStation' de la classe  AlertServiceImpl
-//*********************************************************************************************************
+    //*********************************************************************************************************
+    // URL3 : http://localhost:8080/phoneAlert?firestation=<firestation_number>
+    //
+    // Tests unitaires de la méthode 'getPhoneRelatedToAStation' de la classe  AlertServiceImpl
+    //*********************************************************************************************************
     @Test
     void  testFindPhoneNumbersWithExistingStation() {
         // ARRANGE, ACT
@@ -131,11 +130,11 @@ public class ServiceTest {
 
 
 
-//*********************************************************************************************************
-// URL4 : http://localhost:8080/fire?address=<address>
-//
-// Tests unitaires de la méthode 'getPersonsRelatedToAnAddress' de la classe  AlertServiceImpl
-//*********************************************************************************************************
+    //*********************************************************************************************************
+    // URL4 : http://localhost:8080/fire?address=<address>
+    //
+    // Tests unitaires de la méthode 'getPersonsRelatedToAnAddress' de la classe  AlertServiceImpl
+    //*********************************************************************************************************
     @Test
     void  testFindPersonsWithExistingAddress() {
         // ARRANGE, ACT
@@ -163,11 +162,11 @@ public class ServiceTest {
 
 
 
-//*********************************************************************************************************
-// URL5 : http://localhost:8080/flood/stations?stations=<a list of station_numbers>
-//
-// Tests unitaires de la méthode 'getHousesRelatedToAStation' de la classe  AlertServiceImpl
-//*********************************************************************************************************
+    //*********************************************************************************************************
+    // URL5 : http://localhost:8080/flood/stations?stations=<a list of station_numbers>
+    //
+    // Tests unitaires de la méthode 'getHousesRelatedToAStation' de la classe  AlertServiceImpl
+    //*********************************************************************************************************
     @Test
     void testFindPersonsWithExistingStations() {
         // ARRANGE
@@ -203,11 +202,11 @@ public class ServiceTest {
 
 
 
-//*********************************************************************************************************
-// URL6 : http://localhost:8080/personInfo?firstName=<firstName>&lastName=<lastName>
-//
-// Tests unitaires de la méthode 'getInfoPerson' de la classe  AlertServiceImpl
-//*********************************************************************************************************
+    //*********************************************************************************************************
+    // URL6 : http://localhost:8080/personInfo?firstName=<firstName>&lastName=<lastName>
+    //
+    // Tests unitaires de la méthode 'getInfoPerson' de la classe  AlertServiceImpl
+    //*********************************************************************************************************
     @Test
     void  testGetInfoPersonOfAnExistingPerson() {
         // ARRANGE, ACT
@@ -242,11 +241,11 @@ public class ServiceTest {
     }
 
 
-//*********************************************************************************************************
-// URL7 :  http://localhost:8080/communityEmail?city=<city>
-//
-// Tests unitaires de la méthode 'getMailRelatedToACity' de la classe  AlertServiceImpl
-//*********************************************************************************************************
+    //*********************************************************************************************************
+    // URL7 :  http://localhost:8080/communityEmail?city=<city>
+    //
+    // Tests unitaires de la méthode 'getMailRelatedToACity' de la classe  AlertServiceImpl
+    //*********************************************************************************************************
     @Test
     void  testFindMailsWithExistingCity() {
         // ARRANGE, ACT

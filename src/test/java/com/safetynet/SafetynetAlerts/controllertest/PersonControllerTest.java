@@ -47,11 +47,13 @@ public class PersonControllerTest {
 
 
         //***************************************************************************************************
-        // TESTS REQUETES GET
+        // TESTS REQUETE GET
+        //
+        // http://localhost:8080/person/{firstName}/{lastName}
         //***************************************************************************************************
         @Test
         public void testGetPersonOk() throws Exception {
-                // test 1 : la personne existe
+                // La personne existe
                 Person person = new Person(
                         "Averell",
                         "Dalton",
@@ -79,7 +81,7 @@ public class PersonControllerTest {
 
         @Test
         public void testGetPersonNok() throws Exception {
-        // test 2 : la personne n'existe pas
+        // La personne n'existe pas
         when(personDao.findByName("Averell", "Dalton")).thenReturn(null);
         mockMvc.perform(get("/person/Averell/Dalton"))
                 .andExpect(status().isNoContent());
@@ -89,11 +91,13 @@ public class PersonControllerTest {
 
 
         //***************************************************************************************************
-        // TESTS REQUETES POST
+        // TESTS REQUETE POST
+        //
+        // http://localhost:8080/person
         //***************************************************************************************************
         @Test
         public void testPostPersonOk() throws Exception {
-                // test 1 : La personne n'existe pas dans le fichier : ajout possible
+                // La personne n'existe pas dans le fichier : ajout possible
                 Person person = new Person(
                         "Averell",
                         "Dalton",
@@ -117,7 +121,7 @@ public class PersonControllerTest {
 
         @Test
         public void testPostPersonNok() throws Exception {
-                // test 2 : la personne existe déja dans le fichier : pas d'ajout
+                // La personne existe déja dans le fichier : pas d'ajout
                 Person person = new Person(
                         "Averell",
                         "Dalton",
@@ -138,11 +142,13 @@ public class PersonControllerTest {
 
 
         //***************************************************************************************************
-        // TESTS REQUETES PUT
+        // TESTS REQUETE PUT
+        //
+        // http://localhost:8080/person
         //***************************************************************************************************
         @Test
         public void testPutPersonOk() throws Exception {
-                // test 1 : La personne existe dans le fichier : modification possible
+                // La personne existe dans le fichier : modification possible
                 Person person = new Person(
                         "Averell",
                         "Dalton",
@@ -165,7 +171,7 @@ public class PersonControllerTest {
 
         @Test
         public void testPutPersonNok() throws Exception {
-                // test 2 : La personne n'existe pas dans le fichier : modification impossible
+                // La personne n'existe pas dans le fichier : modification impossible
                 Person person = new Person(
                         "Averell",
                         "Dalton",
@@ -184,11 +190,11 @@ public class PersonControllerTest {
         }
 
         //***************************************************************************************************
-        // TESTS REQUETES DELETE
+        // TESTS REQUETE DELETE
         //***************************************************************************************************
         @Test
         public void testDeletePersonOk() throws Exception {
-                // test 1 : la personne existe : suppression possible
+                // La personne existe : suppression possible
                 when(personDao.delete("Averell", "Dalton")).thenReturn(true);
                 mockMvc.perform(delete("/person/Averell/Dalton"))
                       .andExpect(status().isOk());
@@ -198,7 +204,7 @@ public class PersonControllerTest {
 
         @Test
         public void testDeletePersonNok() throws Exception {
-                // test 2 : la personne n'existe pas : suppression impossible
+                // La personne n'existe pas : suppression impossible
                 when(personDao.delete("Averell", "Dalton")).thenReturn(false);
                 mockMvc.perform(delete("/person/Averell/Dalton"))
                         .andExpect(status().isNoContent());

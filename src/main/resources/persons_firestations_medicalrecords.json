@@ -191,6 +191,14 @@
     "zip" : "00000",
     "phone" : "111-222-3333",
     "email" : "a.dalton@jail.com"
+  }, {
+    "firstName" : "Averellbis",
+    "lastName" : "Dalton",
+    "address" : "19 Saloon St",
+    "city" : "Daisy town",
+    "zip" : "00000",
+    "phone" : "111-222-3333",
+    "email" : "a.dalton@jail.com"
   } ],
   "medicalrecords" : [ {
     "firstName" : "John",
@@ -336,12 +344,30 @@
     "birthdate" : "01/01/1900",
     "medications" : [ "paracetamol:1000mg", "doliprane:500mg", "whisky: 2l" ],
     "allergies" : [ "Lucky Luke", "Jail" ]
+  }, {
+    "firstName" : "Averellbis",
+    "lastName" : "Dalton",
+    "birthdate" : "01/01/1900",
+    "medications" : [ "paracetamol:1000mg", "doliprane:500mg", "whisky: 2l" ],
+    "allergies" : [ "Lucky Luke", "Jail" ]
   } ],
   "firestations" : [ {
     "address" : "947 E. Rose Dr",
     "station" : 1
   }, {
+    "address" : "NowhereTer",
+    "station" : 1
+  }, {
     "address" : "908 73rd St",
+    "station" : 1
+  }, {
+    "address" : "NowhereTerminus",
+    "station" : 1
+  }, {
+    "address" : "NowhereTerminusnus",
+    "station" : 1
+  }, {
+    "address" : "Nowherebis",
     "station" : 1
   }, {
     "address" : "644 Gershwin Cir",

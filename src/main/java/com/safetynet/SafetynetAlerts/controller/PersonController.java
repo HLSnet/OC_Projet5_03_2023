@@ -22,6 +22,7 @@ public class PersonController {
     //***************************************************************************************************
 
     // Afficher toutes les personnes
+    // http://localhost:8080/person
     @GetMapping(value = "/person")
     public List<Person> getPersons() {
         List<Person> persons = personDao.findAll();
@@ -29,6 +30,7 @@ public class PersonController {
     }
 
     // Afficher les informations d'une personne en fournissant son lastName et firstName
+    // http://localhost:8080/person/{firstName}/{lastName}
     @GetMapping(value = "/person/{firstName}/{lastName}")
     public ResponseEntity<Person> getPerson(@PathVariable String firstName, @PathVariable  String lastName) {
         Person personGot = personDao.findByName(firstName, lastName);
@@ -41,10 +43,11 @@ public class PersonController {
     }
 
     //***************************************************************************************************
-    // REQUETES POST
+    // REQUETE POST
     //***************************************************************************************************
 
     // Ajouter une personne
+    // http://localhost:8080/person
     @PostMapping(value = "/person")
     public ResponseEntity<Void> addPerson(@RequestBody Person person) {
 
@@ -63,11 +66,12 @@ public class PersonController {
     }
 
     //***************************************************************************************************
-    // REQUETES PUT
+    // REQUETE PUT
     //***************************************************************************************************
 
     // Mettre à jour une personne existante (pour le moment, supposons que le prénom et le nom de
     // famille ne changent pas, mais que les autres champs peuvent être modifiés)
+    // http://localhost:8080/person
     @PutMapping(value = "/person")
     public ResponseEntity<Void> updatePerson(@RequestBody Person person) {
 
@@ -80,10 +84,11 @@ public class PersonController {
     }
 
     //***************************************************************************************************
-    // REQUETES DELETE
+    // REQUETE DELETE
     //***************************************************************************************************
 
     // Supprimer une personne (utilisez une combinaison de prénom et de nom comme identificateur unique).
+    // http://localhost:8080/person/{firstName}/{lastName}
     @DeleteMapping(value = "/person/{firstName}/{lastName}")
     public ResponseEntity<Void> deletePerson(@PathVariable String firstName, @PathVariable  String lastName) {
 

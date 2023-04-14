@@ -32,9 +32,9 @@ public class MedicalrecordTest {
     private MedicalrecordDao medicalrecordDaoImpl;
 
 
-//*********************************************************************************************************
-//  Tests unitaires de la méthode 'findBy' de la classe  MedicalrecordDao
-//*********************************************************************************************************
+    //*********************************************************************************************************
+    //  Tests unitaires de la méthode 'findBy' de la classe  MedicalrecordDao
+    //*********************************************************************************************************
     @Test
     void testFindAnExistingMedicalrecordDao() {
         // ARRANGE, ACT
@@ -58,9 +58,9 @@ public class MedicalrecordTest {
     }
 
 
-//*********************************************************************************************************
-//  Tests unitaires de la méthode 'save' de la classe  MedicalrecordDao
-//*********************************************************************************************************
+    //*********************************************************************************************************
+    //  Tests unitaires de la méthode 'save' de la classe  MedicalrecordDao
+    //*********************************************************************************************************
     @Test
     void testSaveNewPerson() {
         // ARRANGE
@@ -123,9 +123,9 @@ public class MedicalrecordTest {
     }
 
 
-//*********************************************************************************************************
-//  Tests unitaires de la méthode 'update' de la classe  MedicalrecordDao
-//*********************************************************************************************************
+    //*********************************************************************************************************
+    //  Tests unitaires de la méthode 'update' de la classe  MedicalrecordDao
+    //*********************************************************************************************************
     @Test
     void testUpdateAnExistingPerson() {
         // ARRANGE
@@ -190,8 +190,8 @@ public class MedicalrecordTest {
     }
 
     //*********************************************************************************************************
-//  Tests unitaires de la méthode 'delete' de la classe  MedicalrecordDao
-//*********************************************************************************************************
+    //  Tests unitaires de la méthode 'delete' de la classe  MedicalrecordDao
+    //*********************************************************************************************************
     @Test
     void testDeleteAnExistingPerson() {
         // ARRANGE

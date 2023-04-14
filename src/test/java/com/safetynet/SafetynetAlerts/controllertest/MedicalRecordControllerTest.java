@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.safetynet.safetynetalerts.controller.MedicalRecordController;
 import com.safetynet.safetynetalerts.datatest.SetupJsonFile;
 import com.safetynet.safetynetalerts.model.Medicalrecord;
-import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.repository.JasonFileIO;
 import com.safetynet.safetynetalerts.repository.MedicalrecordDao;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +18,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import static com.safetynet.safetynetalerts.constants.DBConstants.JSONFILE_TEST_BAK_PATHNAME;
 import static com.safetynet.safetynetalerts.constants.DBConstants.JSONFILE_TEST_PATHNAME;
@@ -46,11 +44,13 @@ public class MedicalRecordControllerTest {
     }
 
     //***************************************************************************************************
-    // TESTS REQUETES GET
+    // TESTS REQUETE GET
+    //
+    // http://localhost:8080/medicalrecord/{firstName}/{lastName}
     //***************************************************************************************************
     @Test
     public void testGetMedicalrecordOk() throws Exception {
-        // test 1 : le dossier médical existe
+        // Le dossier médical existe
         Medicalrecord medicalrecord = new Medicalrecord(
                 "Averell",
                 "Dalton",
@@ -81,7 +81,7 @@ public class MedicalRecordControllerTest {
 
     @Test
     public void testGetMedicalrecordNok() throws Exception {
-        // test 2 : la personne n'existe pas
+        // La personne n'existe pas
         when(medicalrecordDao.findByName("Averell", "Dalton")).thenReturn(null);
         mockMvc.perform(get("/medicalrecord/Averell/Dalton"))
                 .andExpect(status().isNoContent());
@@ -91,11 +91,13 @@ public class MedicalRecordControllerTest {
 
 
     //***************************************************************************************************
-    // TESTS REQUETES POST
+    // TESTS REQUETE POST
+    //
+    // http://localhost:8080/medicalrecord
     //***************************************************************************************************
     @Test
     public void testAddMedicalrecordOk() throws Exception {
-        // test 1 : le dossier médical n'existe pas dans le fichier : ajout possible
+        // Le dossier médical n'existe pas dans le fichier : ajout possible
         Medicalrecord medicalrecord = new Medicalrecord(
                 "Averell",
                 "Dalton",
@@ -121,7 +123,7 @@ public class MedicalRecordControllerTest {
 
     @Test
     public void testAddMedicalrecordNok() throws Exception {
-        // test 2 : le dossier médical existe déja dans le fichier : pas d'ajout
+        // Le dossier médical existe déja dans le fichier : pas d'ajout
         Medicalrecord medicalrecord = new Medicalrecord(
                 "Averell",
                 "Dalton",
@@ -146,11 +148,13 @@ public class MedicalRecordControllerTest {
 
 
     //***************************************************************************************************
-    // TESTS REQUETES PUT
+    // TESTS REQUETE PUT
+    //
+    // http://localhost:8080/medicalrecord
     //***************************************************************************************************
     @Test
     public void testUpdateMedicalrecordOk() throws Exception {
-        // test 1 : le dossier médical existe dans le fichier : modification possible
+        // Le dossier médical existe dans le fichier : modification possible
         Medicalrecord medicalrecord = new Medicalrecord(
                 "Averell",
                 "Dalton",
@@ -175,7 +179,7 @@ public class MedicalRecordControllerTest {
 
     @Test
     public void testUpdateMedicalrecordNok() throws Exception {
-        // test 2 : le dossier médical  n'existe pas dans le fichier : modification impossible
+        // Le dossier médical  n'existe pas dans le fichier : modification impossible
         Medicalrecord medicalrecord = new Medicalrecord(
                 "Averell",
                 "Dalton",
@@ -200,11 +204,13 @@ public class MedicalRecordControllerTest {
 
 
     //***************************************************************************************************
-    // TESTS REQUETES DELETE
+    // TESTS REQUETE DELETE
+    //
+    // http://localhost:8080/medicalrecord/{firstName}/{lastName}
     //***************************************************************************************************
     @Test
     public void testDeleteMedicalrecordOk() throws Exception {
-        // test 1 : le dossier médical existe : suppression possible
+        // Le dossier médical existe : suppression possible
         when(medicalrecordDao.delete("Averell", "Dalton")).thenReturn(true);
         mockMvc.perform(delete("/medicalrecord/Averell/Dalton"))
                 .andExpect(status().isOk());
@@ -214,7 +220,7 @@ public class MedicalRecordControllerTest {
 
     @Test
     public void testDeleteMedicalrecordNok() throws Exception {
-        // test 2 : le dossier médical n'existe pas : suppression impossible
+        // Le dossier médical n'existe pas : suppression impossible
         when(medicalrecordDao.delete("Averell", "Dalton")).thenReturn(false);
         mockMvc.perform(delete("/medicalrecord/Averell/Dalton"))
                 .andExpect(status().isNoContent());
