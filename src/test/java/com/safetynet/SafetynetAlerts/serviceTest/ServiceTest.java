@@ -201,7 +201,6 @@ public class ServiceTest {
 }
 
 
-
     //*********************************************************************************************************
     // URL6 : http://localhost:8080/personInfo?firstName=<firstName>&lastName=<lastName>
     //
@@ -257,7 +256,7 @@ public class ServiceTest {
     }
 
     @Test
-    void testFindMailsWithNoExistingAddress() {
+    void testFindMailsWithNoExistingCity() {
         // ARRANGE,  ACT
         List<String> mails = alertService.getMailsRelatedToACity("Paris");
 

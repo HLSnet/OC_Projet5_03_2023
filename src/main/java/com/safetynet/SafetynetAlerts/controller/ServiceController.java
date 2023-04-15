@@ -53,7 +53,7 @@ public class ServiceController {
     public ResponseEntity<List<ChildAlertDto>>  getChildsdRelatedToAnAddress(@RequestParam String address){
         List<ChildAlertDto> childAlertDtos = alertService.getChildsdRelatedToAnAddress(address);
         if (Objects.isNull(childAlertDtos)) {
-            // On renvoie le code : "204 No Content"
+            // On renvoie le code : "200 ok" avec une liste vide
             return ResponseEntity.ok(Collections.emptyList());
         }
         return ResponseEntity.ok(childAlertDtos);
@@ -70,8 +70,8 @@ public class ServiceController {
 
         List<String> phoneNumbers = alertService.getPhoneNumbersRelatedToAStation(firestation);
         if (Objects.isNull(phoneNumbers)) {
-            // On renvoie le code : "204 No Content"
-            return ResponseEntity.noContent().build();
+            // On renvoie le code : "200 ok" avec une liste vide
+            return ResponseEntity.ok(Collections.emptyList());
         }
         return ResponseEntity.ok(phoneNumbers);
     }
@@ -122,8 +122,8 @@ public class ServiceController {
     public ResponseEntity<List<InfoPersonDto>> getInfoPerson(@RequestParam String firstName, @RequestParam String lastName){
         List<InfoPersonDto> InfoPersonDtos = alertService.getInfoPerson(firstName, lastName);
         if (Objects.isNull(InfoPersonDtos)) {
-            // On renvoie le code : "204 No Content"
-            return ResponseEntity.noContent().build();
+            // On renvoie le code : "200 ok" avec une liste vide
+            return ResponseEntity.ok(Collections.emptyList());
         }
         return ResponseEntity.ok(InfoPersonDtos);
     }
@@ -138,8 +138,8 @@ public class ServiceController {
 
         List<String> mails = alertService.getMailsRelatedToACity(city);
         if (Objects.isNull(mails)) {
-            // On renvoie le code : "204 No Content"
-            return ResponseEntity.noContent().build();
+            // On renvoie le code : "200 ok" avec une liste vide
+            return ResponseEntity.ok(Collections.emptyList());
         }
         return ResponseEntity.ok(mails);
     }
