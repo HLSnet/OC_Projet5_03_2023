@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @RestController
@@ -101,13 +102,13 @@ public class ServiceController {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // http://localhost:8080/flood/stations?stations=<a list of station_numbers>
     @GetMapping("flood/stations")
-        public ResponseEntity<FloodDto>  getHousesRelatedToAListOfStations(@RequestParam List<Integer> stations){
-            FloodDto floodDto = alertService.getHousesRelatedToAListOfStations(stations);
-            if (Objects.isNull(floodDto)) {
+        public ResponseEntity< Map<String, List<FloodDto>>>  getHousesRelatedToAListOfStations(@RequestParam List<Integer> stations){
+        Map<String, List<FloodDto>> floodDtos = alertService.getHousesRelatedToAListOfStations(stations);
+            if (Objects.isNull(floodDtos)) {
                 // On renvoie le code : "204 No Content"
                 return ResponseEntity.noContent().build();
             }
-            return ResponseEntity.ok(floodDto);
+            return ResponseEntity.ok(floodDtos);
     }
 
 

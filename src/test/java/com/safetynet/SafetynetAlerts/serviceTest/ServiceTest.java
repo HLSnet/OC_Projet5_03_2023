@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import static com.safetynet.safetynetalerts.constants.DBConstants.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -172,7 +173,7 @@ public class ServiceTest {
         // ARRANGE
         List<Integer> stations = Arrays.asList(3,4);
 
-        FloodPersonDto floodPersonDto = new FloodPersonDto(
+        FloodDto floodPersonDto = new FloodDto(
                 "Felicia",
                 "Boyd",
                 "841-874-6544",
@@ -181,12 +182,12 @@ public class ServiceTest {
                 new ArrayList<>(Arrays.asList("xilliathal")));
 
         // ACT
-        FloodDto floodDto = alertService.getHousesRelatedToAListOfStations(stations);
+        Map<String, List<FloodDto>> floodDto = alertService.getHousesRelatedToAListOfStations(stations);
 
         // ASSERT
-        assertEquals(floodDto.getMapHousePersons().size(), 5);
-        assertEquals(floodDto.getMapHousePersons().get("112 Steppes Pl").size(), 3);
-        assertTrue(floodDto.getMapHousePersons().get("1509 Culver St").contains(floodPersonDto));
+        assertEquals(floodDto.size(), 5);
+        assertEquals(floodDto.get("112 Steppes Pl").size(), 3);
+        assertTrue(floodDto.get("1509 Culver St").contains(floodPersonDto));
     }
     @Test
     void testFindPersonsWithNoExistingStations() {
@@ -194,7 +195,7 @@ public class ServiceTest {
         List<Integer> stations = Arrays.asList(20,30);
 
         // ACT
-        FloodDto floodDto = alertService.getHousesRelatedToAListOfStations(stations);
+        Map<String, List<FloodDto>> floodDto = alertService.getHousesRelatedToAListOfStations(stations);
 
         // ASSERT
         assertNull(floodDto);

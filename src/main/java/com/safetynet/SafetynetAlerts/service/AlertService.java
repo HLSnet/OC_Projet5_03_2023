@@ -4,6 +4,7 @@ package com.safetynet.safetynetalerts.service;
 import com.safetynet.safetynetalerts.dto.*;
 
 import java.util.List;
+import java.util.Map;
 
 
 public interface AlertService  {
@@ -16,7 +17,7 @@ public interface AlertService  {
 
         public FireDto getPersonsRelatedToAnAddress(String address);
 
-        public FloodDto getHousesRelatedToAListOfStations(List<Integer> stations);
+        public Map<String, List<FloodDto>> getHousesRelatedToAListOfStations(List<Integer> stations);
 
         public List<InfoPersonDto> getInfoPerson(String firstName, String lastName);
 

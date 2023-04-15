@@ -193,13 +193,14 @@ public class AlertServiceImpl implements AlertService{
     ////////////////////////////////////////////////////////////////////////////////////
     // URL5 : http://localhost:8080/flood/stations?stations=<a list of station_numbers>
     ////////////////////////////////////////////////////////////////////////////////////
-    public FloodDto getHousesRelatedToAListOfStations(List<Integer> stations) {
-        FloodDto floodDto = null;
+    public Map<String, List<FloodDto>> getHousesRelatedToAListOfStations(List<Integer> stations) {
+        Map<String, List<FloodDto>> mapHousePersons = null;
 
         List<Person> persons = personDao.findAll();
         List<Firestation> firestations = firestationDao.findAll();
         List<Medicalrecord> medicalrecords = medicalrecordDao.findAll();
 
+        // On génère la liste des adresses desservies par les firestation
         List<String> addresses = new ArrayList<>();
         for (int station: stations){
             for (Firestation firestation : firestations){
@@ -210,35 +211,30 @@ public class AlertServiceImpl implements AlertService{
         }
 
         if (!addresses.isEmpty()) {
-            List<FloodPersonDto> floodPersonDtos;
-            floodDto = new FloodDto();
-            Map<String, List<FloodPersonDto>> mapHousePersons = new HashMap<>();
-
-            FloodPersonDto floodPersonDto;
+            mapHousePersons = new HashMap<>();
             for (String address : addresses) {
-                floodPersonDtos = new ArrayList<>();
+                List<FloodDto> floodDtos = new ArrayList<>();
                 for (Person person : persons) {
                     if (person.getAddress().equals(address)) {
-                        floodPersonDto = new FloodPersonDto();
-                        floodPersonDto.setFirstName(person.getFirstName());
-                        floodPersonDto.setLastName(person.getLastName());
-                        floodPersonDto.setPhone(person.getPhone());
+                        FloodDto floodDto = new FloodDto();
+                        floodDto.setFirstName(person.getFirstName());
+                        floodDto.setLastName(person.getLastName());
+                        floodDto.setPhone(person.getPhone());
                         for (Medicalrecord medicalrecord : medicalrecords) {
                             if (medicalrecord.getFirstName().equals(person.getFirstName()) && medicalrecord.getLastName().equals(person.getLastName())) {
-                                floodPersonDto.setAge(calculateAge(medicalrecord.getBirthdate()));
-                                floodPersonDto.setMedications(medicalrecord.getMedications());
-                                floodPersonDto.setAllergies(medicalrecord.getAllergies());
+                                floodDto.setAge(calculateAge(medicalrecord.getBirthdate()));
+                                floodDto.setMedications(medicalrecord.getMedications());
+                                floodDto.setAllergies(medicalrecord.getAllergies());
                                 break;
                             }
                         }
-                        floodPersonDtos.add(floodPersonDto);
+                        floodDtos.add(floodDto);
                     }
                 }
-                mapHousePersons.put(address, floodPersonDtos);
+                mapHousePersons.put(address, floodDtos);
             }
-            floodDto.setMapHousePersons(mapHousePersons);
         }
-        return floodDto;
+        return mapHousePersons;
     }
 
     /////////////////////////////////////////////////////////////////////////////////////
