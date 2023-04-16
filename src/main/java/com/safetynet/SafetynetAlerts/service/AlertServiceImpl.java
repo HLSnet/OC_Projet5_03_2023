@@ -16,10 +16,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class AlertServiceImpl implements AlertService{
@@ -46,11 +43,10 @@ public class AlertServiceImpl implements AlertService{
         List<Person> persons = personDao.findAll();
         List<Medicalrecord> medicalrecords = medicalrecordDao.findAll();
 
-        FirestationPersonDto firestationPersonDto;
-        for (Firestation firestation: firestations) {
+            for (Firestation firestation: firestations) {
             for (Person person: persons){
                 if (firestation.getAddress().equals(person.getAddress())){
-                    firestationPersonDto= new FirestationPersonDto(
+                    FirestationPersonDto firestationPersonDto= new FirestationPersonDto(
                             person.getFirstName(),
                             person.getLastName(),
                             person.getAddress(),
@@ -85,18 +81,16 @@ public class AlertServiceImpl implements AlertService{
     ///////////////////////////////////////////////////////////////////////////////////
     public List<ChildAlertDto> getChildsdRelatedToAnAddress(String address) {
         List<ChildAlertDto> childAlertDtos  = new ArrayList<>();
-        ChildAlertDto childAlertDto;
 
         List<Person> persons = personDao.findAll();
         List<Medicalrecord> medicalrecords = medicalrecordDao.findAll();
 
         List<ChildAlertPersonDto> householdMembersFound = new ArrayList<>();
-        ChildAlertPersonDto childAlertPersonDto;
 
         // On récupère toutes les personnes ayant l'adresse fournie (les membres du foyer)
         for (Person person: persons) {
             if (person.getAddress().equals(address)) {
-                childAlertPersonDto = new ChildAlertPersonDto(
+                ChildAlertPersonDto childAlertPersonDto = new ChildAlertPersonDto(
                         person.getFirstName(),
                         person.getLastName(),
                         person.getPhone(),
@@ -118,7 +112,7 @@ public class AlertServiceImpl implements AlertService{
                         ArrayList<ChildAlertPersonDto> householdMembersMinusChild = new ArrayList<>(householdMembersFound);
                         householdMembersMinusChild.remove(index);
 
-                        childAlertDto = new ChildAlertDto(
+                        ChildAlertDto childAlertDto = new ChildAlertDto(
                                 medicalrecord.getFirstName(),
                                 medicalrecord.getLastName(),
                                 age,
@@ -165,11 +159,10 @@ public class AlertServiceImpl implements AlertService{
         List<FirePersonDto> householdMembersFound = new ArrayList<>();
         if (firestation != null) {
             fireDto.setStation(firestationDao.findByAdress(address).getStation());
-            FirePersonDto firePersonDto;
             // On récupère toutes les personnes ayant l'adresse fournie (les membres du foyer)
             for (Person person : persons) {
                 if (person.getAddress().equals(address)) {
-                    firePersonDto = new FirePersonDto();
+                    FirePersonDto firePersonDto = new FirePersonDto();
                     firePersonDto.setLastName(person.getLastName());
                     firePersonDto.setPhone(person.getPhone());
                     firePersonDto.setEmail(person.getEmail());
@@ -242,14 +235,13 @@ public class AlertServiceImpl implements AlertService{
     /////////////////////////////////////////////////////////////////////////////////////
     public List<InfoPersonDto> getInfoPerson(String firstName, String lastName) {
         List<InfoPersonDto> infoPersonDtos = new ArrayList<>();
-        InfoPersonDto infoPersonDto;
 
         List<Person> persons = personDao.findAll();
         List<Medicalrecord> medicalrecords = medicalrecordDao.findAll();
 
         for (Person person: persons){
             if (person.getLastName().equals(lastName)){
-                infoPersonDto= new InfoPersonDto();
+                InfoPersonDto infoPersonDto= new InfoPersonDto();
                 infoPersonDto.setLastName(person.getLastName());
                 infoPersonDto.setAddress(person.getAddress());
                 infoPersonDto.setEmail(person.getEmail());
@@ -273,12 +265,15 @@ public class AlertServiceImpl implements AlertService{
     ////////////////////////////////////////////////////////////////////////////////////
     public List<String> getMailsRelatedToACity(String city) {
         List<Person> persons = personDao.findAll();
-        List<String> mails = new ArrayList<>();
+
+        // On prends un type de données Set pour éliminer les doublons de e-mails
+        Set<String> mailsSet = new HashSet<>();
         for (Person person: persons){
             if (person.getCity().equals(city)){
-                mails.add(person.getEmail());
+                mailsSet.add(person.getEmail());
             }
         }
+        List<String> mails = new ArrayList<>(mailsSet);
         return mails.isEmpty()? null : mails;
     }
 

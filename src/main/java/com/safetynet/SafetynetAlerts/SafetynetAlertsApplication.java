@@ -19,8 +19,9 @@ public class SafetynetAlertsApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		// On indique le fichier json à utiliser dans l'application ( par les DAO)
+		// On indique le fichier json à utiliser dans l'application
 		new JasonFileIO(JSONFILE_PATHNAME);
+		// On supprime les doublons présents dans la section firestation du fichier json
 		FirestationDaoImpl.checkIntegrityJsonFileFirestationAndSort();
 	}
 }

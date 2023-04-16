@@ -152,6 +152,14 @@
     "phone" : "841-874-7784",
     "email" : "bstel@email.com"
   }, {
+    "firstName" : "Shawna",
+    "lastName" : "Stelzer",
+    "address" : "947 E. Rose Dr",
+    "city" : "Culver",
+    "zip" : "97451",
+    "phone" : "841-874-7784",
+    "email" : "ssanw@email.com"
+  }, {
     "firstName" : "Kendrik",
     "lastName" : "Stelzer",
     "address" : "947 E. Rose Dr",
@@ -175,30 +183,6 @@
     "zip" : "97451",
     "phone" : "841-874-7458",
     "email" : "gramps@email.com"
-  }, {
-    "firstName" : "Shawna",
-    "lastName" : "Stelzer",
-    "address" : "1 here St",
-    "city" : "Nowhere",
-    "zip" : "00000",
-    "phone" : "012-345-6789",
-    "email" : "ssanw_new@email.com"
-  }, {
-    "firstName" : "Averell",
-    "lastName" : "Dalton",
-    "address" : "19 Saloon St",
-    "city" : "Daisy town",
-    "zip" : "00000",
-    "phone" : "111-222-3333",
-    "email" : "a.dalton@jail.com"
-  }, {
-    "firstName" : "Averellbis",
-    "lastName" : "Dalton",
-    "address" : "19 Saloon St",
-    "city" : "Daisy town",
-    "zip" : "00000",
-    "phone" : "111-222-3333",
-    "email" : "a.dalton@jail.com"
   } ],
   "medicalrecords" : [ {
     "firstName" : "John",
@@ -338,40 +322,19 @@
     "birthdate" : "08/06/1945",
     "medications" : [ "tradoxidine:400mg" ],
     "allergies" : [ ]
-  }, {
-    "firstName" : "Averell",
-    "lastName" : "Dalton",
-    "birthdate" : "01/01/1900",
-    "medications" : [ "paracetamol:1000mg", "doliprane:500mg", "whisky: 2l" ],
-    "allergies" : [ "Lucky Luke", "Jail" ]
-  }, {
-    "firstName" : "Averellbis",
-    "lastName" : "Dalton",
-    "birthdate" : "01/01/1900",
-    "medications" : [ "paracetamol:1000mg", "doliprane:500mg", "whisky: 2l" ],
-    "allergies" : [ "Lucky Luke", "Jail" ]
   } ],
   "firestations" : [ {
     "address" : "947 E. Rose Dr",
     "station" : 1
   }, {
-    "address" : "NowhereTer",
-    "station" : 1
-  }, {
     "address" : "908 73rd St",
-    "station" : 1
-  }, {
-    "address" : "NowhereTerminus",
-    "station" : 1
-  }, {
-    "address" : "NowhereTerminusnus",
-    "station" : 1
-  }, {
-    "address" : "Nowherebis",
     "station" : 1
   }, {
     "address" : "644 Gershwin Cir",
     "station" : 1
+  }, {
+    "address" : "892 Downing Ct",
+    "station" : 2
   }, {
     "address" : "29 15th St",
     "station" : 2
@@ -379,13 +342,7 @@
     "address" : "951 LoneTree Rd",
     "station" : 2
   }, {
-    "address" : "892 Downing Ct",
-    "station" : 2
-  }, {
     "address" : "748 Townings Dr",
-    "station" : 3
-  }, {
-    "address" : "112 Steppes Pl",
     "station" : 3
   }, {
     "address" : "834 Binoc Ave",
@@ -394,10 +351,10 @@
     "address" : "1509 Culver St",
     "station" : 3
   }, {
+    "address" : "112 Steppes Pl",
+    "station" : 3
+  }, {
     "address" : "489 Manchester St",
     "station" : 4
-  }, {
-    "address" : "Nowhere",
-    "station" : 11
   } ]
 }

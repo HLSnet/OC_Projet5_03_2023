@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.safetynet.safetynetalerts.constants.DBConstants.*;
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -27,6 +28,7 @@ public class ServiceTest {
 
     @BeforeEach
     void setUpData(){
+        // Le fichier de test utilisé est une copie du fichier réel
         SetupJsonFile.reloadTestFile(JSONFILE_BAK_PATHNAME , JSONFILE_TEST_PATHNAME);
         new JasonFileIO(JSONFILE_TEST_PATHNAME);
         FirestationDaoImpl.checkIntegrityJsonFileFirestationAndSort();
@@ -109,7 +111,7 @@ public class ServiceTest {
     //*********************************************************************************************************
     // URL3 : http://localhost:8080/phoneAlert?firestation=<firestation_number>
     //
-    // Tests unitaires de la méthode 'getPhoneRelatedToAStation' de la classe  AlertServiceImpl
+    // Tests unitaires de la méthode 'getPhoneNumbersRelatedToAStation' de la classe  AlertServiceImpl
     //*********************************************************************************************************
     @Test
     void  testFindPhoneNumbersWithExistingStation() {
@@ -166,7 +168,7 @@ public class ServiceTest {
     //*********************************************************************************************************
     // URL5 : http://localhost:8080/flood/stations?stations=<a list of station_numbers>
     //
-    // Tests unitaires de la méthode 'getHousesRelatedToAStation' de la classe  AlertServiceImpl
+    // Tests unitaires de la méthode 'getHousesRelatedToAListOfStations' de la classe  AlertServiceImpl
     //*********************************************************************************************************
     @Test
     void testFindPersonsWithExistingStations() {
@@ -252,8 +254,22 @@ public class ServiceTest {
         List<String> communityEmail = alertService.getMailsRelatedToACity("Culver");
 
         // ASSERT
-        assertEquals(communityEmail.size(), 23);
-        assertEquals(communityEmail.get(1), "drk@email.com");
+        assertThat(communityEmail).containsExactlyInAnyOrder(
+                "jaboyd@email.com",
+                "drk@email.com",
+                "tenz@email.com",
+                "tcoop@ymail.com",
+                "lily@email.com",
+                "soph@email.com",
+                "ward@email.com",
+                "zarc@email.com",
+                "reg@email.com",
+                "jpeter@email.com",
+                "aly@imail.com",
+                "bstel@email.com",
+                "ssanw@email.com",
+                "clivfd@ymail.com",
+                "gramps@email.com" );
     }
 
     @Test
