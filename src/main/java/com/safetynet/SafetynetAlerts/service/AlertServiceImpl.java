@@ -43,36 +43,52 @@ public class AlertServiceImpl implements AlertService{
         List<Person> persons = personDao.findAll();
         List<Medicalrecord> medicalrecords = medicalrecordDao.findAll();
 
+        // Optimisation du code : on retire du parcours des listes les personnes déjà trouvées
+        Person personToRetrievFromTheList = null;
+        Medicalrecord medicalrecordToRetrievFromTheList = null;
+
             for (Firestation firestation: firestations) {
-            for (Person person: persons){
-                if (firestation.getAddress().equals(person.getAddress())){
-                    FirestationPersonDto firestationPersonDto= new FirestationPersonDto(
-                            person.getFirstName(),
-                            person.getLastName(),
-                            person.getAddress(),
-                            person.getPhone());
+                for (Person person: persons){
+                    personToRetrievFromTheList = null;
+                    if (firestation.getAddress().equals(person.getAddress())){
+                        personToRetrievFromTheList = person;
+                        FirestationPersonDto firestationPersonDto= new FirestationPersonDto(
+                                person.getFirstName(),
+                                person.getLastName(),
+                                person.getAddress(),
+                                person.getPhone());
 
-                    // On récupère la liste (une copie) des personnes correspondant au critère de recherche
-                    List<FirestationPersonDto> firestationPersonDtos = firestationDto.getPersons();
-                    // On y ajoute la nouvelle personne
-                    firestationPersonDtos.add(firestationPersonDto);
-                    // On met à jour la liste
-                    firestationDto.setPersons(firestationPersonDtos);
+                        // On récupère la liste (une copie) des personnes correspondant au critère de recherche
+                        List<FirestationPersonDto> firestationPersonDtos = firestationDto.getPersons();
+                        // On y ajoute la nouvelle personne
+                        firestationPersonDtos.add(firestationPersonDto);
+                        // On met à jour la liste
+                        firestationDto.setPersons(firestationPersonDtos);
 
-                    for (Medicalrecord medicalrecord: medicalrecords){
-                        if (medicalrecord.getFirstName().equals(person.getFirstName())  && medicalrecord.getLastName().equals(person.getLastName())){
-
-                            if (calculateAge(medicalrecord.getBirthdate()) > 18){
-                                firestationDto.setNbAdult(firestationDto.getNbAdult() + 1) ;
+                        for (Medicalrecord medicalrecord: medicalrecords){
+                            medicalrecordToRetrievFromTheList = null;
+                            if (medicalrecord.getFirstName().equals(person.getFirstName())  && medicalrecord.getLastName().equals(person.getLastName())){
+                                medicalrecordToRetrievFromTheList = medicalrecord;
+                                if (calculateAge(medicalrecord.getBirthdate()) > 18){
+                                    firestationDto.setNbAdult(firestationDto.getNbAdult() + 1) ;
+                                }
+                                else {
+                                    firestationDto.setNbChild(firestationDto.getNbChild() + 1); }
+                                break;
                             }
-                            else {
-                                firestationDto.setNbChild(firestationDto.getNbChild() + 1); }
-                            break;
                         }
+                        medicalrecords.remove(medicalrecordToRetrievFromTheList);
                     }
                 }
-            }
+            persons.remove(personToRetrievFromTheList);
         }
+        // On récupère la liste des personnes correspondant au critère de recherche
+        List<FirestationPersonDto> firestationPersonDtoTriees = firestationDto.getPersons();
+        // On trie la liste des personnes par nom (pour faciliter les tests d'intégration)
+        Collections.sort(firestationPersonDtoTriees);
+        // On met à jour la liste
+        firestationDto.setPersons(firestationPersonDtoTriees);
+
         return firestationDto.getPersons().isEmpty()? null : firestationDto;
     }
 

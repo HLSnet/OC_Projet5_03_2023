@@ -1,8 +1,10 @@
 package com.safetynet.safetynetalerts.dto;
 
+import com.safetynet.safetynetalerts.model.Firestation;
+
 import java.util.Objects;
 
-public class FirestationPersonDto {
+public class FirestationPersonDto implements Comparable<FirestationPersonDto> {
     private String firstName;
     private String lastName;
     private String address;
@@ -75,4 +77,9 @@ public class FirestationPersonDto {
                 ", phone='" + phone + '\'' +
                 '}';
     }
+    @Override
+    public int compareTo(FirestationPersonDto firestationPersonDto) {
+        return this.lastName.compareTo(firestationPersonDto.getLastName());
+    }
+
 }
