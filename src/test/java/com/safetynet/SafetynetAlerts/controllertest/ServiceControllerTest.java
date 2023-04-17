@@ -43,7 +43,7 @@ public class ServiceControllerTest {
     //***************************************************************************************************
 
     @Test
-    public void testGetPersonsRelatedToAStationResultNotNull() throws Exception {
+    public void AlertService_shouldUseGetPersonsRelatedToAStation_ResultNotNull() throws Exception {
         int stationNumber = 2;
         FirestationDto firestationDto = new FirestationDto();
 
@@ -57,8 +57,8 @@ public class ServiceControllerTest {
     }
 
     @Test
-    public void testGetPersonsRelatedToAStatioResultNull() throws Exception {
-        int stationNumber = 2;
+    public void AlertService_shouldUseGetPersonsRelatedToAStation_ResultNull() throws Exception {
+        int stationNumber = 20;
         FirestationDto firestationDto = null;
 
         when(alertService.getPersonsRelatedToAStation(stationNumber)).thenReturn(firestationDto);
@@ -78,7 +78,7 @@ public class ServiceControllerTest {
     //***************************************************************************************************
 
     @Test
-    public  void testGetChildsdRelatedToAnAddressResultNotNull()  throws Exception {
+    public  void AlertService_shouldUseGetChildsdRelatedToAnAddress_ResultNotNull()  throws Exception {
         String address = "Nowhere";
         List<ChildAlertDto> childAlertDtos = new ArrayList<>();
 
@@ -91,7 +91,7 @@ public class ServiceControllerTest {
     }
 
     @Test
-    public  void testGetChildsdRelatedToAnAddressResultNull()  throws Exception {
+    public  void AlertService_shouldUseGetChildsdRelatedToAnAddress_ResultNull()  throws Exception {
         String address = "Nowhere";
 
         when(alertService.getChildsdRelatedToAnAddress(address)).thenReturn(null);
@@ -109,7 +109,7 @@ public class ServiceControllerTest {
     // Tests unitaires de la classe  ServiceController
     //***************************************************************************************************
     @Test
-    public void testGetPhoneNumbersRelatedToAStationResultNotNull()  throws Exception {
+    public void AlertService_shouldUseGetPhoneNumbersRelatedToAStation_ResultNotNull()  throws Exception {
         int stationNumber = 2;
         List<String> phoneNumbers = new ArrayList<>();
 
@@ -122,7 +122,7 @@ public class ServiceControllerTest {
     }
 
     @Test
-    public void testGetPhoneNumbersRelatedToAStationResultNull()  throws Exception {
+    public void AlertService_shouldUseGetPhoneNumbersRelatedToAStation_ResultNull()  throws Exception {
         int stationNumber = 2;
 
         when(alertService.getPhoneNumbersRelatedToAStation(stationNumber)).thenReturn(null);
@@ -141,7 +141,7 @@ public class ServiceControllerTest {
     // Tests unitaires de la classe  ServiceController
     //***************************************************************************************************
     @Test
-    public void testGetPersonsRelatedToAnAddressResultNotNull() throws Exception {
+    public void AlertService_shouldUseGetPersonsRelatedToAnAddress_ResultNotNull() throws Exception {
         String address = "Nowhere";
         FireDto  fireDto = new FireDto();
         fireDto.setHouseholdMembers(new ArrayList<>());
@@ -156,7 +156,7 @@ public class ServiceControllerTest {
 
 
     @Test
-    public void testGetPersonsRelatedToAnAddressResultNull() throws Exception {
+    public void AlertService_shouldUseGetPersonsRelatedToAnAddress_ResultNull() throws Exception {
         String address = "Nowhere";
 
         when(alertService.getPersonsRelatedToAnAddress(address)).thenReturn(null);
@@ -174,7 +174,7 @@ public class ServiceControllerTest {
     // Tests unitaires de la classe  ServiceController
     //***************************************************************************************************
     @Test
-    public void testGetHousesRelatedToAListOfStationsResultNotNull()  throws Exception {
+    public void AlertService_shouldUseGetHousesRelatedToAListOfStations_ResultNotNull()  throws Exception {
         List<Integer> stations = Arrays.asList(3,4);
         Map<String, List<FloodDto>> floodDtos = new HashMap<>();
 
@@ -187,7 +187,7 @@ public class ServiceControllerTest {
     }
 
     @Test
-    public void testGetHousesRelatedToAListOfStationsResultNull()  throws Exception {
+    public void AlertService_shouldUseGetHousesRelatedToAListOfStations_ResultNull()  throws Exception {
         List<Integer> stations = Arrays.asList(3,4);
 
         when(alertService.getHousesRelatedToAListOfStations(stations)).thenReturn(null);
@@ -206,7 +206,7 @@ public class ServiceControllerTest {
     // Tests unitaires de la classe  ServiceController
     //***************************************************************************************************
     @Test
-    public void testGetInfoPersonResultNotNull() throws Exception {
+    public void AlertService_shouldUseGetInfoPerson_ResultNotNull() throws Exception {
         List<InfoPersonDto> InfoPersonDtos = new ArrayList<>();
 
         String firstName = "Averell";
@@ -221,7 +221,7 @@ public class ServiceControllerTest {
     }
 
     @Test
-    public void testGetInfoPersonResultNull() throws Exception {
+    public void AlertService_shouldUseGetInfoPerson_ResultNull() throws Exception {
         String firstName = "Averell";
         String lastName = "Dalton";
 
@@ -241,7 +241,7 @@ public class ServiceControllerTest {
     // Tests unitaires de la classe  ServiceController
     //***************************************************************************************************
     @Test
-    public void testGetMailsRelatedToACityResultNotNull() throws Exception {
+    public void AlertService_shouldUseGetMailsRelatedToACity_ResultNotNull() throws Exception {
         List<String> mails = new ArrayList<>();
         String city = "NYC";
 
@@ -255,7 +255,7 @@ public class ServiceControllerTest {
 
 
     @Test
-    public void testGetMailsRelatedToACityResultNull() throws Exception {
+    public void AlertService_shouldUseGetMailsRelatedToACity_ResultNull() throws Exception {
         String city = "NYC";
 
         when(alertService.getMailsRelatedToACity(city)).thenReturn(null);

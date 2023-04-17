@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class PersonControllerIT {
+public class ServiceControllerIT {
 
     @Autowired
     MockMvc mockMvc;
@@ -45,7 +45,7 @@ public class PersonControllerIT {
     // Tests d'intégration de l'URL1 : http://localhost:8080/firestation?stationNumber=<station_number>
     //***************************************************************************************************
     @Test
-    public void testItGetPersonsRelatedToAStationResultNotNull() throws Exception {
+    public void AlertService_ShouldReturnAListOfPersons_whenGivenAnExistingStationNumber() throws Exception {
         int stationNumber = 2;
 
         List<FirestationPersonDto> firestationPersonDtos = Arrays.asList(
@@ -85,7 +85,13 @@ public class PersonControllerIT {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.persons[4].address").value(firestationPersonDtos.get(4).getAddress()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.persons[4].phone").value(firestationPersonDtos.get(4).getPhone()));
     }
+    @Test
+    public void AlertService_ShouldReturnNoContent_whenGivenANonExistingStationNumber() throws Exception {
+        int stationNumber = 20;
 
+        mockMvc.perform(get("http://localhost:8080/firestation?stationNumber=" + stationNumber))
+                .andExpect(status().isNoContent());
+        }
 
 
     //***************************************************************************************************
@@ -93,6 +99,13 @@ public class PersonControllerIT {
     //
     // http://localhost:8080/childAlert?address=<address>
     //***************************************************************************************************
+//
+//
+//
+//    String address =  "1509 Culver St";
+//        mockMvc.perform(get(" http://localhost:8080/childAlert?address=" + stationNumber))
+//            .andExpect(status().isOk())
+//
 
 
     //***************************************************************************************************

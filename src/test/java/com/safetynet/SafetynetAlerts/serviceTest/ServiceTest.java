@@ -41,7 +41,7 @@ public class ServiceTest {
     // Tests unitaires de la méthode 'getPersonsRelatedToAStation' de la classe  AlertServiceImpl
     //*********************************************************************************************************
     @Test
-    void testFindPersonsWithAnExistingStation() {
+    public void FindPersonsWithAnExistingStation() {
         // ARRANGE
         int stationNumber = 2;
 
@@ -64,9 +64,9 @@ public class ServiceTest {
     }
 
     @Test
-    void testFindPersonsWithNoExistingStation() {
+    public void FindPersonsWithNoExistingStation() {
         // ARRANGE
-        int stationNumber = 30;
+        int stationNumber = 20;
 
         // ACT
         FirestationDto firestationDto = alertService.getPersonsRelatedToAStation(stationNumber);
@@ -81,9 +81,10 @@ public class ServiceTest {
     // Tests unitaires de la méthode 'getChildsdRelatedToAnAddress' de la classe  AlertServiceImpl
     //*********************************************************************************************************
     @Test
-    void testFindChildsWithExistingAddress() {
+    public void FindChildsWithExistingAddress() {
         // ARRANGE , ACT
-        List<ChildAlertDto> childsDto = alertService.getChildsdRelatedToAnAddress( "1509 Culver St");
+        String address =  "1509 Culver St";
+        List<ChildAlertDto> childsDto = alertService.getChildsdRelatedToAnAddress( address);
 
         // ASSERT
         assertEquals(childsDto.size(), 2);
@@ -99,9 +100,10 @@ public class ServiceTest {
 }
 
     @Test
-    void testFindChildsWithNoExistingAddress() {
+    public void FindChildsWithNoExistingAddress() {
         // ARRANGE,  ACT
-        List<ChildAlertDto> childsDto = alertService.getChildsdRelatedToAnAddress("Nowhere St");
+        String address = "Nowhere St";
+        List<ChildAlertDto> childsDto = alertService.getChildsdRelatedToAnAddress(address);
 
         // ASSERT
         assertNull(childsDto);
@@ -114,7 +116,7 @@ public class ServiceTest {
     // Tests unitaires de la méthode 'getPhoneNumbersRelatedToAStation' de la classe  AlertServiceImpl
     //*********************************************************************************************************
     @Test
-    void  testFindPhoneNumbersWithExistingStation() {
+    public  void  FindPhoneNumbersWithExistingStation() {
         // ARRANGE, ACT
         List<String> phoneNumbers = alertService.getPhoneNumbersRelatedToAStation(2);
 
@@ -124,7 +126,7 @@ public class ServiceTest {
 }
 
     @Test
-    void testFindPhoneNumbersWithNoExistingAddress() {
+    public void FindPhoneNumbersWithNoExistingAddress() {
         // ARRANGE,  ACT
         List<String> phoneNumbers = alertService.getPhoneNumbersRelatedToAStation(20);
         // ASSERT
@@ -139,7 +141,7 @@ public class ServiceTest {
     // Tests unitaires de la méthode 'getPersonsRelatedToAnAddress' de la classe  AlertServiceImpl
     //*********************************************************************************************************
     @Test
-    void  testFindPersonsWithExistingAddress() {
+    public void  FindPersonsWithExistingAddress() {
         // ARRANGE, ACT
         FireDto  fireDto = alertService.getPersonsRelatedToAnAddress("1509 Culver St");
 
@@ -158,7 +160,7 @@ public class ServiceTest {
     }
 
     @Test
-    void testFindPersonsWithNoExistingAddress() {
+    public void FindPersonsWithNoExistingAddress() {
         // ASSERT
         assertNull(alertService.getPersonsRelatedToAnAddress("Nowhere"));
     }
@@ -171,7 +173,7 @@ public class ServiceTest {
     // Tests unitaires de la méthode 'getHousesRelatedToAListOfStations' de la classe  AlertServiceImpl
     //*********************************************************************************************************
     @Test
-    void testFindPersonsWithExistingStations() {
+    public void FindPersonsWithExistingStations() {
         // ARRANGE
         List<Integer> stations = Arrays.asList(3,4);
 
@@ -192,7 +194,7 @@ public class ServiceTest {
         assertTrue(floodDto.get("1509 Culver St").contains(floodPersonDto));
     }
     @Test
-    void testFindPersonsWithNoExistingStations() {
+    public void FindPersonsWithNoExistingStations() {
         // ARRANGE
         List<Integer> stations = Arrays.asList(20,30);
 
@@ -210,7 +212,7 @@ public class ServiceTest {
     // Tests unitaires de la méthode 'getInfoPerson' de la classe  AlertServiceImpl
     //*********************************************************************************************************
     @Test
-    void  testGetInfoPersonOfAnExistingPerson() {
+    public void  GetInfoPersonOfAnExistingPerson() {
         // ARRANGE, ACT
         List<InfoPersonDto> infoPersonsDto = alertService.getInfoPerson( "Sophia", "Zemicks");
 
@@ -234,7 +236,7 @@ public class ServiceTest {
         assertEquals(infoPersonsDto.size(), 3);
     }
     @Test
-    void testGetInfoPersonOfNoExistingPerson() {
+    public void GetInfoPersonOfNoExistingPerson() {
         // ARRANGE,  ACT
         List<InfoPersonDto> infoPersonsDto = alertService.getInfoPerson( "Averell", "Dalton");
 
@@ -249,7 +251,7 @@ public class ServiceTest {
     // Tests unitaires de la méthode 'getMailRelatedToACity' de la classe  AlertServiceImpl
     //*********************************************************************************************************
     @Test
-    void  testFindMailsWithExistingCity() {
+    public void  FindMailsWithExistingCity() {
         // ARRANGE, ACT
         List<String> communityEmail = alertService.getMailsRelatedToACity("Culver");
 
@@ -273,7 +275,7 @@ public class ServiceTest {
     }
 
     @Test
-    void testFindMailsWithNoExistingCity() {
+    public void FindMailsWithNoExistingCity() {
         // ARRANGE,  ACT
         List<String> mails = alertService.getMailsRelatedToACity("Paris");
 
