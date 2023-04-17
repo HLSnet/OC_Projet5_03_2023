@@ -58,7 +58,7 @@ public class ServiceControllerTest {
 
     @Test
     public void AlertService_shouldUseGetPersonsRelatedToAStation_ResultNull() throws Exception {
-        int stationNumber = 20;
+        int stationNumber = 0;
         FirestationDto firestationDto = null;
 
         when(alertService.getPersonsRelatedToAStation(stationNumber)).thenReturn(firestationDto);
@@ -79,7 +79,7 @@ public class ServiceControllerTest {
 
     @Test
     public  void AlertService_shouldUseGetChildsdRelatedToAnAddress_ResultNotNull()  throws Exception {
-        String address = "Nowhere";
+        String address = "1509 Culver St";
         List<ChildAlertDto> childAlertDtos = new ArrayList<>();
 
         when(alertService.getChildsdRelatedToAnAddress(address)).thenReturn(childAlertDtos);
@@ -123,7 +123,7 @@ public class ServiceControllerTest {
 
     @Test
     public void AlertService_shouldUseGetPhoneNumbersRelatedToAStation_ResultNull()  throws Exception {
-        int stationNumber = 2;
+        int stationNumber = 0;
 
         when(alertService.getPhoneNumbersRelatedToAStation(stationNumber)).thenReturn(null);
 
@@ -142,7 +142,7 @@ public class ServiceControllerTest {
     //***************************************************************************************************
     @Test
     public void AlertService_shouldUseGetPersonsRelatedToAnAddress_ResultNotNull() throws Exception {
-        String address = "Nowhere";
+        String address = "1509 Culver St";
         FireDto  fireDto = new FireDto();
         fireDto.setHouseholdMembers(new ArrayList<>());
 
@@ -188,7 +188,7 @@ public class ServiceControllerTest {
 
     @Test
     public void AlertService_shouldUseGetHousesRelatedToAListOfStations_ResultNull()  throws Exception {
-        List<Integer> stations = Arrays.asList(3,4);
+        List<Integer> stations = Arrays.asList(30,40);
 
         when(alertService.getHousesRelatedToAListOfStations(stations)).thenReturn(null);
 
@@ -209,8 +209,8 @@ public class ServiceControllerTest {
     public void AlertService_shouldUseGetInfoPerson_ResultNotNull() throws Exception {
         List<InfoPersonDto> InfoPersonDtos = new ArrayList<>();
 
-        String firstName = "Averell";
-        String lastName = "Dalton";
+        String firstName = "Sophia";
+        String lastName = "Zemicks";
 
         when(alertService.getInfoPerson(firstName, lastName)).thenReturn(InfoPersonDtos);
 
@@ -243,7 +243,7 @@ public class ServiceControllerTest {
     @Test
     public void AlertService_shouldUseGetMailsRelatedToACity_ResultNotNull() throws Exception {
         List<String> mails = new ArrayList<>();
-        String city = "NYC";
+        String city = "Culver";
 
         when(alertService.getMailsRelatedToACity(city)).thenReturn(mails);
 
@@ -256,7 +256,7 @@ public class ServiceControllerTest {
 
     @Test
     public void AlertService_shouldUseGetMailsRelatedToACity_ResultNull() throws Exception {
-        String city = "NYC";
+        String city = "Paris";
 
         when(alertService.getMailsRelatedToACity(city)).thenReturn(null);
 

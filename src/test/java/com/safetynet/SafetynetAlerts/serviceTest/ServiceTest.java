@@ -214,7 +214,11 @@ public class ServiceTest {
     @Test
     public void  GetInfoPersonOfAnExistingPerson() {
         // ARRANGE, ACT
-        List<InfoPersonDto> infoPersonsDto = alertService.getInfoPerson( "Sophia", "Zemicks");
+        String firstName = "Sophia";
+        String lastName = "Zemicks";
+
+        // ACT
+        List<InfoPersonDto> infoPersonsDto = alertService.getInfoPerson( firstName, lastName);
 
         InfoPersonDto infoPersonDto = new InfoPersonDto(
             "Zemicks",
@@ -237,8 +241,12 @@ public class ServiceTest {
     }
     @Test
     public void GetInfoPersonOfNoExistingPerson() {
-        // ARRANGE,  ACT
-        List<InfoPersonDto> infoPersonsDto = alertService.getInfoPerson( "Averell", "Dalton");
+        // ARRANGE
+        String firstname = "Averell";
+        String lastname = "Dalton";
+
+        // ACT
+        List<InfoPersonDto> infoPersonsDto = alertService.getInfoPerson( firstname, lastname);
 
         // ASSERT
         assertNull(infoPersonsDto);
@@ -252,8 +260,11 @@ public class ServiceTest {
     //*********************************************************************************************************
     @Test
     public void  FindMailsWithExistingCity() {
-        // ARRANGE, ACT
-        List<String> communityEmail = alertService.getMailsRelatedToACity("Culver");
+        // ARRANGE
+        String city = "Culver";
+
+        // ACT
+        List<String> communityEmail = alertService.getMailsRelatedToACity(city);
 
         // ASSERT
         assertThat(communityEmail).containsExactlyInAnyOrder(
@@ -276,8 +287,11 @@ public class ServiceTest {
 
     @Test
     public void FindMailsWithNoExistingCity() {
-        // ARRANGE,  ACT
-        List<String> mails = alertService.getMailsRelatedToACity("Paris");
+        // ARRANGE
+        String city = "Paris";
+
+        // ACT
+        List<String> mails = alertService.getMailsRelatedToACity(city);
 
         // ASSERT
         assertNull(mails);
