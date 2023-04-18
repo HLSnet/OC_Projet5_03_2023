@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class InfoPersonDto {
-
+    private String firstName;
     private String lastName;
     private String address;
     private int age;
@@ -12,6 +12,14 @@ public class InfoPersonDto {
     private ArrayList<String> medications;
     private ArrayList<String> allergies;
 
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
     public String getLastName() {
         return lastName;
@@ -53,6 +61,19 @@ public class InfoPersonDto {
         this.medications = new ArrayList<>(medications);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        InfoPersonDto that = (InfoPersonDto) o;
+        return age == that.age && Objects.equals(firstName, that.firstName) && Objects.equals(lastName, that.lastName) && Objects.equals(address, that.address) && Objects.equals(email, that.email) && Objects.equals(medications, that.medications) && Objects.equals(allergies, that.allergies);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(firstName, lastName, address, age, email, medications, allergies);
+    }
+
     public ArrayList<String> getAllergies() {
         return new ArrayList<>(this.allergies);
     }
@@ -61,20 +82,8 @@ public class InfoPersonDto {
         this.allergies = new ArrayList<>(allergies);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        InfoPersonDto that = (InfoPersonDto) o;
-        return age == that.age && Objects.equals(lastName, that.lastName) && Objects.equals(address, that.address) && Objects.equals(email, that.email) && Objects.equals(medications, that.medications) && Objects.equals(allergies, that.allergies);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(lastName, address, age, email, medications, allergies);
-    }
-
-    public InfoPersonDto(String lastName, String address, int age, String email, ArrayList<String> medications, ArrayList<String> allergies) {
+    public InfoPersonDto(String firstName, String lastName, String address, int age, String email, ArrayList<String> medications, ArrayList<String> allergies) {
+        this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
         this.age = age;

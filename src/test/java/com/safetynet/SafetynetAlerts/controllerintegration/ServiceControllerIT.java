@@ -2,6 +2,7 @@ package com.safetynet.safetynetalerts.controllerintegration;
 
 import com.safetynet.safetynetalerts.datatest.SetupJsonFile;
 import com.safetynet.safetynetalerts.dto.FirestationPersonDto;
+import com.safetynet.safetynetalerts.dto.InfoPersonDto;
 import com.safetynet.safetynetalerts.repository.FirestationDaoImpl;
 import com.safetynet.safetynetalerts.repository.JasonFileIO;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -219,9 +221,33 @@ public class ServiceControllerIT {
         String lastName = "Zemicks";
 
         mockMvc.perform(get("http://localhost:8080/personInfo?firstName=" + firstName + "&lastName=" + lastName))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(3)))
 
-        // TODO
+                .andExpect(jsonPath("$.[0].firstName", is("Sophia")))
+                .andExpect(jsonPath("$.[0].lastName", is("Zemicks")))
+                .andExpect(jsonPath("$.[0].age", is(35)))
+                .andExpect(jsonPath("$.[0].email", is("soph@email.com")))
+                .andExpect(jsonPath("$.[0].address", is("892 Downing Ct")))
+                .andExpect(jsonPath("$.[0].medications[0]", is("aznol:60mg")))
+                .andExpect(jsonPath("$.[0].medications[1]", is("hydrapermazol:900mg")))
+                .andExpect(jsonPath("$.[0].medications[2]", is("pharmacol:5000mg")))
+                .andExpect(jsonPath("$.[0].medications[3]", is("terazine:500mg")))
+                .andExpect(jsonPath("$.[0].allergies[0]", is("peanut")))
+                .andExpect(jsonPath("$.[0].allergies[1]", is("shellfish")))
+                .andExpect(jsonPath("$.[0].allergies[2]", is("aznol")))
+
+                .andExpect(jsonPath("$.[1].firstName", is("Warren")))
+                .andExpect(jsonPath("$.[1].lastName", is("Zemicks")))
+                .andExpect(jsonPath("$.[1].age", is(38)))
+                .andExpect(jsonPath("$.[1].email", is("ward@email.com")))
+                .andExpect(jsonPath("$.[1].address", is("892 Downing Ct")))
+
+                .andExpect(jsonPath("$.[2].firstName", is("Zach")))
+                .andExpect(jsonPath("$.[2].lastName", is("Zemicks")))
+                .andExpect(jsonPath("$.[2].age", is(6)))
+                .andExpect(jsonPath("$.[2].email", is("zarc@email.com")))
+                .andExpect(jsonPath("$.[2].address", is("892 Downing Ct")));
     }
 
     @Test

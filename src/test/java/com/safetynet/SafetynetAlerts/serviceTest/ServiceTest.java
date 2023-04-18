@@ -226,6 +226,7 @@ public class ServiceTest {
         List<InfoPersonDto> infoPersonsDto = alertService.getInfoPerson( firstName, lastName);
 
         InfoPersonDto infoPersonDto = new InfoPersonDto(
+             "Sophia",
             "Zemicks",
             "892 Downing Ct",
             35,
