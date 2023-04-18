@@ -49,11 +49,11 @@ public class ServiceControllerIT {
         int stationNumber = 2;
 
         List<FirestationPersonDto> firestationPersonDtos = Arrays.asList(
-                new FirestationPersonDto("Eric","Cadigan","951 LoneTree Rd","841-874-7458"),
                 new FirestationPersonDto("Jonanathan","Marrack","29 15th St","841-874-6513"),
                 new FirestationPersonDto("Sophia", "Zemicks", "892 Downing Ct", "841-874-7878"),
                 new FirestationPersonDto("Warren","Zemicks","892 Downing Ct","841-874-7512"),
-                new FirestationPersonDto("Zach","Zemicks","892 Downing Ct","841-874-7512"));
+                new FirestationPersonDto("Zach","Zemicks","892 Downing Ct","841-874-7512"),
+                new FirestationPersonDto("Eric","Cadigan","951 LoneTree Rd","841-874-7458"));
 
                 //    .andExpect(jsonPath("$[0].firstName", is("Laurent")));
 
@@ -106,9 +106,17 @@ public class ServiceControllerIT {
         String address =  "1509 Culver St";
 
         mockMvc.perform(get("http://localhost:8080/childAlert?address=" + address))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.[0].firstName", is("Tenley")))
+                .andExpect(jsonPath("$.[0].lastName", is("Boyd")))
+                .andExpect(jsonPath("$.[0].age", is(11)))
+                .andExpect(jsonPath("$.[0].householdMembers",hasSize(4)))
+                .andExpect(jsonPath("$.[1].firstName", is("Roger")))
+                .andExpect(jsonPath("$.[1].lastName", is("Boyd")))
+                .andExpect(jsonPath("$.[1].age", is(5)))
+                .andExpect(jsonPath("$.[1].householdMembers",hasSize(4)));
 
-        // TODO
+        // TO COMPLETE (IF NEEDED)
     }
 
 
@@ -131,10 +139,16 @@ public class ServiceControllerIT {
         int stationNumber = 2;
 
         mockMvc.perform(get("http://localhost:8080/phoneAlert?firestation=" + stationNumber))
-                .andExpect(status().isOk());
-
-        // TODO
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.[0]", is("841-874-6513")))
+                .andExpect(jsonPath("$.[1]", is("841-874-7878")))
+                .andExpect(jsonPath("$.[2]", is("841-874-7512")))
+                .andExpect(jsonPath("$.[3]", is("841-874-7512")))
+                .andExpect(jsonPath("$.[4]", is("841-874-7458")));
     }
+
+
+
     @Test
     public void AlertService_ShouldReturnAnEmptyList_whenGivenANonExistingStationNumber() throws Exception {
         int stationNumber = 0;

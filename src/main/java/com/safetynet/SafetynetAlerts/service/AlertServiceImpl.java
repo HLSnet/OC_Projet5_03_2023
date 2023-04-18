@@ -82,12 +82,12 @@ public class AlertServiceImpl implements AlertService{
                 }
             persons.remove(personToRetrievFromTheList);
         }
-        // On récupère la liste des personnes correspondant au critère de recherche
-        List<FirestationPersonDto> firestationPersonDtoTriees = firestationDto.getPersons();
-        // On trie la liste des personnes par nom (pour faciliter les tests d'intégration)
-        Collections.sort(firestationPersonDtoTriees);
-        // On met à jour la liste
-        firestationDto.setPersons(firestationPersonDtoTriees);
+//        // On récupère la liste des personnes correspondant au critère de recherche
+//        List<FirestationPersonDto> firestationPersonDtoTriees = firestationDto.getPersons();
+//        // On trie la liste des personnes par nom (pour faciliter les tests d'intégration)
+//        Collections.sort(firestationPersonDtoTriees);
+//        // On met à jour la liste
+//        firestationDto.setPersons(firestationPersonDtoTriees);
 
         return firestationDto.getPersons().isEmpty()? null : firestationDto;
     }

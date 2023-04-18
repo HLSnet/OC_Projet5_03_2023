@@ -18,7 +18,9 @@ import java.util.Map;
 
 import static com.safetynet.safetynetalerts.constants.DBConstants.*;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 
 @SpringBootTest
@@ -122,7 +124,11 @@ public class ServiceTest {
 
         // ASSERT
         assertEquals(phoneNumbers.size(), 5);
-        assertEquals(phoneNumbers.get(1), "841-874-7458");
+        assertEquals(phoneNumbers.get(0), "841-874-6513");
+        assertEquals(phoneNumbers.get(1), "841-874-7878");
+        assertEquals(phoneNumbers.get(2), "841-874-7512");
+        assertEquals(phoneNumbers.get(3), "841-874-7512");
+        assertEquals(phoneNumbers.get(4), "841-874-7458");
 }
 
     @Test

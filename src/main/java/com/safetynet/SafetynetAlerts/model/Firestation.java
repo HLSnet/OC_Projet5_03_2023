@@ -51,8 +51,13 @@ public class Firestation implements Comparable<Firestation>{
         return Objects.hash(address, station);
     }
 
+
     @Override
     public int compareTo(Firestation firestation) {
-        return (this.station - firestation.getStation());
+        int compareStation = Integer.compare(this.station, firestation.getStation());
+        if (compareStation == 0) {
+            return this.address.compareTo(firestation.getAddress());
+        }
+        return compareStation;
     }
 }
