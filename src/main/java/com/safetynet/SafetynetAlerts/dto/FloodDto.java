@@ -13,7 +13,6 @@ public class FloodDto {
     private ArrayList<String> allergies;
 
 
-
     public String getFirstName() {
         return firstName;
     }
@@ -61,8 +60,6 @@ public class FloodDto {
     public int getAge() {
         return age;
     }
-
-
 
     @Override
     public boolean equals(Object o) {

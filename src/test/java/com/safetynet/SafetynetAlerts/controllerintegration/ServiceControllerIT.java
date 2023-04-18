@@ -55,7 +55,6 @@ public class ServiceControllerIT {
                 new FirestationPersonDto("Zach","Zemicks","892 Downing Ct","841-874-7512"),
                 new FirestationPersonDto("Eric","Cadigan","951 LoneTree Rd","841-874-7458"));
 
-                //    .andExpect(jsonPath("$[0].firstName", is("Laurent")));
 
         mockMvc.perform(get("http://localhost:8080/firestation?stationNumber=" + stationNumber))
                 .andExpect(status().isOk())
@@ -140,6 +139,7 @@ public class ServiceControllerIT {
 
         mockMvc.perform(get("http://localhost:8080/phoneAlert?firestation=" + stationNumber))
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(5)))
                 .andExpect(jsonPath("$.[0]", is("841-874-6513")))
                 .andExpect(jsonPath("$.[1]", is("841-874-7878")))
                 .andExpect(jsonPath("$.[2]", is("841-874-7512")))
@@ -245,9 +245,23 @@ public class ServiceControllerIT {
         String city = "Culver";
 
         mockMvc.perform(get("http://localhost:8080/communityEmail?city=" + city))
-                .andExpect(status().isOk());
-
-        // TODO
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(15)))
+                .andExpect(jsonPath("$.[0]", is("aly@imail.com")))
+                .andExpect(jsonPath("$.[1]", is("bstel@email.com")))
+                .andExpect(jsonPath("$.[2]", is("clivfd@ymail.com")))
+                .andExpect(jsonPath("$.[3]", is("drk@email.com")))
+                .andExpect(jsonPath("$.[4]", is("gramps@email.com")))
+                .andExpect(jsonPath("$.[5]", is("jaboyd@email.com")))
+                .andExpect(jsonPath("$.[6]", is("jpeter@email.com")))
+                .andExpect(jsonPath("$.[7]", is("lily@email.com")))
+                .andExpect(jsonPath("$.[8]", is("reg@email.com")))
+                .andExpect(jsonPath("$.[9]", is("soph@email.com")))
+                .andExpect(jsonPath("$.[10]", is("ssanw@email.com")))
+                .andExpect(jsonPath("$.[11]", is("tcoop@ymail.com")))
+                .andExpect(jsonPath("$.[12]", is("tenz@email.com")))
+                .andExpect(jsonPath("$.[13]", is("ward@email.com")))
+                .andExpect(jsonPath("$.[14]", is("zarc@email.com")));
     }
 
     @Test

@@ -18,9 +18,8 @@ import java.util.Map;
 
 import static com.safetynet.safetynetalerts.constants.DBConstants.*;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
-import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+
 
 
 @SpringBootTest

@@ -1,6 +1,5 @@
 package com.safetynet.safetynetalerts.dto;
 
-import com.safetynet.safetynetalerts.model.Firestation;
 
 import java.util.Objects;
 

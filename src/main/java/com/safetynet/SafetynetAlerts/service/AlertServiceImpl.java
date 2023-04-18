@@ -82,12 +82,6 @@ public class AlertServiceImpl implements AlertService{
                 }
             persons.remove(personToRetrievFromTheList);
         }
-//        // On récupère la liste des personnes correspondant au critère de recherche
-//        List<FirestationPersonDto> firestationPersonDtoTriees = firestationDto.getPersons();
-//        // On trie la liste des personnes par nom (pour faciliter les tests d'intégration)
-//        Collections.sort(firestationPersonDtoTriees);
-//        // On met à jour la liste
-//        firestationDto.setPersons(firestationPersonDtoTriees);
 
         return firestationDto.getPersons().isEmpty()? null : firestationDto;
     }
@@ -282,7 +276,7 @@ public class AlertServiceImpl implements AlertService{
     public List<String> getMailsRelatedToACity(String city) {
         List<Person> persons = personDao.findAll();
 
-        // On prends un type de données Set pour éliminer les doublons de e-mails
+        // On prends un type de données Set pour éliminer les doublons d'e-mails
         Set<String> mailsSet = new HashSet<>();
         for (Person person: persons){
             if (person.getCity().equals(city)){
@@ -290,6 +284,7 @@ public class AlertServiceImpl implements AlertService{
             }
         }
         List<String> mails = new ArrayList<>(mailsSet);
+        Collections.sort(mails);
         return mails.isEmpty()? null : mails;
     }
 
