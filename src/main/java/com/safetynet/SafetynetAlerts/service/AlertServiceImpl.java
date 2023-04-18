@@ -173,6 +173,7 @@ public class AlertServiceImpl implements AlertService{
             for (Person person : persons) {
                 if (person.getAddress().equals(address)) {
                     FirePersonDto firePersonDto = new FirePersonDto();
+                    firePersonDto.setFirstName(person.getFirstName());
                     firePersonDto.setLastName(person.getLastName());
                     firePersonDto.setPhone(person.getPhone());
                     firePersonDto.setEmail(person.getEmail());

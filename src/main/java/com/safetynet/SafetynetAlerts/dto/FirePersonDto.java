@@ -5,7 +5,7 @@ import java.util.Objects;
 
 
 public class FirePersonDto {
-
+    private String firstName;
         private String lastName;
         private String phone;
         private int age;
@@ -13,6 +13,13 @@ public class FirePersonDto {
         private ArrayList<String> medications;
         private ArrayList<String> allergies;
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
     public void setPhone(String phone) {
         this.phone = phone;
@@ -75,16 +82,16 @@ public class FirePersonDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         FirePersonDto that = (FirePersonDto) o;
-        return age == that.age && Objects.equals(lastName, that.lastName) && Objects.equals(phone, that.phone) && Objects.equals(email, that.email) && Objects.equals(medications, that.medications) && Objects.equals(allergies, that.allergies);
+        return age == that.age && Objects.equals(firstName, that.firstName) && Objects.equals(lastName, that.lastName) && Objects.equals(phone, that.phone) && Objects.equals(email, that.email) && Objects.equals(medications, that.medications) && Objects.equals(allergies, that.allergies);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(lastName, phone, age, email, medications, allergies);
+        return Objects.hash(firstName, lastName, phone, age, email, medications, allergies);
     }
 
-
-    public FirePersonDto(String lastName, String phone, int age, String email, ArrayList<String> medications, ArrayList<String> allergies) {
+    public FirePersonDto(String firstName, String lastName, String phone, int age, String email, ArrayList<String> medications, ArrayList<String> allergies) {
+        this.firstName = firstName;
         this.lastName = lastName;
         this.phone = phone;
         this.age = age;

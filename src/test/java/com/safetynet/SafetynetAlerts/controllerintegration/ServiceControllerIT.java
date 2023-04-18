@@ -63,6 +63,7 @@ public class ServiceControllerIT {
                 .andExpect(jsonPath("$.persons", hasSize(5)))
                 .andExpect(jsonPath("$.nbAdult", is(4)))
                 .andExpect(jsonPath("$.nbChild", is(1)))
+
                 .andExpect(jsonPath("$.persons[0].firstName", is(firestationPersonDtos.get(0).getFirstName())))
                 .andExpect(jsonPath("$.persons[0].lastName", is(firestationPersonDtos.get(0).getLastName())))
                 .andExpect(jsonPath("$.persons[0].address", is(firestationPersonDtos.get(0).getAddress())))
@@ -108,10 +109,12 @@ public class ServiceControllerIT {
 
         mockMvc.perform(get("http://localhost:8080/childAlert?address=" + address))
                 .andExpect(status().isOk())
+
                 .andExpect(jsonPath("$.[0].firstName", is("Tenley")))
                 .andExpect(jsonPath("$.[0].lastName", is("Boyd")))
                 .andExpect(jsonPath("$.[0].age", is(11)))
                 .andExpect(jsonPath("$.[0].householdMembers",hasSize(4)))
+
                 .andExpect(jsonPath("$.[1].firstName", is("Roger")))
                 .andExpect(jsonPath("$.[1].lastName", is("Boyd")))
                 .andExpect(jsonPath("$.[1].age", is(5)))
@@ -150,7 +153,6 @@ public class ServiceControllerIT {
     }
 
 
-
     @Test
     public void AlertService_ShouldReturnAnEmptyList_whenGivenANonExistingStationNumber() throws Exception {
         int stationNumber = 0;
@@ -170,12 +172,20 @@ public class ServiceControllerIT {
         String address =  "1509 Culver St";
 
         mockMvc.perform(get("http://localhost:8080/fire?address=" + address))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.station", is(3)))
+                .andExpect(jsonPath("$.householdMembers", hasSize(5)))
 
-        // TODO
+                .andExpect(jsonPath("$.householdMembers[4].firstName", is("Felicia")))
+                .andExpect(jsonPath("$.householdMembers[4].lastName", is("Boyd")))
+                .andExpect(jsonPath("$.householdMembers[4].phone", is("841-874-6544")))
+                .andExpect(jsonPath("$.householdMembers[4].age", is(37)))
+                .andExpect(jsonPath("$.householdMembers[4].email", is("jaboyd@email.com")))
+                .andExpect(jsonPath("$.householdMembers[4].medications[0]", is("tetracyclaz:650mg")))
+                .andExpect(jsonPath("$.householdMembers[4].allergies[0]", is("xilliathal")));
+
+        // TO COMPLETE (IF NEEDED)
     }
-
-
 
     @Test
     public void AlertService_ShouldReturnNoContent_whenGivenANonExistingAddress() throws Exception {

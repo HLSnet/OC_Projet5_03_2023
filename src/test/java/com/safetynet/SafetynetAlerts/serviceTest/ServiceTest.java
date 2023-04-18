@@ -151,6 +151,7 @@ public class ServiceTest {
         FireDto  fireDto = alertService.getPersonsRelatedToAnAddress("1509 Culver St");
 
         FirePersonDto firePersonDto = new FirePersonDto(
+                "Felicia",
                 "Boyd",
                 "841-874-6544",
                 37,
