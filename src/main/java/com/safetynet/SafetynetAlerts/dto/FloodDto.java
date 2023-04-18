@@ -1,88 +1,39 @@
 package com.safetynet.safetynetalerts.dto;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
-
 public class FloodDto {
-    private String firstName;
-    private String lastName;
-    private String phone;
-    private int age;
-    private ArrayList<String> medications;
-    private ArrayList<String> allergies;
+    private String address;
+    private List<FloodPersonDto> householdMembers ;
 
-
-    public String getFirstName() {
-        return firstName;
+    public String getAddress() {
+        return address;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public String getLastName() {
-        return lastName;
+    public List<FloodPersonDto> getHouseholdMembers() {
+        return new ArrayList<>(householdMembers);
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public ArrayList<String> getMedications() {
-        return new ArrayList<>(this.medications);
-    }
-
-    public void setMedications(ArrayList<String> medications) {
-        this.medications = new ArrayList<>(medications);
-    }
-
-    public ArrayList<String> getAllergies() {
-        return new ArrayList<>(this.allergies);
-    }
-
-    public void setAllergies(ArrayList<String> allergies) {
-        this.allergies = new ArrayList<>(allergies);
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public int getAge() {
-        return age;
+    public void setHouseholdMembers(List<FloodPersonDto> householdMembers) {
+        this.householdMembers = new ArrayList<>(householdMembers);
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        FloodDto that = (FloodDto) o;
-        return age == that.age && Objects.equals(firstName, that.firstName) && Objects.equals(lastName, that.lastName) && Objects.equals(phone, that.phone) && Objects.equals(medications, that.medications) && Objects.equals(allergies, that.allergies);
+        FloodDto floodDto = (FloodDto) o;
+        return Objects.equals(address, floodDto.address) && Objects.equals(householdMembers, floodDto.householdMembers);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(firstName, lastName, phone, age, medications, allergies);
-    }
-
-    public FloodDto(String firstName, String lastName, String phone, int age, ArrayList<String> medications, ArrayList<String> allergies) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phone = phone;
-        this.age = age;
-        this.medications = new ArrayList<>(medications);
-        this.allergies = new ArrayList<>(allergies);
-    }
-
-    public FloodDto() {
+        return Objects.hash(address, householdMembers);
     }
 }

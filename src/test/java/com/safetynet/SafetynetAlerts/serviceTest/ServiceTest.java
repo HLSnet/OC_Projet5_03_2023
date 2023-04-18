@@ -183,7 +183,7 @@ public class ServiceTest {
         // ARRANGE
         List<Integer> stations = Arrays.asList(3,4);
 
-        FloodDto floodPersonDto = new FloodDto(
+        FloodPersonDto floodPersonDto = new FloodPersonDto(
                 "Felicia",
                 "Boyd",
                 "841-874-6544",
@@ -192,20 +192,23 @@ public class ServiceTest {
                 new ArrayList<>(Arrays.asList("xilliathal")));
 
         // ACT
-        Map<String, List<FloodDto>> floodDto = alertService.getHousesRelatedToAListOfStations(stations);
+        List<FloodDto> floodDtos = alertService.getHousesRelatedToAListOfStations(stations);
 
         // ASSERT
-        assertEquals(floodDto.size(), 5);
-        assertEquals(floodDto.get("112 Steppes Pl").size(), 3);
-        assertTrue(floodDto.get("1509 Culver St").contains(floodPersonDto));
+        assertEquals(floodDtos.size(), 5);
+        assertEquals(floodDtos.get(0).getAddress(), "112 Steppes Pl");
+        assertEquals(floodDtos.get(0).getHouseholdMembers().size(), 3);
+        assertEquals(floodDtos.get(0).getHouseholdMembers().get(1).getLastName(), "Peters");
     }
+
+
     @Test
     public void FindPersonsWithNoExistingStations() {
         // ARRANGE
         List<Integer> stations = Arrays.asList(20,30);
 
         // ACT
-        Map<String, List<FloodDto>> floodDto = alertService.getHousesRelatedToAListOfStations(stations);
+        List<FloodDto> floodDto = alertService.getHousesRelatedToAListOfStations(stations);
 
         // ASSERT
         assertNull(floodDto);

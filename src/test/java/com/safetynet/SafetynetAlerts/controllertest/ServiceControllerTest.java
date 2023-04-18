@@ -176,12 +176,13 @@ public class ServiceControllerTest {
     @Test
     public void AlertService_shouldUseGetHousesRelatedToAListOfStations_ResultNotNull()  throws Exception {
         List<Integer> stations = Arrays.asList(3,4);
-        Map<String, List<FloodDto>> floodDtos = new HashMap<>();
+        List<FloodDto> floodDtos = new ArrayList<>();
 
         when(alertService.getHousesRelatedToAListOfStations(stations)).thenReturn(floodDtos);
 
         mockMvc.perform(get("http://localhost:8080/flood/stations?stations=" + stations.get(0) + ","+ stations.get(1)))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(0)));
 
         verify(alertService, times(1)).getHousesRelatedToAListOfStations(stations);
     }
@@ -193,7 +194,7 @@ public class ServiceControllerTest {
         when(alertService.getHousesRelatedToAListOfStations(stations)).thenReturn(null);
 
         mockMvc.perform(get("http://localhost:8080/flood/stations?stations=" + stations.get(0) + ","+ stations.get(1)))
-                .andExpect(status().isNoContent());
+                .andExpect(status().isOk());
 
         verify(alertService, times(1)).getHousesRelatedToAListOfStations(stations);
     }

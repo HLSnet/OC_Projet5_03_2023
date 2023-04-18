@@ -20,6 +20,7 @@ import static com.safetynet.safetynetalerts.constants.DBConstants.JSONFILE_BAK_P
 import static com.safetynet.safetynetalerts.constants.DBConstants.JSONFILE_TEST_PATHNAME;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -206,9 +207,12 @@ public class ServiceControllerIT {
         List<Integer> stations = Arrays.asList(3,4);
 
         mockMvc.perform(get("http://localhost:8080/flood/stations?stations=" + stations.get(0) + ","+ stations.get(1)))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].address", is("112 Steppes Pl")))
+                .andExpect(jsonPath("$[0].householdMembers", hasSize(3)))
+                .andExpect(jsonPath("$[0].householdMembers[1].lastName", is("Peters")));
 
-        // TODO
+        // TO COMPLETE (IF NEEDED)  
     }
 
     @Test
@@ -216,7 +220,8 @@ public class ServiceControllerIT {
         List<Integer> stations = Arrays.asList(30,40);
 
         mockMvc.perform(get("http://localhost:8080/flood/stations?stations=" + stations.get(0) + ","+ stations.get(1)))
-                .andExpect(status().isNoContent());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isEmpty());
     }
 
 

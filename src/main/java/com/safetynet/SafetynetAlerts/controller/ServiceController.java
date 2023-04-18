@@ -102,11 +102,11 @@ public class ServiceController {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // http://localhost:8080/flood/stations?stations=<a list of station_numbers>
     @GetMapping("flood/stations")
-        public ResponseEntity< Map<String, List<FloodDto>>>  getHousesRelatedToAListOfStations(@RequestParam List<Integer> stations){
-        Map<String, List<FloodDto>> floodDtos = alertService.getHousesRelatedToAListOfStations(stations);
+        public ResponseEntity<List<FloodDto>> getHousesRelatedToAListOfStations(@RequestParam List<Integer> stations){
+        List<FloodDto> floodDtos = alertService.getHousesRelatedToAListOfStations(stations);
             if (Objects.isNull(floodDtos)) {
-                // On renvoie le code : "204 No Content"
-                return ResponseEntity.noContent().build();
+                // On renvoie le code : "200 ok" avec une liste vide
+                return ResponseEntity.ok(Collections.emptyList());
             }
             return ResponseEntity.ok(floodDtos);
     }
