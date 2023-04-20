@@ -2,12 +2,15 @@ package com.safetynet.safetynetalerts.controllertest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.safetynet.safetynetalerts.controller.FirestationController;
+import com.safetynet.safetynetalerts.controller.PersonController;
 import com.safetynet.safetynetalerts.datautility.SetupJsonFile;
 import com.safetynet.safetynetalerts.model.Firestation;
 import com.safetynet.safetynetalerts.repository.FirestationDao;
 import com.safetynet.safetynetalerts.repository.JasonFileIO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -30,6 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(controllers = FirestationController.class)
 public class FirestationControllerTest {
+    private static Logger logger = LoggerFactory.getLogger(FirestationController.class);
 
     @Autowired
     private MockMvc mockMvc;
@@ -65,6 +69,7 @@ public class FirestationControllerTest {
 
         when(firestationDao.findByStation(1)).thenReturn(firestations);
 
+        logger.info("TU -> testGetFirestationOk() : Test unitaire de cas nominal de la methode FirestationDao::findByStation");
         mockMvc.perform(get("/firestation/station/" + station))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.[0].address").value("644 Gershwin Cir"))
@@ -85,6 +90,7 @@ public class FirestationControllerTest {
 
         when(firestationDao.findByStation(station)).thenReturn(firestations);
 
+        logger.info("TU -> testGetFirestationNok() : Test unitaire de cas d'erreur de la methode FirestationDao::findByStation");
         mockMvc.perform(get("/firestation/station/" + station))
                 .andExpect(status().isNoContent());
 
@@ -100,31 +106,33 @@ public class FirestationControllerTest {
     @Test
     public void testGetAdressesOk() throws Exception {
         // L'adresse existe
-        String adresse = "834 Binoc Ave";
+        String address = "834 Binoc Ave";
         int station = 3;
 
-        Firestation firestation = new Firestation(adresse, station);
+        Firestation firestation = new Firestation(address, station);
 
-        when(firestationDao.findByAdress(adresse)).thenReturn(firestation);
+        when(firestationDao.findByAddress(address)).thenReturn(firestation);
 
-        mockMvc.perform(get("/firestation/adress/" + adresse ))
+        logger.info("TU -> testGetAdressesOk() : Test unitaire de cas nominal de la methode FirestationDao::findByAddress");
+        mockMvc.perform(get("/firestation/address/" + address ))
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.address").value(adresse))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.address").value(address))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.station").value(station));
 
-        verify(firestationDao, times(1)).findByAdress(adresse);
+        verify(firestationDao, times(1)).findByAddress(address);
     }
     @Test
     public void testGetAdressesNok() throws Exception {
         // L'adresse n'existe pas
-        String adresse = "Nowhere";
+        String address = "Nowhere";
 
-        when(firestationDao.findByAdress(adresse)).thenReturn(null);
+        when(firestationDao.findByAddress(address)).thenReturn(null);
 
-        mockMvc.perform(get("/firestation/adress/" + adresse ))
+        logger.info("TU -> testGetAdressesNok() : Test unitaire de cas d'erreur de la methode FirestationDao::findByAddress");
+        mockMvc.perform(get("/firestation/address/" + address ))
                 .andExpect(status().isNoContent());
 
-        verify(firestationDao, times(1)).findByAdress(adresse);
+        verify(firestationDao, times(1)).findByAddress(address);
     }
 
 
@@ -137,13 +145,14 @@ public class FirestationControllerTest {
     @Test
     public void testAddFirestationOk() throws Exception {
         // La firestation  n'existe pas dans le fichier : ajout possible
-        String adresse = "New adress in the city";
+        String adresse = "New address in the city";
         int station = 19;
 
         Firestation firestation = new Firestation(adresse, station);
 
         when(firestationDao.save(firestation)).thenReturn(true);
 
+        logger.info("TU -> testAddFirestationOk() : Test unitaire de cas nominal de la methode FirestationDao::save");
         mockMvc.perform(post("/firestation")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(firestation)))
@@ -159,13 +168,14 @@ public class FirestationControllerTest {
     @Test
     public void testAddFirestationNok() throws Exception {
         // La firestation existe déja dans le fichier : pas d'ajout
-        String adresse = "834 Binoc Ave";
+        String address = "834 Binoc Ave";
         int station = 3;
 
-        Firestation firestation = new Firestation(adresse, station);
+        Firestation firestation = new Firestation(address, station);
 
         when(firestationDao.save(firestation)).thenReturn(false);
 
+        logger.info("TU -> testAddFirestationNok() : Test unitaire de cas  d'erreur de la methode FirestationDao::save");
         mockMvc.perform(post("/firestation")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(firestation)))
@@ -190,6 +200,7 @@ public class FirestationControllerTest {
 
         when(firestationDao.update(firestation)).thenReturn(true);
 
+        logger.info("TU -> testUpdateFirestationOk() : Test unitaire de cas nominal de la methode FirestationDao::update");
         mockMvc.perform(put("/firestation")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(firestation)))
@@ -202,13 +213,14 @@ public class FirestationControllerTest {
     @Test
     public void testUpdateFirestationNok() throws Exception {
         // La firestation n'existe pas dans le fichier : modification impossible
-        String adresse = "New adress in the city";
+        String address = "New address in the city";
         int station = 19;
 
-        Firestation firestation = new Firestation(adresse, station);
+        Firestation firestation = new Firestation(address, station);
 
         when(firestationDao.update(firestation)).thenReturn(false);
 
+        logger.info("TU -> testUpdateFirestationNok() : Test unitaire de cas  d'erreur de la methode FirestationDao::update");
         mockMvc.perform(put("/firestation")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(firestation)))
@@ -229,6 +241,7 @@ public class FirestationControllerTest {
 
         when(firestationDao.deleteStation(station)).thenReturn(true);
 
+        logger.info("TU -> testDeleteStationOk() : Test unitaire de cas nominal de la methode FirestationDao::deleteStation");
         mockMvc.perform(delete("/firestation/station/" + station))
                .andExpect(status().isOk());
 
@@ -240,11 +253,11 @@ public class FirestationControllerTest {
         // La station n'existe pas : suppression impossible
         int station = 100;
 
+        logger.info("TU -> testDeleteStationNok() : Test unitaire de cas d'erreur de la methode FirestationDao::deleteStation");
         when(firestationDao.deleteStation(station)).thenReturn(false);
 
         mockMvc.perform(delete("/firestation/station/" + station))
                 .andExpect(status().isNoContent());
-
         verify(firestationDao, times(1)).deleteStation(station);
     }
 
@@ -256,28 +269,30 @@ public class FirestationControllerTest {
     @Test
     public void testDeleteAdressOk() throws Exception {
         // L'adresse existe : suppression possible
-        String adresse = "834 Binoc Ave";
+        String address = "834 Binoc Ave";
 
-        when(firestationDao.deleteAdress(adresse)).thenReturn(true);
+        when(firestationDao.deleteAddress(address)).thenReturn(true);
 
-        mockMvc.perform(delete("/firestation/adress/" + adresse))
+        logger.info("TU -> testDeleteAdressOk() : Test unitaire de cas nominal de la methode FirestationDao::deleteAddress");
+        mockMvc.perform(delete("/firestation/address/" + address))
                 .andExpect(status().isOk());
 
-        verify(firestationDao, times(1)).deleteAdress(adresse);
+        verify(firestationDao, times(1)).deleteAddress(address);
     }
 
 
     @Test
     public void testDeleteAdressNok() throws Exception {
         // L'adresse n'existe pas : suppression impossible
-        String adresse = "Nowhere";
+        String address = "Nowhere";
 
-        when(firestationDao.deleteAdress(adresse)).thenReturn(false);
+        when(firestationDao.deleteAddress(address)).thenReturn(false);
 
-        mockMvc.perform(delete("/firestation/adress/" + adresse))
+        logger.info("TU -> testDeleteAdressNok() : Test unitaire de cas d'erreur de la methode FirestationDao::deleteAddress");
+        mockMvc.perform(delete("/firestation/address/" + address))
                 .andExpect(status().isNoContent());
 
-        verify(firestationDao, times(1)).deleteAdress(adresse);
+        verify(firestationDao, times(1)).deleteAddress(address);
     }
 
 }

@@ -36,6 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class PersonControllerTest {
 
         private static Logger logger = LoggerFactory.getLogger(PersonController.class);
+
         @Autowired
         private MockMvc mockMvc;
 
@@ -68,7 +69,7 @@ public class PersonControllerTest {
 
                 when(personDao.findByName("Averell", "Dalton")).thenReturn(person);
 
-                logger.info("TU -> testGetPersonOk() : Test unitaire de cas nominal de la methode personDao::findByName");
+                logger.info("TU -> testGetPersonOk() : Test unitaire de cas nominal de la methode PersonDao::findByName");
                 mockMvc.perform(get("/person/Averell/Dalton"))
                         .andExpect(status().isOk())
                         .andExpect(MockMvcResultMatchers.jsonPath("$.firstName").value("Averell"))
@@ -87,7 +88,7 @@ public class PersonControllerTest {
         public void testGetPersonNok() throws Exception {
         // La personne n'existe pas
         when(personDao.findByName("Averell", "Dalton")).thenReturn(null);
-                logger.info("TU -> testGetPersonNok() : Test unitaire de cas d'erreur de la methode personDao::findByName");
+                logger.info("TU -> testGetPersonNok() : Test unitaire de cas d'erreur de la methode PersonDao::findByName");
         mockMvc.perform(get("/person/Averell/Dalton"))
                 .andExpect(status().isNoContent());
 
@@ -113,7 +114,7 @@ public class PersonControllerTest {
                         "a.dalton@jail.com");
 
                 when(personDao.save(person)).thenReturn(true);
-                logger.info("TU -> testPostPersonOk() : Test unitaire de cas nominal de la methode personDao::save");
+                logger.info("TU -> testPostPersonOk() : Test unitaire de cas nominal de la methode PersonDao::save");
                 mockMvc.perform(post("/person")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(person)))
@@ -137,7 +138,7 @@ public class PersonControllerTest {
                         "a.dalton@jail.com");
 
                 when(personDao.save(person)).thenReturn(false);
-                logger.info("TU -> testPostPersonNok() : Test unitaire de cas d'erreur de la methode personDao::save");
+                logger.info("TU -> testPostPersonNok() : Test unitaire de cas d'erreur de la methode PersonDao::save");
                 mockMvc.perform(post("/person")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(person)))
@@ -165,7 +166,7 @@ public class PersonControllerTest {
                         "a.dalton@jail.com");
 
                 when(personDao.update(person)).thenReturn(true);
-                logger.info("TU -> testPutPersonOk() : Test unitaire de cas nominal de la methode personDao::update");
+                logger.info("TU -> testPutPersonOk() : Test unitaire de cas nominal de la methode PersonDao::update");
                 mockMvc.perform(put("/person")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(new ObjectMapper().writeValueAsString(person)))
@@ -188,7 +189,7 @@ public class PersonControllerTest {
                         "a.dalton@jail.com");
 
                 when(personDao.update(person)).thenReturn(false);
-                logger.info("TU -> testPutPersonNok() : Test unitaire de cas d'erreur de la methode personDao::update");
+                logger.info("TU -> testPutPersonNok() : Test unitaire de cas d'erreur de la methode PersonDao::update");
                 mockMvc.perform(put("/person")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(new ObjectMapper().writeValueAsString(person)))
@@ -204,7 +205,7 @@ public class PersonControllerTest {
         public void testDeletePersonOk() throws Exception {
                 // La personne existe : suppression possible
                 when(personDao.delete("Averell", "Dalton")).thenReturn(true);
-                logger.info("TU -> testDeletePersonOk() : Test unitaire de cas nominal de la methode personDao::delete");
+                logger.info("TU -> testDeletePersonOk() : Test unitaire de cas nominal de la methode PersonDao::delete");
                 mockMvc.perform(delete("/person/Averell/Dalton"))
                       .andExpect(status().isOk());
                 verify(personDao, times(1)).delete("Averell", "Dalton");
@@ -215,7 +216,7 @@ public class PersonControllerTest {
         public void testDeletePersonNok() throws Exception {
                 // La personne n'existe pas : suppression impossible
                 when(personDao.delete("Averell", "Dalton")).thenReturn(false);
-                logger.info("TU -> testDeletePersonNok() : Test unitaire de cas d'erreur de la methode personDao::delete");
+                logger.info("TU -> testDeletePersonNok() : Test unitaire de cas d'erreur de la methode PersonDao::delete");
                 mockMvc.perform(delete("/person/Averell/Dalton"))
                         .andExpect(status().isNoContent());
                 verify(personDao, times(1)).delete("Averell", "Dalton");

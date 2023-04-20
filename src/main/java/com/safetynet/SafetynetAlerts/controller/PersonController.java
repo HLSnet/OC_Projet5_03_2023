@@ -30,8 +30,7 @@ public class PersonController {
     @GetMapping(value = "/person")
     public List<Person> getPersons() {
         logger.info("Requete GET en cours : http://localhost:8080/person");
-        List<Person> persons = personDao.findAll();
-        return persons;
+        return personDao.findAll();
     }
 
     // Afficher les informations d'une personne en fournissant son lastName et firstName

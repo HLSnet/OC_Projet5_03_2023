@@ -64,7 +64,7 @@ public class FirestationDaoImpl implements FirestationDao {
     }
 
     @Override
-    public Firestation  findByAdress(String adress) {
+    public Firestation findByAddress(String adress) {
             // On recupère la liste des firestation
             List<Firestation> firestations = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
 
@@ -144,7 +144,7 @@ public class FirestationDaoImpl implements FirestationDao {
     }
 
     @Override
-    public Boolean deleteAdress(String adress) {
+    public Boolean deleteAddress(String adress) {
         List<Firestation> firestations = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
 
         for (Firestation firestation : firestations) {

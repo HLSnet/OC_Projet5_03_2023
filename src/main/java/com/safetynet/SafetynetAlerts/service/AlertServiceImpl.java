@@ -164,11 +164,11 @@ public class AlertServiceImpl implements AlertService{
 
         List<Person> persons = personDao.findAll();
         List<Medicalrecord> medicalrecords = medicalrecordDao.findAll();
-        Firestation firestation = firestationDao.findByAdress(address);
+        Firestation firestation = firestationDao.findByAddress(address);
 
         List<FirePersonDto> householdMembersFound = new ArrayList<>();
         if (firestation != null) {
-            fireDto.setStation(firestationDao.findByAdress(address).getStation());
+            fireDto.setStation(firestationDao.findByAddress(address).getStation());
             // On récupère toutes les personnes ayant l'adresse fournie (les membres du foyer)
             for (Person person : persons) {
                 if (person.getAddress().equals(address)) {

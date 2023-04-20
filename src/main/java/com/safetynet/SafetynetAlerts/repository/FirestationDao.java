@@ -10,7 +10,7 @@ public interface FirestationDao {
 
     List<Firestation> findAll();
 
-    Firestation  findByAdress(String adress) ;
+    Firestation findByAddress(String adress) ;
 
     List<Firestation>  findByStation(int station);
 
@@ -20,5 +20,5 @@ public interface FirestationDao {
 
     Boolean deleteStation(int station);
 
-    Boolean deleteAdress(String adress);
+    Boolean deleteAddress(String adress);
 }

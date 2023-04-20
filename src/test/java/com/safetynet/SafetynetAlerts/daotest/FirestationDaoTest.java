@@ -47,7 +47,7 @@ public class FirestationDaoTest {
     @Test
     void testFindAnExistingAdress() {
         // ARRANGE, ACT
-        Firestation firestation = firestationDaoImpl.findByAdress("892 Downing Ct");
+        Firestation firestation = firestationDaoImpl.findByAddress("892 Downing Ct");
 
         // ASSERT
         assertNotNull(firestation);
@@ -58,7 +58,7 @@ public class FirestationDaoTest {
     @Test
     void testFindANonExistingAdress() {
         // ARRANGE, ACT
-        Firestation firestation = firestationDaoImpl.findByAdress("Nowhere");
+        Firestation firestation = firestationDaoImpl.findByAddress("Nowhere");
 
         // ASSERT
         assertNull(firestation);
@@ -279,7 +279,7 @@ public class FirestationDaoTest {
         // ACT
         firestations = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
         int nbFirestationsBefore = firestations.size();
-        Boolean result = firestationDaoImpl.deleteAdress(firestationToDelete.getAddress());
+        Boolean result = firestationDaoImpl.deleteAddress(firestationToDelete.getAddress());
 
         // ASSERT
         assertTrue(result);
@@ -301,7 +301,7 @@ public class FirestationDaoTest {
         // ACT
         firestations = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
         int nbFirestationsBefore = firestations.size();
-        Boolean result = firestationDaoImpl.deleteAdress(firestationToDelete.getAddress());
+        Boolean result = firestationDaoImpl.deleteAddress(firestationToDelete.getAddress());
 
         // ASSERT
         assertFalse(result);
