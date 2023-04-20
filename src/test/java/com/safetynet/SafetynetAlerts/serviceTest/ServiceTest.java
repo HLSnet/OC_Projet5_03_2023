@@ -1,6 +1,5 @@
 package com.safetynet.safetynetalerts.servicetest;
 
-import com.safetynet.safetynetalerts.datatest.IOTest;
 import com.safetynet.safetynetalerts.datautility.SetupJsonFile;
 import com.safetynet.safetynetalerts.dto.*;
 import com.safetynet.safetynetalerts.repository.FirestationDaoImpl;

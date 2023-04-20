@@ -8,6 +8,8 @@ import com.safetynet.safetynetalerts.repository.JasonFileIO;
 import com.safetynet.safetynetalerts.service.AlertService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -23,6 +25,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(controllers = ServiceController.class)
 public class ServiceControllerTest {
+
+    private static Logger logger = LoggerFactory.getLogger(ServiceControllerTest.class);
 
     @Autowired
     private MockMvc mockMvc;
@@ -43,12 +47,13 @@ public class ServiceControllerTest {
     //***************************************************************************************************
 
     @Test
-    public void AlertService_shouldUseGetPersonsRelatedToAStation_ResultNotNull() throws Exception {
+    public void AlertService_shouldGetPersonsRelatedToAStation_ResultNotNull() throws Exception {
         int stationNumber = 2;
         FirestationDto firestationDto = new FirestationDto();
 
         when(alertService.getPersonsRelatedToAStation(stationNumber)).thenReturn(firestationDto);
 
+        logger.info("TU -> AlertService_shouldGetPersonsRelatedToAStation_ResultNotNull() : Test unitaire de cas nominal de la methode AlertService::getPersonsRelatedToAStation");
         mockMvc.perform(get("http://localhost:8080/firestation?stationNumber=" + stationNumber))
                 .andExpect(status().isOk());
 
@@ -57,12 +62,13 @@ public class ServiceControllerTest {
     }
 
     @Test
-    public void AlertService_shouldUseGetPersonsRelatedToAStation_ResultNull() throws Exception {
+    public void AlertService_shouldGetPersonsRelatedToAStation_ResultNull() throws Exception {
         int stationNumber = 0;
         FirestationDto firestationDto = null;
 
         when(alertService.getPersonsRelatedToAStation(stationNumber)).thenReturn(firestationDto);
 
+        logger.info("TU -> AlertService_shouldGetPersonsRelatedToAStation_ResultNull() : Test unitaire de cas d'erreur de la methode AlertService::getPersonsRelatedToAStation");
         mockMvc.perform(get("http://localhost:8080/firestation?stationNumber=" + stationNumber))
 
                 .andExpect(status().isNoContent());
@@ -78,12 +84,13 @@ public class ServiceControllerTest {
     //***************************************************************************************************
 
     @Test
-    public  void AlertService_shouldUseGetChildsdRelatedToAnAddress_ResultNotNull()  throws Exception {
+    public  void AlertService_shouldGetChildsdRelatedToAnAddress_ResultNotNull()  throws Exception {
         String address = "1509 Culver St";
         List<ChildAlertDto> childAlertDtos = new ArrayList<>();
 
         when(alertService.getChildsdRelatedToAnAddress(address)).thenReturn(childAlertDtos);
 
+        logger.info("TU -> AlertService_shouldGetChildsdRelatedToAnAddress_ResultNotNull() : Test unitaire de cas nominal de la methode AlertService::getChildsdRelatedToAnAddress");
         mockMvc.perform(get("http://localhost:8080/childAlert?address=" + address))
                 .andExpect(status().isOk());
 
@@ -91,11 +98,12 @@ public class ServiceControllerTest {
     }
 
     @Test
-    public  void AlertService_shouldUseGetChildsdRelatedToAnAddress_ResultNull()  throws Exception {
+    public  void AlertService_shouldGetChildsdRelatedToAnAddress_ResultNull()  throws Exception {
         String address = "Nowhere";
 
         when(alertService.getChildsdRelatedToAnAddress(address)).thenReturn(null);
 
+        logger.info("TU -> AlertService_shouldGetChildsdRelatedToAnAddress_ResultNull() : Test unitaire de cas d'erreur de la methode AlertService::getChildsdRelatedToAnAddress");
         mockMvc.perform(get("http://localhost:8080/childAlert?address=" + address))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(0)));
@@ -109,12 +117,13 @@ public class ServiceControllerTest {
     // Tests unitaires de la classe  ServiceController
     //***************************************************************************************************
     @Test
-    public void AlertService_shouldUseGetPhoneNumbersRelatedToAStation_ResultNotNull()  throws Exception {
+    public void AlertService_shouldGetPhoneNumbersRelatedToAStation_ResultNotNull()  throws Exception {
         int stationNumber = 2;
         List<String> phoneNumbers = new ArrayList<>();
 
         when(alertService.getPhoneNumbersRelatedToAStation(stationNumber)).thenReturn(phoneNumbers);
 
+        logger.info("TU -> AlertService_shouldGetPhoneNumbersRelatedToAStation_ResultNotNull() : Test unitaire de cas nominal de la methode AlertService::getPhoneNumbersRelatedToAStation");
         mockMvc.perform(get("http://localhost:8080/phoneAlert?firestation=" + stationNumber))
                 .andExpect(status().isOk());
 
@@ -122,11 +131,12 @@ public class ServiceControllerTest {
     }
 
     @Test
-    public void AlertService_shouldUseGetPhoneNumbersRelatedToAStation_ResultNull()  throws Exception {
+    public void AlertService_shouldGetPhoneNumbersRelatedToAStation_ResultNull()  throws Exception {
         int stationNumber = 0;
 
         when(alertService.getPhoneNumbersRelatedToAStation(stationNumber)).thenReturn(null);
 
+        logger.info("TU -> AlertService_shouldGetPhoneNumbersRelatedToAStation_ResultNull() : Test unitaire de cas d'erreur de la methode AlertService::getPhoneNumbersRelatedToAStation");
         mockMvc.perform(get("http://localhost:8080/phoneAlert?firestation=" + stationNumber))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(0)));
@@ -141,13 +151,14 @@ public class ServiceControllerTest {
     // Tests unitaires de la classe  ServiceController
     //***************************************************************************************************
     @Test
-    public void AlertService_shouldUseGetPersonsRelatedToAnAddress_ResultNotNull() throws Exception {
+    public void AlertService_shouldGetPersonsRelatedToAnAddress_ResultNotNull() throws Exception {
         String address = "1509 Culver St";
         FireDto  fireDto = new FireDto();
         fireDto.setHouseholdMembers(new ArrayList<>());
 
         when(alertService.getPersonsRelatedToAnAddress(address)).thenReturn(fireDto);
 
+        logger.info("TU -> AlertService_shouldGetPersonsRelatedToAnAddress_ResultNotNull() : Test unitaire de cas nominal de la methode AlertService::getPersonsRelatedToAnAddress");
         mockMvc.perform(get("http://localhost:8080/fire?address=" + address))
                 .andExpect(status().isOk());
 
@@ -156,11 +167,12 @@ public class ServiceControllerTest {
 
 
     @Test
-    public void AlertService_shouldUseGetPersonsRelatedToAnAddress_ResultNull() throws Exception {
+    public void AlertService_shouldGetPersonsRelatedToAnAddress_ResultNull() throws Exception {
         String address = "Nowhere";
 
         when(alertService.getPersonsRelatedToAnAddress(address)).thenReturn(null);
 
+        logger.info("TU -> AlertService_shouldGetPersonsRelatedToAnAddress_ResultNull() : Test unitaire de cas d'erreur de la methode AlertService::getPersonsRelatedToAnAddress");
         mockMvc.perform(get("http://localhost:8080/fire?address=" + address))
                 .andExpect(status().isNoContent());
 
@@ -174,12 +186,13 @@ public class ServiceControllerTest {
     // Tests unitaires de la classe  ServiceController
     //***************************************************************************************************
     @Test
-    public void AlertService_shouldUseGetHousesRelatedToAListOfStations_ResultNotNull()  throws Exception {
+    public void AlertService_shouldGetHousesRelatedToAListOfStations_ResultNotNull()  throws Exception {
         List<Integer> stations = Arrays.asList(3,4);
         List<FloodDto> floodDtos = new ArrayList<>();
 
         when(alertService.getHousesRelatedToAListOfStations(stations)).thenReturn(floodDtos);
 
+        logger.info("TU -> AlertService_shouldGetHousesRelatedToAListOfStations_ResultNotNull() : Test unitaire de cas nominal de la methode AlertService::getHousesRelatedToAListOfStations");
         mockMvc.perform(get("http://localhost:8080/flood/stations?stations=" + stations.get(0) + ","+ stations.get(1)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(0)));
@@ -188,11 +201,12 @@ public class ServiceControllerTest {
     }
 
     @Test
-    public void AlertService_shouldUseGetHousesRelatedToAListOfStations_ResultNull()  throws Exception {
+    public void AlertService_shouldGetHousesRelatedToAListOfStations_ResultNull()  throws Exception {
         List<Integer> stations = Arrays.asList(30,40);
 
         when(alertService.getHousesRelatedToAListOfStations(stations)).thenReturn(null);
 
+        logger.info("TU -> AlertService_shouldGetHousesRelatedToAListOfStations_ResultNull() : Test unitaire de cas d'erreur de la methode AlertService::getHousesRelatedToAListOfStations");
         mockMvc.perform(get("http://localhost:8080/flood/stations?stations=" + stations.get(0) + ","+ stations.get(1)))
                 .andExpect(status().isOk());
 
@@ -207,7 +221,7 @@ public class ServiceControllerTest {
     // Tests unitaires de la classe  ServiceController
     //***************************************************************************************************
     @Test
-    public void AlertService_shouldUseGetInfoPerson_ResultNotNull() throws Exception {
+    public void AlertService_shouldGetInfoPerson_ResultNotNull() throws Exception {
         List<InfoPersonDto> InfoPersonDtos = new ArrayList<>();
 
         String firstName = "Sophia";
@@ -215,6 +229,7 @@ public class ServiceControllerTest {
 
         when(alertService.getInfoPerson(firstName, lastName)).thenReturn(InfoPersonDtos);
 
+        logger.info("TU -> AlertService_shouldGetInfoPerson_ResultNotNull() : Test unitaire de cas nominal de la methode AlertService::getInfoPerson");
         mockMvc.perform(get("http://localhost:8080/personInfo?firstName=" + firstName + "&lastName=" + lastName))
                 .andExpect(status().isOk());
 
@@ -222,12 +237,13 @@ public class ServiceControllerTest {
     }
 
     @Test
-    public void AlertService_shouldUseGetInfoPerson_ResultNull() throws Exception {
+    public void AlertService_shouldGetInfoPerson_ResultNull() throws Exception {
         String firstName = "Averell";
         String lastName = "Dalton";
 
         when(alertService.getInfoPerson(firstName, lastName)).thenReturn(null);
 
+        logger.info("TU -> AlertService_shouldGetInfoPerson_ResultNull() : Test unitaire de cas d'erreur de la methode AlertService::getInfoPerson");
         mockMvc.perform(get("http://localhost:8080/personInfo?firstName=" + firstName + "&lastName=" + lastName))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(0)));
@@ -242,12 +258,13 @@ public class ServiceControllerTest {
     // Tests unitaires de la classe  ServiceController
     //***************************************************************************************************
     @Test
-    public void AlertService_shouldUseGetMailsRelatedToACity_ResultNotNull() throws Exception {
+    public void AlertService_shouldGetMailsRelatedToACity_ResultNotNull() throws Exception {
         List<String> mails = new ArrayList<>();
         String city = "Culver";
 
         when(alertService.getMailsRelatedToACity(city)).thenReturn(mails);
 
+        logger.info("TU -> AlertService_shouldGetMailsRelatedToACity_ResultNotNull() : Test unitaire de cas nominal de la methode AlertService::getMailsRelatedToACity");
         mockMvc.perform(get("http://localhost:8080/communityEmail?city=" + city))
                 .andExpect(status().isOk());
 
@@ -256,11 +273,12 @@ public class ServiceControllerTest {
 
 
     @Test
-    public void AlertService_shouldUseGetMailsRelatedToACity_ResultNull() throws Exception {
+    public void AlertService_shouldGetMailsRelatedToACity_ResultNull() throws Exception {
         String city = "Paris";
 
         when(alertService.getMailsRelatedToACity(city)).thenReturn(null);
 
+        logger.info("TU -> AlertService_shouldGetMailsRelatedToACity_ResultNull() : Test unitaire de cas d'erreur de la methode AlertService::getMailsRelatedToACity");
         mockMvc.perform(get("http://localhost:8080/communityEmail?city=" + city))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(0)));

@@ -3,7 +3,6 @@ package com.safetynet.safetynetalerts.controllertest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.safetynet.safetynetalerts.controller.MedicalRecordController;
-import com.safetynet.safetynetalerts.controller.PersonController;
 import com.safetynet.safetynetalerts.datautility.SetupJsonFile;
 import com.safetynet.safetynetalerts.model.Medicalrecord;
 import com.safetynet.safetynetalerts.repository.JasonFileIO;

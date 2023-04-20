@@ -175,7 +175,7 @@ public class ServiceController {
             // On renvoie le code : "200 ok" avec une liste vide
             return ResponseEntity.ok(Collections.emptyList());
         }
-        logger.info("Resultat de la requete en cours :2 00 ok");
+        logger.info("Resultat de la requete en cours :200 ok");
         return ResponseEntity.ok(mails);
     }
 }
