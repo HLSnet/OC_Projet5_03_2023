@@ -1,4 +1,4 @@
-package com.safetynet.safetynetalerts.datatest;
+package com.safetynet.safetynetalerts.datautility;
 
 import java.io.*;
 

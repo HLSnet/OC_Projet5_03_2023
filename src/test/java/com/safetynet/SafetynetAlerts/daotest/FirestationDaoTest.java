@@ -1,11 +1,14 @@
-package com.safetynet.safetynetalerts.firestation;
+package com.safetynet.safetynetalerts.daotest;
 
-import com.safetynet.safetynetalerts.datatest.SetupJsonFile;
+import com.safetynet.safetynetalerts.datautility.SetupJsonFile;
 import com.safetynet.safetynetalerts.model.Firestation;
 import com.safetynet.safetynetalerts.repository.FirestationDao;
 import com.safetynet.safetynetalerts.repository.JasonFileIO;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -17,9 +20,15 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @SpringBootTest
-public class FirestationTest {
+public class FirestationDaoTest {
         private List<Firestation> firestations;
 
+        private static Logger logger = LoggerFactory.getLogger(FirestationDaoTest.class);
+
+        @BeforeAll
+        static void startingCode(){
+            logger.debug("*** TESTS UNITAIRES ***  des methodes DAO de la classe FirestationDaoImpl");
+        }
 
         @BeforeEach
         void setUpData(){

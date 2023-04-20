@@ -2,7 +2,7 @@ package com.safetynet.safetynetalerts.controllertest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.safetynet.safetynetalerts.controller.FirestationController;
-import com.safetynet.safetynetalerts.datatest.SetupJsonFile;
+import com.safetynet.safetynetalerts.datautility.SetupJsonFile;
 import com.safetynet.safetynetalerts.model.Firestation;
 import com.safetynet.safetynetalerts.repository.FirestationDao;
 import com.safetynet.safetynetalerts.repository.JasonFileIO;

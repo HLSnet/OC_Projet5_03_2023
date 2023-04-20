@@ -44,9 +44,9 @@ public class ServiceController {
             // On renvoie le code : "204 No Content"
             return ResponseEntity.noContent().build();
         }
-        logger.info("Resultat de la requete en cours : ok");
+        logger.info("Resultat de la requete en cours : 200 ok");
         return ResponseEntity.ok(firestationDto);
-        }
+    }
 
 
 
@@ -67,7 +67,7 @@ public class ServiceController {
             // On renvoie le code : "200 ok" avec une liste vide
             return ResponseEntity.ok(Collections.emptyList());
         }
-        logger.info("Resultat de la requete en cours : ok");
+        logger.info("Resultat de la requete en cours : 200 ok");
         return ResponseEntity.ok(childAlertDtos);
     }
 
@@ -88,7 +88,7 @@ public class ServiceController {
             // On renvoie le code : "200 ok" avec une liste vide
             return ResponseEntity.ok(Collections.emptyList());
         }
-        logger.info("Resultat de la requete en cours : ok");
+        logger.info("Resultat de la requete en cours : 200 ok");
         return ResponseEntity.ok(phoneNumbers);
     }
 
@@ -110,7 +110,7 @@ public class ServiceController {
             // On renvoie le code : "204 No Content"
             return ResponseEntity.noContent().build();
         }
-        logger.info("Resultat de la requete en cours : ok");
+        logger.info("Resultat de la requete en cours : 200 ok");
         return ResponseEntity.ok(fireDto);
     }
 
@@ -122,7 +122,7 @@ public class ServiceController {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // http://localhost:8080/flood/stations?stations=<a list of station_numbers>
     @GetMapping("flood/stations")
-        public ResponseEntity<List<FloodDto>> getHousesRelatedToAListOfStations(@RequestParam List<Integer> stations){
+    public ResponseEntity<List<FloodDto>> getHousesRelatedToAListOfStations(@RequestParam List<Integer> stations){
 
         logger.info("http://localhost:8080/flood/stations?stations={}", + stations.get(0) + ","+ stations.get(1));
 
@@ -132,7 +132,7 @@ public class ServiceController {
             // On renvoie le code : "200 ok" avec une liste vide
             return ResponseEntity.ok(Collections.emptyList());
         }
-        logger.info("Resultat de la requete en cours : ok");
+        logger.info("Resultat de la requete en cours : 200 ok");
         return ResponseEntity.ok(floodDtos);
     }
 
@@ -155,7 +155,7 @@ public class ServiceController {
             // On renvoie le code : "200 ok" avec une liste vide
             return ResponseEntity.ok(Collections.emptyList());
         }
-        logger.info("Resultat de la requete en cours : ok");
+        logger.info("Resultat de la requete en cours : 200 ok");
         return ResponseEntity.ok(InfoPersonDtos);
     }
 
@@ -175,7 +175,7 @@ public class ServiceController {
             // On renvoie le code : "200 ok" avec une liste vide
             return ResponseEntity.ok(Collections.emptyList());
         }
-        logger.info("Resultat de la requete en cours : ok");
+        logger.info("Resultat de la requete en cours :2 00 ok");
         return ResponseEntity.ok(mails);
     }
 }

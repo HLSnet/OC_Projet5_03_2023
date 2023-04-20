@@ -1,12 +1,16 @@
 package com.safetynet.safetynetalerts.servicetest;
 
-import com.safetynet.safetynetalerts.datatest.SetupJsonFile;
+import com.safetynet.safetynetalerts.datatest.IOTest;
+import com.safetynet.safetynetalerts.datautility.SetupJsonFile;
 import com.safetynet.safetynetalerts.dto.*;
 import com.safetynet.safetynetalerts.repository.FirestationDaoImpl;
 import com.safetynet.safetynetalerts.repository.JasonFileIO;
 import com.safetynet.safetynetalerts.service.AlertService;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -24,6 +28,14 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ServiceTest {
     @Autowired
     private AlertService alertService;
+
+    private static Logger logger = LoggerFactory.getLogger(ServiceTest.class);
+
+    @BeforeAll
+    static void startingCode(){
+        logger.debug("*** TESTS UNITAIRES ***  des methodes des controllers REST de la classe AlertService");
+    }
+
 
     @BeforeEach
     void setUpData(){

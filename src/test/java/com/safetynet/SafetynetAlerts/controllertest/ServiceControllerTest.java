@@ -2,7 +2,7 @@ package com.safetynet.safetynetalerts.controllertest;
 
 
 import com.safetynet.safetynetalerts.controller.ServiceController;
-import com.safetynet.safetynetalerts.datatest.SetupJsonFile;
+import com.safetynet.safetynetalerts.datautility.SetupJsonFile;
 import com.safetynet.safetynetalerts.dto.*;
 import com.safetynet.safetynetalerts.repository.JasonFileIO;
 import com.safetynet.safetynetalerts.service.AlertService;

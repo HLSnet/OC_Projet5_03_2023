@@ -1,11 +1,14 @@
-package com.safetynet.safetynetalerts.medicalrecord;
+package com.safetynet.safetynetalerts.daotest;
 
-import com.safetynet.safetynetalerts.datatest.SetupJsonFile;
+import com.safetynet.safetynetalerts.datautility.SetupJsonFile;
 import com.safetynet.safetynetalerts.model.Medicalrecord;
 import com.safetynet.safetynetalerts.repository.JasonFileIO;
 import com.safetynet.safetynetalerts.repository.MedicalrecordDao;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -17,9 +20,17 @@ import static com.safetynet.safetynetalerts.constants.DBConstants.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-public class MedicalrecordTest {
+public class MedicalrecordDaoTest {
 
     private List<Medicalrecord> medicalrecords;
+
+    private static Logger logger = LoggerFactory.getLogger(MedicalrecordDaoTest.class);
+
+    @BeforeAll
+    static void startingCode(){
+        logger.debug("*** TESTS UNITAIRES ***  des methodes DAO de la classe MedicalrecordDaoImpl");
+    }
+
 
     @BeforeEach
     void setUpData(){
