@@ -41,7 +41,6 @@ public class PersonController {
         Person personGot = personDao.findByName(firstName, lastName);
         if (Objects.isNull(personGot)) {
             logger.error("Resultat de la requete GET en cours : 204 No Content");
-            //Si la personne n'existe pas dans le fichier : on renvoie le code : "204 No Content"
             return ResponseEntity.noContent().build();
         }
         logger.info("Resultat de la requete GET en cours : 200 ok");
@@ -59,7 +58,6 @@ public class PersonController {
         logger.info("Requete POST en cours : http://localhost:8080/person");
         if (!personDao.save(person)) {
             logger.error("Resultat de la requete POST en cours : 204 No Content");
-            //On renvoie le code : "204 No Content"
             return ResponseEntity.noContent().build();
         }
         // On renvoie le code "201 Created" et l'URI vers la ressource créée dans le champ Location.
@@ -68,6 +66,7 @@ public class PersonController {
                 .path("/{firstName}/{lastName}")
                 .buildAndExpand(person.getFirstName() ,person.getLastName())
                 .toUri();
+
         logger.info("Resultat de la requete POST en cours : 201 created URI = {}", location);
         return ResponseEntity.created(location).build();
     }
@@ -84,7 +83,6 @@ public class PersonController {
         logger.info("Requete PUT en cours : http://localhost:8080/person");
         if (!personDao.update(person)) {
             logger.error("Resultat de la requete PUT en cours : 204 No Content");
-            //Si la personne n'existe pas dans le fichier : on renvoie le code : "204 No Content"
             return ResponseEntity.noContent().build();
         }
         logger.info("Resultat de la requete PUT en cours : 200 ok");
@@ -102,7 +100,6 @@ public class PersonController {
         logger.info("Requete DELETE en cours : http://localhost:8080/person/{}/{}", firstName, lastName);
         if (!personDao.delete(firstName, lastName)) {
             logger.error("Resultat de la requete DELETE en cours : 204 No Content");
-            //Si la personne n'existe pas dans le fichier : on renvoie le code : "204 No Content"
             return ResponseEntity.noContent().build();
         }
         logger.info("Resultat de la requete DELETE en cours : 200 ok");

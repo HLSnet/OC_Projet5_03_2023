@@ -2,6 +2,8 @@ package com.safetynet.safetynetalerts.controller;
 
 import com.safetynet.safetynetalerts.model.Medicalrecord;
 import com.safetynet.safetynetalerts.repository.MedicalrecordDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,8 @@ import java.util.Objects;
 @RestController
 public class MedicalRecordController {
 
+    private static Logger logger = LoggerFactory.getLogger(MedicalRecordController.class);
+
     @Autowired
     MedicalrecordDao medicalrecordDao;
 
@@ -26,6 +30,7 @@ public class MedicalRecordController {
     // http://localhost:8080/medicalrecord
     @GetMapping(value = "/medicalrecord")
     public List<Medicalrecord> getMedicalrecord() {
+        logger.info("Requete GET en cours : http://localhost:8080/medicalrecord");
         return medicalrecordDao.findAll();
     }
 
@@ -34,12 +39,14 @@ public class MedicalRecordController {
     // http://localhost:8080/medicalrecord/{firstName}/{lastName}
     @GetMapping(value = "/medicalrecord/{firstName}/{lastName}")
     public ResponseEntity<Medicalrecord> getMedicalrecord(@PathVariable String firstName, @PathVariable  String lastName) {
-        Medicalrecord medicalrecordGot = medicalrecordDao.findByName(firstName, lastName);
+        logger.info("Requete Get en cours : http://localhost:8080/medicalrecord/{}/{}", firstName, lastName);
 
+        Medicalrecord medicalrecordGot = medicalrecordDao.findByName(firstName, lastName);
         if (Objects.isNull(medicalrecordGot)) {
-            //Si le dossier médical n'existe pas dans le fichier : on renvoie le code : "204 No Content"
+            logger.error("Resultat de la requete GET en cours : 204 No Content");
             return ResponseEntity.noContent().build();
         }
+        logger.info("Resultat de la requete GET en cours : 200 ok");
         return ResponseEntity.ok(medicalrecordGot);
     }
 
@@ -51,9 +58,9 @@ public class MedicalRecordController {
     // http://localhost:8080/medicalrecord
     @PostMapping(value = "/medicalrecord")
     public ResponseEntity<Void> addMedicalrecord(@RequestBody Medicalrecord medicalrecord) {
-
+        logger.info("Requete POST en cours : http://localhost:8080/medicalrecord");
         if (!medicalrecordDao.save(medicalrecord)) {
-            //On renvoie le code : "204 No Content"
+            logger.error("Resultat de la requete POST en cours : 204 No Content");
             return ResponseEntity.noContent().build();
         }
 
@@ -63,6 +70,8 @@ public class MedicalRecordController {
                 .path("/{firstName}/{lastName}")
                 .buildAndExpand(medicalrecord.getFirstName() ,medicalrecord.getLastName())
                 .toUri();
+
+        logger.info("Resultat de la requete POST en cours : 201 created URI = {}", location);
         return ResponseEntity.created(location).build();
     }
 
@@ -75,12 +84,12 @@ public class MedicalRecordController {
     // http://localhost:8080/medicalrecord
     @PutMapping(value = "/medicalrecord")
     public ResponseEntity<Void> updateMedicalrecord(@RequestBody Medicalrecord medicalrecord) {
-
+        logger.info("Requete PUT en cours : http://localhost:8080/medicalrecord");
         if (!medicalrecordDao.update(medicalrecord)) {
-            //Si le dossier médical n'existe pas dans le fichier : on renvoie le code : "204 No Content"
+            logger.error("Resultat de la requete PUT en cours : 204 No Content");
             return ResponseEntity.noContent().build();
         }
-        // On renvoie le code "200 OK"
+        logger.info("Resultat de la requete PUT en cours : 200 ok");
         return ResponseEntity.ok().build();
     }
 
@@ -92,12 +101,13 @@ public class MedicalRecordController {
     // http://localhost:8080/medicalrecord/{firstName}/{lastName}
     @DeleteMapping(value = "/medicalrecord/{firstName}/{lastName}")
     public ResponseEntity<Void> deleteMedicalrecord(@PathVariable String firstName, @PathVariable  String lastName) {
-
+        logger.info("Requete DELETE en cours : http://localhost:8080/medicalrecord/{}/{}", firstName, lastName);
         if (!medicalrecordDao.delete(firstName, lastName)) {
-            //Si le dossier médical n'existe pas dans le fichier : on renvoie le code : "204 No Content"
+            logger.error("Resultat de la requete DELETE en cours : 204 No Content");
             return ResponseEntity.noContent().build();
         }
-        // On renvoie le code "200 OK"
+
+        logger.info("Resultat de la requete DELETE en cours : 200 ok");
         return ResponseEntity.ok().build();
     }
 }

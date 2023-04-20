@@ -3,12 +3,15 @@ package com.safetynet.safetynetalerts.controllertest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.safetynet.safetynetalerts.controller.MedicalRecordController;
+import com.safetynet.safetynetalerts.controller.PersonController;
 import com.safetynet.safetynetalerts.datautility.SetupJsonFile;
 import com.safetynet.safetynetalerts.model.Medicalrecord;
 import com.safetynet.safetynetalerts.repository.JasonFileIO;
 import com.safetynet.safetynetalerts.repository.MedicalrecordDao;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -30,6 +33,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(controllers = MedicalRecordController.class)
 public class MedicalRecordControllerTest {
+
+    private static Logger logger = LoggerFactory.getLogger(MedicalRecordControllerTest.class);
 
     @Autowired
     private MockMvc mockMvc;
@@ -65,6 +70,7 @@ public class MedicalRecordControllerTest {
 
         when(medicalrecordDao.findByName("Averell", "Dalton")).thenReturn(medicalrecord);
 
+        logger.info("TU -> testGetMedicalrecordOk() : Test unitaire de cas nominal de la methode MedicalrecordDao::findByName");
         mockMvc.perform(get("/medicalrecord/Averell/Dalton"))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.firstName").value("Averell"))
@@ -83,6 +89,7 @@ public class MedicalRecordControllerTest {
     public void testGetMedicalrecordNok() throws Exception {
         // La personne n'existe pas
         when(medicalrecordDao.findByName("Averell", "Dalton")).thenReturn(null);
+        logger.info("TU -> testGetMedicalrecordNok() : Test unitaire de cas d'erreur de la methode MedicalrecordDao::findByName");
         mockMvc.perform(get("/medicalrecord/Averell/Dalton"))
                 .andExpect(status().isNoContent());
 
@@ -112,6 +119,7 @@ public class MedicalRecordControllerTest {
 
         when(medicalrecordDao.save(medicalrecord)).thenReturn(true);
 
+        logger.info("TU -> testAddMedicalrecordOk() : Test unitaire de cas nominal de la methode MedicalrecordDao::save");
         mockMvc.perform(post("/medicalrecord")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(new ObjectMapper().writeValueAsString(medicalrecord)))
@@ -138,6 +146,7 @@ public class MedicalRecordControllerTest {
 
         when(medicalrecordDao.save(medicalrecord)).thenReturn(false);
 
+        logger.info("TU -> testAddMedicalrecordNok() : Test unitaire de cas d'erreur de la methode MedicalrecordDao::save");
         mockMvc.perform(post("/medicalrecord")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(medicalrecord)))
@@ -169,6 +178,7 @@ public class MedicalRecordControllerTest {
 
         when(medicalrecordDao.update(medicalrecord)).thenReturn(true);
 
+        logger.info("TU -> medicalrecordDao() : Test unitaire de cas nominal de la methode MedicalrecordDao::update");
         mockMvc.perform(put("/medicalrecord")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(medicalrecord)))
@@ -194,6 +204,7 @@ public class MedicalRecordControllerTest {
 
         when(medicalrecordDao.update(medicalrecord)).thenReturn(false);
 
+        logger.info("TU -> testUpdateMedicalrecordNok() : Test unitaire de cas d'erreur de la methode MedicalrecordDao::update");
         mockMvc.perform(put("/medicalrecord")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(medicalrecord)))
@@ -212,6 +223,8 @@ public class MedicalRecordControllerTest {
     public void testDeleteMedicalrecordOk() throws Exception {
         // Le dossier médical existe : suppression possible
         when(medicalrecordDao.delete("Averell", "Dalton")).thenReturn(true);
+
+        logger.info("TU -> testDeleteMedicalrecordOk() : Test unitaire de cas nominal de la methode MedicalrecordDao::delete");
         mockMvc.perform(delete("/medicalrecord/Averell/Dalton"))
                 .andExpect(status().isOk());
         verify(medicalrecordDao, times(1)).delete("Averell", "Dalton");
@@ -222,6 +235,8 @@ public class MedicalRecordControllerTest {
     public void testDeleteMedicalrecordNok() throws Exception {
         // Le dossier médical n'existe pas : suppression impossible
         when(medicalrecordDao.delete("Averell", "Dalton")).thenReturn(false);
+
+        logger.info("TU -> testDeleteMedicalrecordNok() : Test unitaire de cas d'erreur de la methode MedicalrecordDao::delete");
         mockMvc.perform(delete("/medicalrecord/Averell/Dalton"))
                 .andExpect(status().isNoContent());
         verify(medicalrecordDao, times(1)).delete("Averell", "Dalton");
