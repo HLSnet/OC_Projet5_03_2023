@@ -140,9 +140,9 @@ public class PersonControllerTest {
                 when(personDao.save(person)).thenReturn(false);
                 logger.info("TU -> testPostPersonNok() : Test unitaire de cas d'erreur de la methode PersonDao::save");
                 mockMvc.perform(post("/person")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(person)))
-                        .andExpect(status().isNoContent());
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(new ObjectMapper().writeValueAsString(person)))
+                        .andExpect(status().isConflict());
 
                 verify(personDao, times(1)).save(person);
         }

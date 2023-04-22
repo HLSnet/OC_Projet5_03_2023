@@ -149,7 +149,7 @@ public class MedicalRecordControllerTest {
         mockMvc.perform(post("/medicalrecord")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(medicalrecord)))
-                .andExpect(status().isNoContent());
+                .andExpect(status().isConflict());
 
         verify(medicalrecordDao, times(1)).save(medicalrecord);
     }

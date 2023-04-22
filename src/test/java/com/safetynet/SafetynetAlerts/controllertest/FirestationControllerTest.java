@@ -178,7 +178,7 @@ public class FirestationControllerTest {
         mockMvc.perform(post("/firestation")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(firestation)))
-                .andExpect(status().isNoContent());
+                .andExpect(status().isConflict());
 
         verify(firestationDao, times(1)).save(firestation);
     }
