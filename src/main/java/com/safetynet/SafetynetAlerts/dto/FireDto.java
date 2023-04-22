@@ -45,4 +45,11 @@ public class FireDto {
     public FireDto() {
     }
 
+    @Override
+    public String toString() {
+        return "FireDto{" +
+                "station=" + station +
+                ", householdMembers=" + householdMembers +
+                '}';
+    }
 }

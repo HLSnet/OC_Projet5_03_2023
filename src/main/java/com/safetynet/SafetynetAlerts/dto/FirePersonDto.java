@@ -103,4 +103,16 @@ public class FirePersonDto {
     public FirePersonDto() {
     }
 
+    @Override
+    public String toString() {
+        return "FirePersonDto{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", phone='" + phone + '\'' +
+                ", age=" + age +
+                ", email='" + email + '\'' +
+                ", medications=" + medications +
+                ", allergies=" + allergies +
+                '}';
+    }
 }

@@ -6,6 +6,8 @@ import com.safetynet.safetynetalerts.repository.FirestationDaoImpl;
 import com.safetynet.safetynetalerts.repository.JasonFileIO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,7 +20,6 @@ import static com.safetynet.safetynetalerts.constants.DBConstants.JSONFILE_BAK_P
 import static com.safetynet.safetynetalerts.constants.DBConstants.JSONFILE_TEST_PATHNAME;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -27,6 +28,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 public class ServiceControllerIT {
+
+    private static Logger logger = LoggerFactory.getLogger(ServiceControllerIT.class);
 
     @Autowired
     MockMvc mockMvc;
@@ -56,7 +59,7 @@ public class ServiceControllerIT {
                 new FirestationPersonDto("Zach","Zemicks","892 Downing Ct","841-874-7512"),
                 new FirestationPersonDto("Eric","Cadigan","951 LoneTree Rd","841-874-7458"));
 
-
+        logger.info("TI -> AlertService_ShouldReturnAListOfPersons_whenGivenAnExistingStationNumber()");
         mockMvc.perform(get("http://localhost:8080/firestation?stationNumber=" + stationNumber))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.persons", hasSize(5)))
@@ -88,10 +91,11 @@ public class ServiceControllerIT {
                 .andExpect(jsonPath("$.persons[4].address", is(firestationPersonDtos.get(4).getAddress())))
                 .andExpect(jsonPath("$.persons[4].phone", is(firestationPersonDtos.get(4).getPhone())));
     }
+
     @Test
     public void AlertService_ShouldReturnNoContent_whenGivenANonExistingStationNumber() throws Exception {
         int stationNumber = 0;
-
+        logger.info("TI -> AlertService_ShouldReturnNoContent_whenGivenANonExistingStationNumber()");
         mockMvc.perform(get("http://localhost:8080/firestation?stationNumber=" + stationNumber))
                 .andExpect(status().isNoContent());
         }
@@ -106,6 +110,7 @@ public class ServiceControllerIT {
     public void AlertService_ShouldReturnAListOfChild_whenGivenAnExistingAddress() throws Exception {
         String address =  "1509 Culver St";
 
+        logger.info("TI -> AlertService_ShouldReturnAListOfChild_whenGivenAnExistingAddress()");
         mockMvc.perform(get("http://localhost:8080/childAlert?address=" + address))
                 .andExpect(status().isOk())
 
@@ -127,6 +132,7 @@ public class ServiceControllerIT {
     public void AlertService_ShouldReturnAnEmptyList_whenGivenANonExistingAddress() throws Exception {
         String address = "Nowhere St";
 
+        logger.info("TI -> AlertService_ShouldReturnAnEmptyList_whenGivenANonExistingAddress()");
         mockMvc.perform(get("http://localhost:8080/childAlert?address=" + address))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isEmpty());
@@ -141,6 +147,7 @@ public class ServiceControllerIT {
     public void AlertService_ShouldReturnAListOfPhoneNumbers_whenGivenAnExistingStationNumber() throws Exception {
         int stationNumber = 2;
 
+        logger.info("TI -> AlertService_ShouldReturnAListOfPhoneNumbers_whenGivenAnExistingStationNumber()");
         mockMvc.perform(get("http://localhost:8080/phoneAlert?firestation=" + stationNumber))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(5)))
@@ -156,6 +163,7 @@ public class ServiceControllerIT {
     public void AlertService_ShouldReturnAnEmptyList_whenGivenANonExistingStationNumber() throws Exception {
         int stationNumber = 0;
 
+        logger.info("TI -> AlertService_ShouldReturnAnEmptyList_whenGivenANonExistingStationNumber()");
         mockMvc.perform(get("http://localhost:8080/phoneAlert?firestation=" + stationNumber))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isEmpty());
@@ -170,6 +178,7 @@ public class ServiceControllerIT {
     public void AlertService_ShouldReturnPersons_whenGivenAnExistingAddress() throws Exception {
         String address =  "1509 Culver St";
 
+        logger.info("TI -> AlertService_ShouldReturnPersons_whenGivenAnExistingAddress()");
         mockMvc.perform(get("http://localhost:8080/fire?address=" + address))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.station", is(3)))
@@ -190,6 +199,7 @@ public class ServiceControllerIT {
     public void AlertService_ShouldReturnNoContent_whenGivenANonExistingAddress() throws Exception {
         String address =  "Nowhere";
 
+        logger.info("TI -> AlertService_ShouldReturnNoContent_whenGivenANonExistingAddress()");
         mockMvc.perform(get("http://localhost:8080/fire?address=" + address))
                 .andExpect(status().isNoContent());
     }
@@ -204,6 +214,7 @@ public class ServiceControllerIT {
     public void AlertService_ShouldReturnListOfHomes_whenGivenAListOfExistingStationNumbers() throws Exception {
         List<Integer> stations = Arrays.asList(3,4);
 
+        logger.info("TI -> AlertService_ShouldReturnListOfHomes_whenGivenAListOfExistingStationNumbers()");
         mockMvc.perform(get("http://localhost:8080/flood/stations?stations=" + stations.get(0) + ","+ stations.get(1)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].address", is("112 Steppes Pl")))
@@ -217,6 +228,7 @@ public class ServiceControllerIT {
     public void AlertService_ShouldReturnNoContent_whenGivenAListOfNonExistingStationNumbers() throws Exception {
         List<Integer> stations = Arrays.asList(30,40);
 
+        logger.info("TI -> AlertService_ShouldReturnNoContent_whenGivenAListOfNonExistingStationNumbers()");
         mockMvc.perform(get("http://localhost:8080/flood/stations?stations=" + stations.get(0) + ","+ stations.get(1)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isEmpty());
@@ -233,6 +245,7 @@ public class ServiceControllerIT {
         String firstName = "Sophia";
         String lastName = "Zemicks";
 
+        logger.info("TI -> AlertService_ShouldReturnPersonInformations_whenGivenAnExistingPersonName()");
         mockMvc.perform(get("http://localhost:8080/personInfo?firstName=" + firstName + "&lastName=" + lastName))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(3)))
@@ -268,6 +281,7 @@ public class ServiceControllerIT {
         String firstName = "Averell";
         String lastName = "Dalton";
 
+        logger.info("TI -> AlertService_ShouldReturnAnEmptyList_whenGivenANonExistingPersonName()");
         mockMvc.perform(get("http://localhost:8080/personInfo?firstName=" + firstName + "&lastName=" + lastName))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isEmpty());
@@ -283,6 +297,7 @@ public class ServiceControllerIT {
     public void AlertService_ShouldReturnTheListOfAllEmailsOfACity_whenGivenAnExistingCity() throws Exception {
         String city = "Culver";
 
+        logger.info("TI -> AlertService_ShouldReturnTheListOfAllEmailsOfACity_whenGivenAnExistingCity()");
         mockMvc.perform(get("http://localhost:8080/communityEmail?city=" + city))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(15)))
@@ -307,6 +322,7 @@ public class ServiceControllerIT {
     public void AlertService_ShouldReturnAnEmptyList_whenGivenANonExistingCity() throws Exception {
         String city = "Paris";
 
+        logger.info("TI -> AlertService_ShouldReturnAnEmptyList_whenGivenANonExistingCity()");
         mockMvc.perform(get("http://localhost:8080/communityEmail?city=" + city))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isEmpty());

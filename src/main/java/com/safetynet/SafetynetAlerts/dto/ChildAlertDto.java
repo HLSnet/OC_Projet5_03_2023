@@ -50,4 +50,14 @@ public class ChildAlertDto {
 
     public ChildAlertDto() {
     }
+
+    @Override
+    public String toString() {
+        return "ChildAlertDto{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", age=" + age +
+                ", householdMembers=" + householdMembers +
+                '}';
+    }
 }

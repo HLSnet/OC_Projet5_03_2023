@@ -36,4 +36,12 @@ public class FloodDto {
     public int hashCode() {
         return Objects.hash(address, householdMembers);
     }
+
+    @Override
+    public String toString() {
+        return "FloodDto{" +
+                "address='" + address + '\'' +
+                ", householdMembers=" + householdMembers +
+                '}';
+    }
 }

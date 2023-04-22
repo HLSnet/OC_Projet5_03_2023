@@ -2,6 +2,8 @@ package com.safetynet.safetynetalerts.controller;
 
 import com.safetynet.safetynetalerts.dto.*;
 import com.safetynet.safetynetalerts.service.AlertService;
+import jakarta.servlet.http.HttpServletRequest;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -33,18 +35,16 @@ public class ServiceController {
     //    moins) dans la zone desservie.
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // http://localhost:8080/firestation?stationNumber=<station_number>
-    @GetMapping("firestation")
-    public ResponseEntity<FirestationDto>  getPersonsRelatedToAStation(@RequestParam int stationNumber) {
-
-        logger.info("Requete en cours : http://localhost:8080/firestation?stationNumber={}", stationNumber);
+    @GetMapping("/firestation")
+    public ResponseEntity<FirestationDto>  getPersonsRelatedToAStation(@RequestParam int stationNumber, @NotNull HttpServletRequest request) {
+        logger.info(" Requete {} en cours : {}?stationNumber={}", request.getMethod(), request.getRequestURL(), stationNumber);
 
         FirestationDto firestationDto = alertService.getPersonsRelatedToAStation(stationNumber);
         if (Objects.isNull(firestationDto)) {
-            logger.error("Resultat de la requete en cours : 204 No Content");
-            // On renvoie le code : "204 No Content"
+            logger.error(" Resultat de la requete {} en cours : statut = 204 No Content", request.getMethod());
             return ResponseEntity.noContent().build();
         }
-        logger.info("Resultat de la requete en cours : 200 ok");
+        logger.info(" Resultat de la requete {} en cours : statut =  200 OK ; reponse = {}", request.getMethod(), firestationDto);
         return ResponseEntity.ok(firestationDto);
     }
 
@@ -56,18 +56,16 @@ public class ServiceController {
     //    membres du foyer. S'il n'y a pas d'enfant, cette url peut renvoyer une chaîne vide.
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // http://localhost:8080/childAlert?address=<address>
-    @GetMapping("childAlert")
-    public ResponseEntity<List<ChildAlertDto>>  getChildsdRelatedToAnAddress(@RequestParam String address){
-
-        logger.info("Requete en cours : http://localhost:8080/childAlert?address={}", address);
+    @GetMapping("/childAlert")
+    public ResponseEntity<List<ChildAlertDto>>  getChildsdRelatedToAnAddress(@RequestParam String address, @NotNull HttpServletRequest request) {
+        logger.info(" Requete {} en cours : {}?address={}", request.getMethod(), request.getRequestURL(), address);
 
         List<ChildAlertDto> childAlertDtos = alertService.getChildsdRelatedToAnAddress(address);
         if (Objects.isNull(childAlertDtos)) {
-            logger.error("Resultat de la requete en cours : liste vide");
-            // On renvoie le code : "200 ok" avec une liste vide
+            logger.error(" Resultat de la requete {} en cours : liste vide", request.getMethod());
             return ResponseEntity.ok(Collections.emptyList());
         }
-        logger.info("Resultat de la requete en cours : 200 ok");
+        logger.info(" Resultat de la requete {} en cours : statut =  200 OK ; reponse = {}", request.getMethod(), childAlertDtos);
         return ResponseEntity.ok(childAlertDtos);
     }
 
@@ -77,18 +75,16 @@ public class ServiceController {
     //     pompiers. Nous l'utiliserons pour envoyer des messages texte d'urgence à des foyers spécifiques.
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // http://localhost:8080/phoneAlert?firestation=<firestation_number>
-    @GetMapping("phoneAlert")
-    public ResponseEntity<List<String>> getPhoneNumbersRelatedToAStation(@RequestParam int firestation){
-
-        logger.info("Requete en cours : http://localhost:8080/phoneAlert?firestation={}", firestation);
+    @GetMapping("/phoneAlert")
+    public ResponseEntity<List<String>> getPhoneNumbersRelatedToAStation(@RequestParam int firestation, @NotNull HttpServletRequest request) {
+        logger.info(" Requete {} en cours : {}?firestation={}", request.getMethod(), request.getRequestURL(), firestation);
 
         List<String> phoneNumbers = alertService.getPhoneNumbersRelatedToAStation(firestation);
         if (Objects.isNull(phoneNumbers)) {
-            logger.error("Resultat de la requete en cours : liste vide");
-            // On renvoie le code : "200 ok" avec une liste vide
+            logger.error(" Resultat de la requete {} en cours : liste vide", request.getMethod());
             return ResponseEntity.ok(Collections.emptyList());
         }
-        logger.info("Resultat de la requete en cours : 200 ok");
+        logger.info(" Resultat de la requete {} en cours : statut =  200 OK ; reponse = {}", request.getMethod(), phoneNumbers);
         return ResponseEntity.ok(phoneNumbers);
     }
 
@@ -99,18 +95,16 @@ public class ServiceController {
     //    médicaux (médicaments, posologie et allergies) de chaque personne.
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // http://localhost:8080/fire?address=<address>
-    @GetMapping("fire")
-    public ResponseEntity<FireDto> getPersonsRelatedToAnAddress(@RequestParam String address){
-
-        logger.info("Requete en cours : http://localhost:8080/fire?address={}", address);
+    @GetMapping("/fire")
+    public ResponseEntity<FireDto> getPersonsRelatedToAnAddress(@RequestParam String address, @NotNull HttpServletRequest request) {
+        logger.info(" Requete {} en cours : {}?address={}", request.getMethod(), request.getRequestURL(), address);
 
         FireDto fireDto = alertService.getPersonsRelatedToAnAddress(address);
         if (Objects.isNull(fireDto)) {
-            logger.error("Resultat de la requete en cours : 204 No Content");
-            // On renvoie le code : "204 No Content"
+            logger.error(" Resultat de la requete {} en cours : statut = 204 No Content", request.getMethod());
             return ResponseEntity.noContent().build();
         }
-        logger.info("Resultat de la requete en cours : 200 ok");
+        logger.info(" Resultat de la requete {} en cours : statut =  200 OK ; reponse = {}", request.getMethod(), fireDto);
         return ResponseEntity.ok(fireDto);
     }
 
@@ -121,18 +115,16 @@ public class ServiceController {
     //    faire figurer leurs antécédents médicaux (médicaments, posologie et allergies) à côté de chaque nom.
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // http://localhost:8080/flood/stations?stations=<a list of station_numbers>
-    @GetMapping("flood/stations")
-    public ResponseEntity<List<FloodDto>> getHousesRelatedToAListOfStations(@RequestParam List<Integer> stations){
-
-        logger.info("http://localhost:8080/flood/stations?stations={}", + stations.get(0) + ","+ stations.get(1));
+    @GetMapping("/flood/stations")
+    public ResponseEntity<List<FloodDto>> getHousesRelatedToAListOfStations(@RequestParam List<Integer> stations, @NotNull HttpServletRequest request) {
+        logger.info(" Requete {} en cours : {}?stations={},{}", request.getMethod(), request.getRequestURL(), stations.get(0), stations.get(1));
 
         List<FloodDto> floodDtos = alertService.getHousesRelatedToAListOfStations(stations);
         if (Objects.isNull(floodDtos)) {
-            logger.error("Resultat de la requete en cours : liste vide");
-            // On renvoie le code : "200 ok" avec une liste vide
+            logger.error(" Resultat de la requete {} en cours : liste vide", request.getMethod());
             return ResponseEntity.ok(Collections.emptyList());
         }
-        logger.info("Resultat de la requete en cours : 200 ok");
+        logger.info(" Resultat de la requete {} en cours : statut =  200 OK ; reponse = {}", request.getMethod(), floodDtos);
         return ResponseEntity.ok(floodDtos);
     }
 
@@ -144,18 +136,16 @@ public class ServiceController {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // http://localhost:8080/personInfo?firstName=<firstName>&lastName=<lastName>
-    @GetMapping("personInfo")
-    public ResponseEntity<List<InfoPersonDto>> getInfoPerson(@RequestParam String firstName, @RequestParam String lastName){
-
-        logger.info("http://localhost:8080/personInfo?firstName={}&lastName={}", firstName,lastName);
+    @GetMapping("/personInfo")
+    public ResponseEntity<List<InfoPersonDto>> getInfoPerson(@RequestParam String firstName, @RequestParam String lastName, @NotNull HttpServletRequest request) {
+        logger.info(" Requete {} en cours : {}?firstName={}&lastName={}", request.getMethod(), request.getRequestURL(), firstName,lastName);
 
         List<InfoPersonDto> InfoPersonDtos = alertService.getInfoPerson(firstName, lastName);
         if (Objects.isNull(InfoPersonDtos)) {
-            logger.error("Resultat de la requete en cours : liste vide");
-            // On renvoie le code : "200 ok" avec une liste vide
+            logger.error(" Resultat de la requete {} en cours : liste vide", request.getMethod());
             return ResponseEntity.ok(Collections.emptyList());
         }
-        logger.info("Resultat de la requete en cours : 200 ok");
+        logger.info(" Resultat de la requete {} en cours : statut =  200 OK ; reponse = {}", request.getMethod(), InfoPersonDtos);
         return ResponseEntity.ok(InfoPersonDtos);
     }
 
@@ -164,18 +154,16 @@ public class ServiceController {
     // 7/ Cette url doit retourner les adresses mail de tous les habitants de la ville
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // http://localhost:8080/communityEmail?city=<city>
-    @GetMapping("communityEmail")
-    public ResponseEntity<List<String>> getMailRelatedToACity(@RequestParam String city){
-
-        logger.info("http://localhost:8080/communityEmail?city={}", city);
+    @GetMapping("/communityEmail")
+    public ResponseEntity<List<String>> getMailRelatedToACity(@RequestParam String city, @NotNull HttpServletRequest request) {
+        logger.info(" Requete {} en cours : {}?city={}", request.getMethod(), request.getRequestURL(), city);
 
         List<String> mails = alertService.getMailsRelatedToACity(city);
         if (Objects.isNull(mails)) {
-            logger.error("Resultat de la requete en cours : liste vide");
-            // On renvoie le code : "200 ok" avec une liste vide
+            logger.error(" Resultat de la requete {} en cours : liste vide", request.getMethod());
             return ResponseEntity.ok(Collections.emptyList());
         }
-        logger.info("Resultat de la requete en cours :200 ok");
+        logger.info(" Resultat de la requete {} en cours : statut =  200 OK ; reponse = {}", request.getMethod(), mails);
         return ResponseEntity.ok(mails);
     }
 }

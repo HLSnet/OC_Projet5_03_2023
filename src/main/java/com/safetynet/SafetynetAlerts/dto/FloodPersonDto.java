@@ -85,4 +85,16 @@ public class FloodPersonDto {
 
     public FloodPersonDto() {
     }
+
+    @Override
+    public String toString() {
+        return "FloodPersonDto{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", phone='" + phone + '\'' +
+                ", age=" + age +
+                ", medications=" + medications +
+                ", allergies=" + allergies +
+                '}';
+    }
 }

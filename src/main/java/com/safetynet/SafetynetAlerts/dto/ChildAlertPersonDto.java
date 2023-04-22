@@ -63,4 +63,14 @@ public class ChildAlertPersonDto {
     public int hashCode() {
         return Objects.hash(firstName, lastName, phone, email);
     }
+
+    @Override
+    public String toString() {
+        return "ChildAlertPersonDto{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }
