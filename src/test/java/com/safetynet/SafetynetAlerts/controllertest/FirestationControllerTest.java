@@ -5,7 +5,7 @@ import com.safetynet.safetynetalerts.controller.FirestationController;
 import com.safetynet.safetynetalerts.datautility.SetupJsonFile;
 import com.safetynet.safetynetalerts.model.Firestation;
 import com.safetynet.safetynetalerts.repository.FirestationDao;
-import com.safetynet.safetynetalerts.repository.JasonFileIO;
+import com.safetynet.safetynetalerts.repository.JsonFileIO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -43,7 +43,7 @@ public class FirestationControllerTest {
     @BeforeEach
     void setUpData(){
         SetupJsonFile.reloadTestFile(JSONFILE_TEST_BAK_PATHNAME , JSONFILE_TEST_PATHNAME);
-        new JasonFileIO(JSONFILE_TEST_PATHNAME);
+        new JsonFileIO(JSONFILE_TEST_PATHNAME);
     }
 
 

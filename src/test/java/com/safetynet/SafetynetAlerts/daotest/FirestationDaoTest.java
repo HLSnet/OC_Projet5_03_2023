@@ -3,7 +3,7 @@ package com.safetynet.safetynetalerts.daotest;
 import com.safetynet.safetynetalerts.datautility.SetupJsonFile;
 import com.safetynet.safetynetalerts.model.Firestation;
 import com.safetynet.safetynetalerts.repository.FirestationDao;
-import com.safetynet.safetynetalerts.repository.JasonFileIO;
+import com.safetynet.safetynetalerts.repository.JsonFileIO;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,7 +33,7 @@ public class FirestationDaoTest {
         @BeforeEach
         void setUpData(){
             SetupJsonFile.reloadTestFile(JSONFILE_TEST_BAK_PATHNAME , JSONFILE_TEST_PATHNAME);
-            new JasonFileIO(JSONFILE_TEST_PATHNAME);
+            new JsonFileIO(JSONFILE_TEST_PATHNAME);
         }
 
 
@@ -51,7 +51,7 @@ public class FirestationDaoTest {
 
         // ASSERT
         assertNotNull(firestation);
-        firestations = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
+        firestations = JsonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
         assertTrue(this.firestations.contains(firestation));
     }
 
@@ -62,7 +62,7 @@ public class FirestationDaoTest {
 
         // ASSERT
         assertNull(firestation);
-        firestations = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
+        firestations = JsonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
         assertFalse(this.firestations.contains(firestation));
     }
 
@@ -74,7 +74,7 @@ public class FirestationDaoTest {
         // ARRANGE
         final int STATION_TO_FIND = 1;
 
-        firestations = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
+        firestations = JsonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
         List<Firestation> firestationSelected = new ArrayList<>();
         for (Firestation firestation : firestations){
             if (firestation.getStation() == STATION_TO_FIND ){
@@ -113,7 +113,7 @@ public class FirestationDaoTest {
         firestationToAdd.setAddress("Here St");
         firestationToAdd.setStation(11);
 
-        firestations = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
+        firestations = JsonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
         int nbFirestationsBefore = firestations.size();
 
         // ACT
@@ -122,7 +122,7 @@ public class FirestationDaoTest {
         // ASSERT
         assertTrue(result);
         // On vérifie que l'ajout a été fait
-        firestations = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
+        firestations = JsonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
         assertTrue(this.firestations.contains(firestationToAdd));
         // On vérifie qu'il n'y a eu qu'un ajout (pas d'ajout multiple)
         int nbFirestationsAfter = firestations.size();
@@ -137,7 +137,7 @@ public class FirestationDaoTest {
         firestationToAdd.setAddress("29 15th St");
         firestationToAdd.setStation(2);
 
-        firestations = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
+        firestations = JsonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
         int nbFirestationsBefore = firestations.size();
 
         // ACT
@@ -162,7 +162,7 @@ public class FirestationDaoTest {
         firestationToUpdate.setAddress("29 15th St");
         firestationToUpdate.setStation(2);
 
-        firestations = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
+        firestations = JsonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
         int nbFirestationsBefore = firestations.size();
 
         // ACT
@@ -170,7 +170,7 @@ public class FirestationDaoTest {
 
         // ASSERT
         assertTrue(result);
-        firestations = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
+        firestations = JsonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
         assertTrue(firestations.contains(firestationToUpdate));
 
         // On vérifie qu'il n'y a pas eu d'ajout ou de suppression
@@ -185,7 +185,7 @@ public class FirestationDaoTest {
         firestationToUpdate.setAddress("nowhere");
         firestationToUpdate.setStation(0);
 
-        firestations = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
+        firestations = JsonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
         int nbFirestationsBefore = firestations.size();
 
         // ACT
@@ -193,7 +193,7 @@ public class FirestationDaoTest {
 
         // ASSERT
         assertFalse(result);
-        firestations = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
+        firestations = JsonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
         assertFalse(firestations.contains(firestationToUpdate));
 
         // On vérifie qu'il n'y a pas eu d'ajout ou de suppression
@@ -210,7 +210,7 @@ public class FirestationDaoTest {
     void testDeleteAnExistingStation() {
         // ARRANGE
         final int STATION_TO_DELETE = 1;
-        firestations = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
+        firestations = JsonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
         int nbFirestationsBefore = firestations.size();
 
         int nbStationToDelete = 0;
@@ -226,7 +226,7 @@ public class FirestationDaoTest {
         // ASSERT
         assertTrue(result);
 
-        firestations = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
+        firestations = JsonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
         boolean stationExist = false;
         for (Firestation firestation : firestations){
             if (firestation.getStation() == STATION_TO_DELETE ){
@@ -245,7 +245,7 @@ public class FirestationDaoTest {
     void testDeleteANonExistingStation() {
         // ARRANGE
         final int STATION_TO_DELETE = 10;
-        firestations = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
+        firestations = JsonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
         int nbFirestationsBefore = firestations.size();
 
         // ACT
@@ -254,7 +254,7 @@ public class FirestationDaoTest {
         // ASSERT
         assertFalse(result);
 
-        firestations = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
+        firestations = JsonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
         boolean stationExist = false;
         for (Firestation firestation : firestations){
             if (firestation.getStation() == STATION_TO_DELETE ){
@@ -277,13 +277,13 @@ public class FirestationDaoTest {
         firestationToDelete.setStation(2);
 
         // ACT
-        firestations = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
+        firestations = JsonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
         int nbFirestationsBefore = firestations.size();
         Boolean result = firestationDaoImpl.deleteAddress(firestationToDelete.getAddress());
 
         // ASSERT
         assertTrue(result);
-        firestations = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
+        firestations = JsonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
         assertFalse(firestations.contains(firestationToDelete));
 
         // On vérifie qu'il n'y a eu uniquement qu'une suppression
@@ -299,14 +299,14 @@ public class FirestationDaoTest {
         firestationToDelete.setStation(100);
 
         // ACT
-        firestations = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
+        firestations = JsonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
         int nbFirestationsBefore = firestations.size();
         Boolean result = firestationDaoImpl.deleteAddress(firestationToDelete.getAddress());
 
         // ASSERT
         assertFalse(result);
 
-        firestations = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
+        firestations = JsonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
         assertFalse(firestations.contains(firestationToDelete));
 
         // On vérifie qu'il n'y a pas eu de suppression

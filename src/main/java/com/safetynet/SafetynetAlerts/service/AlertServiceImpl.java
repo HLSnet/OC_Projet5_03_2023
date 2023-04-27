@@ -32,6 +32,14 @@ public class AlertServiceImpl implements AlertService{
     ///////////////////////////////////////////////////////////////////////////////////
     // URL1 : http://localhost:8080/firestation?stationNumber=<station_number>
     ///////////////////////////////////////////////////////////////////////////////////
+    /**
+     * This method retrieves the list of persons related to the specified station number,
+     * along with the number of adults and children among them.
+     *
+     * @param stationNumber the station number to search for
+     * @return a {@link FirestationDto} object containing the list of persons and the number of adults and children,
+     *         or null if no persons are found
+     */
     public FirestationDto getPersonsRelatedToAStation(int stationNumber) {
         // On instancie l'objet DTO à renvoyer
         FirestationDto firestationDto = new FirestationDto();
@@ -89,6 +97,13 @@ public class AlertServiceImpl implements AlertService{
     ///////////////////////////////////////////////////////////////////////////////////
     // URL2 :  http://localhost:8080/childAlert?address=<address>
     ///////////////////////////////////////////////////////////////////////////////////
+    /**
+     * This method retrieves information about all children living at a given address along with the other household members.
+     *
+     * @param address the address to search for children.
+     * @return A list of {@link ChildAlertDto} objects representing all children living at the given address,
+     *         along with the other household members. If no children are found, returns null.
+     */
     public List<ChildAlertDto> getChildsdRelatedToAnAddress(String address) {
         List<ChildAlertDto> childAlertDtos  = new ArrayList<>();
 
@@ -140,6 +155,13 @@ public class AlertServiceImpl implements AlertService{
     ///////////////////////////////////////////////////////////////////////////////////
     // URL3 : http://localhost:8080/phoneAlert?firestation=<firestation_number>
     ///////////////////////////////////////////////////////////////////////////////////
+    /**
+     * This method retrieves a list of phone numbers related to a given fire station number.
+     *
+     * @param stationNumber the fire station number to search for
+     * @return a list of phone numbers related to the given fire station number, or null if no phone numbers are found
+     */
+
     public List<String> getPhoneNumbersRelatedToAStation(int stationNumber) {
         List<Person> persons = personDao.findAll();
         List<Firestation> firestations = firestationDao.findByStation(stationNumber);
@@ -159,6 +181,14 @@ public class AlertServiceImpl implements AlertService{
     ///////////////////////////////////////////////////////////////////////////////////
     // URL4 : http://localhost:8080/fire?address=<address>
     ///////////////////////////////////////////////////////////////////////////////////
+    /**
+     * This method retrieves information about the people living at the provided address,
+     * records and the fire station serving that address.
+     *
+     * @param address the address to search for
+     * @return a {@link FireDto} object containing information about the people living at the provided address,
+     *         and the fire station serving that address, or null if no  matching records were found.
+     */
     public FireDto getPersonsRelatedToAnAddress(String address) {
         FireDto fireDto = new FireDto();
 
@@ -197,6 +227,14 @@ public class AlertServiceImpl implements AlertService{
     ////////////////////////////////////////////////////////////////////////////////////
     // URL5 : http://localhost:8080/flood/stations?stations=<a list of station_numbers>
     ////////////////////////////////////////////////////////////////////////////////////
+    /**
+     * This method retrieves information about people living at addresses served by a list of fire stations,
+     * grouped by adress
+     *
+     * @param stations a list of integers representing the fire station numbers
+     * @return a list of {@link FloodDto} objects representing people living at addresses served by a list of fire stations,
+     *         grouped by adress
+     */
     public List<FloodDto> getHousesRelatedToAListOfStations(List<Integer> stations) {
         List<FloodDto> floodDtos = null;
 
@@ -247,6 +285,15 @@ public class AlertServiceImpl implements AlertService{
     /////////////////////////////////////////////////////////////////////////////////////
     // URL6 : http://localhost:8080/personInfo?firstName=<firstName>&lastName=<lastName>
     /////////////////////////////////////////////////////////////////////////////////////
+    /**
+     * This method retrieves information about persons based on their first and last names.
+     *
+     * @param firstName the first name of the person to retrieve information about
+     * @param lastName  the last name of the person to retrieve information about
+     * @return a list of {@link InfoPersonDto} objects containing information about the persons
+     *         matching the first and last names, or null if no matching persons are found
+     */
+
     public List<InfoPersonDto> getInfoPerson(String firstName, String lastName) {
         List<InfoPersonDto> infoPersonDtos = new ArrayList<>();
 
@@ -278,6 +325,14 @@ public class AlertServiceImpl implements AlertService{
     ////////////////////////////////////////////////////////////////////////////////////
     // URL7 :  http://localhost:8080/communityEmail?city=<city>
     ////////////////////////////////////////////////////////////////////////////////////
+    /**
+     * This method retrieves a list of e-mails for people living in a given city.
+     *
+     * @param city the name of the city to search for
+     * @return a list of e-mails for people living in the given city, sorted alphabetically,
+     *         or null if no e-mails were found
+     */
+
     public List<String> getMailsRelatedToACity(String city) {
         List<Person> persons = personDao.findAll();
 
@@ -293,6 +348,12 @@ public class AlertServiceImpl implements AlertService{
         return mails.isEmpty()? null : mails;
     }
 
+    /**
+     * Calculates the age of a person based on his birthdate.
+     *
+     * @param birthdate a string representing the person's birthdate in the format "MM/dd/yyyy"
+     * @return the person's age as an integer
+     */
     int calculateAge(String birthdate){
         int age;
         LocalDate birthDate = LocalDate.parse(birthdate, DateTimeFormatter.ofPattern("MM/dd/yyyy"));

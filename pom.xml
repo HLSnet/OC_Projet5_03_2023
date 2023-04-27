@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.safetynet</groupId>
-    <artifactId>SafetynetAlerts</artifactId>
+    <artifactId>safetynetalerts</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>SafetynetAlerts</name>
     <description>application sending informations to emergencies services</description>

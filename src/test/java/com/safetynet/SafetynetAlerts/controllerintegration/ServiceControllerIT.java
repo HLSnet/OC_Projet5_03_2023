@@ -3,7 +3,7 @@ package com.safetynet.safetynetalerts.controllerintegration;
 import com.safetynet.safetynetalerts.datautility.SetupJsonFile;
 import com.safetynet.safetynetalerts.dto.FirestationPersonDto;
 import com.safetynet.safetynetalerts.repository.FirestationDaoImpl;
-import com.safetynet.safetynetalerts.repository.JasonFileIO;
+import com.safetynet.safetynetalerts.repository.JsonFileIO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -39,7 +39,7 @@ public class ServiceControllerIT {
     void setUpData(){
         // Le fichier de test utilisé est une copie du fichier réel
         SetupJsonFile.reloadTestFile(JSONFILE_BAK_PATHNAME , JSONFILE_TEST_PATHNAME);
-        new JasonFileIO(JSONFILE_TEST_PATHNAME);
+        new JsonFileIO(JSONFILE_TEST_PATHNAME);
         FirestationDaoImpl.checkIntegrityJsonFileFirestationAndSort();
     }
 

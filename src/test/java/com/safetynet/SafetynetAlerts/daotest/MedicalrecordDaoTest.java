@@ -2,7 +2,7 @@ package com.safetynet.safetynetalerts.daotest;
 
 import com.safetynet.safetynetalerts.datautility.SetupJsonFile;
 import com.safetynet.safetynetalerts.model.Medicalrecord;
-import com.safetynet.safetynetalerts.repository.JasonFileIO;
+import com.safetynet.safetynetalerts.repository.JsonFileIO;
 import com.safetynet.safetynetalerts.repository.MedicalrecordDao;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,7 +35,7 @@ public class MedicalrecordDaoTest {
     @BeforeEach
     void setUpData(){
         SetupJsonFile.reloadTestFile(JSONFILE_TEST_BAK_PATHNAME , JSONFILE_TEST_PATHNAME);
-        new JasonFileIO(JSONFILE_TEST_PATHNAME);
+        new JsonFileIO(JSONFILE_TEST_PATHNAME);
     }
 
 
@@ -53,7 +53,7 @@ public class MedicalrecordDaoTest {
 
         // ASSERT
         assertNotNull(medicalrecord);
-        medicalrecords = JasonFileIO.readFromJsonFileToList(MEDICAL_RECORD, Medicalrecord.class);
+        medicalrecords = JsonFileIO.readFromJsonFileToList(MEDICAL_RECORD, Medicalrecord.class);
         assertTrue(medicalrecords.contains(medicalrecord));
     }
 
@@ -64,7 +64,7 @@ public class MedicalrecordDaoTest {
 
         // ASSERT
         assertNull(medicalrecord);
-        medicalrecords = JasonFileIO.readFromJsonFileToList(MEDICAL_RECORD, Medicalrecord.class);
+        medicalrecords = JsonFileIO.readFromJsonFileToList(MEDICAL_RECORD, Medicalrecord.class);
         assertFalse(medicalrecords.contains(medicalrecord));
     }
 
@@ -88,14 +88,14 @@ public class MedicalrecordDaoTest {
                     "Jail")));
 
         // ACT
-        medicalrecords = JasonFileIO.readFromJsonFileToList(MEDICAL_RECORD, Medicalrecord.class);
+        medicalrecords = JsonFileIO.readFromJsonFileToList(MEDICAL_RECORD, Medicalrecord.class);
         int nbMedicalrecordsBefore = medicalrecords.size();
         Boolean result = medicalrecordDaoImpl.save(medicalrecordToAdd);
 
         // ASSERT
         assertTrue(result);
         // On vérifie que l'ajout a été fait
-        medicalrecords = JasonFileIO.readFromJsonFileToList(MEDICAL_RECORD, Medicalrecord.class);
+        medicalrecords = JsonFileIO.readFromJsonFileToList(MEDICAL_RECORD, Medicalrecord.class);
         assertTrue(this.medicalrecords.contains(medicalrecordToAdd));
         // On vérifie qu'il n'y a eu qu'un ajout (pas d'ajout multiple)
         int nbMedicalrecordsAfter = medicalrecords.size();
@@ -122,7 +122,7 @@ public class MedicalrecordDaoTest {
 
 
         // ACT
-        medicalrecords = JasonFileIO.readFromJsonFileToList(MEDICAL_RECORD, Medicalrecord.class);
+        medicalrecords = JsonFileIO.readFromJsonFileToList(MEDICAL_RECORD, Medicalrecord.class);
         int nbMedicalrecordsBefore = medicalrecords.size();
         Boolean result = medicalrecordDaoImpl.save(medicalrecordToAdd);
 
@@ -155,13 +155,13 @@ public class MedicalrecordDaoTest {
                         "aznol")));
 
         // ACT
-        medicalrecords = JasonFileIO.readFromJsonFileToList(MEDICAL_RECORD, Medicalrecord.class);
+        medicalrecords = JsonFileIO.readFromJsonFileToList(MEDICAL_RECORD, Medicalrecord.class);
         int nbMedicalrecordsBefore = medicalrecords.size();
         Boolean result = medicalrecordDaoImpl.update(medicalrecordToUpdate);
 
         // ASSERT
         assertTrue(result);
-        medicalrecords = JasonFileIO.readFromJsonFileToList(MEDICAL_RECORD, Medicalrecord.class);
+        medicalrecords = JsonFileIO.readFromJsonFileToList(MEDICAL_RECORD, Medicalrecord.class);
         assertTrue(this.medicalrecords.contains(medicalrecordToUpdate));
 
         // On vérifie qu'il n'y a pas eu d'ajout ou de suppression
@@ -187,13 +187,13 @@ public class MedicalrecordDaoTest {
 
 
         // ACT
-        medicalrecords = JasonFileIO.readFromJsonFileToList(MEDICAL_RECORD, Medicalrecord.class);
+        medicalrecords = JsonFileIO.readFromJsonFileToList(MEDICAL_RECORD, Medicalrecord.class);
         int nbMedicalrecordsBefore = medicalrecords.size();
         Boolean result = medicalrecordDaoImpl.update(medicalrecordToUpdate);
 
         // ASSERT
         assertFalse(result);
-        medicalrecords = JasonFileIO.readFromJsonFileToList(MEDICAL_RECORD, Medicalrecord.class);
+        medicalrecords = JsonFileIO.readFromJsonFileToList(MEDICAL_RECORD, Medicalrecord.class);
         assertFalse(this.medicalrecords.contains(medicalrecordToUpdate));
         // On vérifie qu'il n'y a pas eu d'ajout ou de suppression
         int nbMedicalrecordsAfter = medicalrecords.size();
@@ -222,13 +222,13 @@ public class MedicalrecordDaoTest {
 
 
         // ACT
-        medicalrecords = JasonFileIO.readFromJsonFileToList(MEDICAL_RECORD, Medicalrecord.class);
+        medicalrecords = JsonFileIO.readFromJsonFileToList(MEDICAL_RECORD, Medicalrecord.class);
         int nbMedicalrecordsBefore = medicalrecords.size();
         Boolean result = medicalrecordDaoImpl.delete(medicalrecordToDelete.getFirstName(), medicalrecordToDelete.getLastName());
 
         // ASSERT
         assertTrue(result);
-        medicalrecords = JasonFileIO.readFromJsonFileToList(MEDICAL_RECORD, Medicalrecord.class);
+        medicalrecords = JsonFileIO.readFromJsonFileToList(MEDICAL_RECORD, Medicalrecord.class);
         assertFalse(medicalrecords.contains(medicalrecordToDelete));
         // On vérifie qu'il n'y a eu uniquement qu'une suppression
         int nbMedicalrecordsAfter = medicalrecords.size();
@@ -243,13 +243,13 @@ public class MedicalrecordDaoTest {
         medicalrecordToDelete.setLastName("Dalton");
 
         // ACT
-        medicalrecords = JasonFileIO.readFromJsonFileToList(MEDICAL_RECORD, Medicalrecord.class);
+        medicalrecords = JsonFileIO.readFromJsonFileToList(MEDICAL_RECORD, Medicalrecord.class);
         int nbMedicalrecordsBefore = medicalrecords.size();
         Boolean result = medicalrecordDaoImpl.delete(medicalrecordToDelete.getFirstName(), medicalrecordToDelete.getLastName());
 
         // ASSERT
         assertFalse(result);
-        medicalrecords = JasonFileIO.readFromJsonFileToList(MEDICAL_RECORD, Medicalrecord.class);
+        medicalrecords = JsonFileIO.readFromJsonFileToList(MEDICAL_RECORD, Medicalrecord.class);
         assertFalse(medicalrecords.contains(medicalrecordToDelete));
         // On vérifie qu'il n'y a pas eu de suppression
         int nbMedicalrecordsAfter = medicalrecords.size();

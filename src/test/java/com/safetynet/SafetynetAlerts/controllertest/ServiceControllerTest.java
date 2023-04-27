@@ -4,7 +4,7 @@ package com.safetynet.safetynetalerts.controllertest;
 import com.safetynet.safetynetalerts.controller.ServiceController;
 import com.safetynet.safetynetalerts.datautility.SetupJsonFile;
 import com.safetynet.safetynetalerts.dto.*;
-import com.safetynet.safetynetalerts.repository.JasonFileIO;
+import com.safetynet.safetynetalerts.repository.JsonFileIO;
 import com.safetynet.safetynetalerts.service.AlertService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,7 +37,7 @@ public class ServiceControllerTest {
     @BeforeEach
     void setUpData() {
         SetupJsonFile.reloadTestFile(JSONFILE_BAK_PATHNAME, JSONFILE_TEST_PATHNAME);
-        new JasonFileIO(JSONFILE_TEST_PATHNAME);
+        new JsonFileIO(JSONFILE_TEST_PATHNAME);
     }
 
     //***************************************************************************************************

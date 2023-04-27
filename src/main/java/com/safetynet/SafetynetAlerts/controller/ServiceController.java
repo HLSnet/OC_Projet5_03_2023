@@ -117,7 +117,19 @@ public class ServiceController {
     // http://localhost:8080/flood/stations?stations=<a list of station_numbers>
     @GetMapping("/flood/stations")
     public ResponseEntity<List<FloodDto>> getHousesRelatedToAListOfStations(@RequestParam List<Integer> stations, @NotNull HttpServletRequest request) {
-        logger.info(" Requete {} en cours : {}?stations={},{}", request.getMethod(), request.getRequestURL(), stations.get(0), stations.get(1));
+        String stationNumbers = "";
+        for (int i = 0; i < stations.size(); i++){
+            stationNumbers += stations.get(i);
+            if (i < stations.size()-1){
+                stationNumbers += ",";
+            }
+        }
+        logger.info(" Requete {} en cours : {}?stations={}", request.getMethod(), request.getRequestURL(), stationNumbers);
+
+
+
+
+       // logger.info(" Requete {} en cours : {}?stations={},{}", request.getMethod(), request.getRequestURL(), stations.get(0), stations.get(1));
 
         List<FloodDto> floodDtos = alertService.getHousesRelatedToAListOfStations(stations);
         if (Objects.isNull(floodDtos)) {

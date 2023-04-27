@@ -29,7 +29,7 @@ public class FirestationDaoImpl implements FirestationDao {
      */
     public static void checkIntegrityJsonFileFirestationAndSort() {
         // On recupère la liste des firestation
-        List<Firestation> firestations = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
+        List<Firestation> firestations = JsonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
 
         // On nettoie la liste des doublons
         Set<Firestation> firestationsSet = new HashSet<>(firestations);
@@ -48,7 +48,7 @@ public class FirestationDaoImpl implements FirestationDao {
             }
         }
         // On écrit dans le fichier la liste nettoyée de ses doublons
-        JasonFileIO.writeListToJsonFile(FIRESTATION, firestationsChecked);
+        JsonFileIO.writeListToJsonFile(FIRESTATION, firestationsChecked);
     }
 
 
@@ -59,14 +59,14 @@ public class FirestationDaoImpl implements FirestationDao {
     @Override
     public List<Firestation> findAll() {
         // On recupère la liste des firestation
-        List<Firestation> firestations = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
+        List<Firestation> firestations = JsonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
         return  firestations;
     }
 
     @Override
     public Firestation findByAddress(String adress) {
             // On recupère la liste des firestation
-            List<Firestation> firestations = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
+            List<Firestation> firestations = JsonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
 
             for (Firestation firestation : firestations){
                 if (firestation.getAddress().equals(adress)){
@@ -80,7 +80,7 @@ public class FirestationDaoImpl implements FirestationDao {
     @Override
     public List<Firestation>  findByStation(int station) {
         // On recupère la liste des firestation
-        List<Firestation> firestations = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
+        List<Firestation> firestations = JsonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
 
         // On crée la liste de firestation à retourner
         List<Firestation> firestationSelected = new ArrayList<>();
@@ -95,7 +95,7 @@ public class FirestationDaoImpl implements FirestationDao {
 
     public Boolean save(Firestation firestationToAdd) {
         // On recupère la liste des firestation
-        List<Firestation> firestations = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
+        List<Firestation> firestations = JsonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
 
         for (Firestation firestation : firestations){
             if (firestation.getAddress().equals(firestationToAdd.getAddress())  && firestation.getStation() == firestationToAdd.getStation()){
@@ -107,19 +107,19 @@ public class FirestationDaoImpl implements FirestationDao {
         // On trie la liste par stations
         Collections.sort(firestations);
         // On écrit dans le fichier
-        JasonFileIO.writeListToJsonFile(FIRESTATION, firestations);
+        JsonFileIO.writeListToJsonFile(FIRESTATION, firestations);
         return ADDED;
     }
 
 
     @Override
     public Boolean update(Firestation firestationToUpdate) {
-        List<Firestation> firestations = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
+        List<Firestation> firestations = JsonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
         for (Firestation firestation : firestations){
             if (firestation.getAddress().equals(firestationToUpdate.getAddress()) ){
                 firestations.remove(firestation);
                 firestations.add(firestationToUpdate);
-                JasonFileIO.writeListToJsonFile(FIRESTATION, firestations);
+                JsonFileIO.writeListToJsonFile(FIRESTATION, firestations);
                 return  UPDATE_COMPLETED;
             }
         }
@@ -128,8 +128,8 @@ public class FirestationDaoImpl implements FirestationDao {
 
     @Override
     public Boolean deleteStation(int station) {
-        List<Firestation> firestations = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
-        List<Firestation> firestationsDeleted = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
+        List<Firestation> firestations = JsonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
+        List<Firestation> firestationsDeleted = JsonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
 
         boolean result = NO_DELETION;
         for (Firestation firestation : firestations) {
@@ -138,19 +138,19 @@ public class FirestationDaoImpl implements FirestationDao {
                 result = DELETION_COMPLETED;
             }
         }
-        JasonFileIO.writeListToJsonFile(FIRESTATION, firestationsDeleted);
+        JsonFileIO.writeListToJsonFile(FIRESTATION, firestationsDeleted);
 
         return result;
     }
 
     @Override
     public Boolean deleteAddress(String adress) {
-        List<Firestation> firestations = JasonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
+        List<Firestation> firestations = JsonFileIO.readFromJsonFileToList(FIRESTATION, Firestation.class);
 
         for (Firestation firestation : firestations) {
             if (firestation.getAddress().equals(adress)){
                 firestations.remove(firestation);
-                JasonFileIO.writeListToJsonFile(FIRESTATION, firestations);
+                JsonFileIO.writeListToJsonFile(FIRESTATION, firestations);
                 return  DELETION_COMPLETED;
             }
         }

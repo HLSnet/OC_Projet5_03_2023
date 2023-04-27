@@ -2,7 +2,7 @@ package com.safetynet.safetynetalerts.daotest;
 
 import com.safetynet.safetynetalerts.datautility.SetupJsonFile;
 import com.safetynet.safetynetalerts.model.Person;
-import com.safetynet.safetynetalerts.repository.JasonFileIO;
+import com.safetynet.safetynetalerts.repository.JsonFileIO;
 import com.safetynet.safetynetalerts.repository.PersonDao;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,7 +31,7 @@ public class PersonDaoTest {
     @BeforeEach
     void setUpData(){
         SetupJsonFile.reloadTestFile(JSONFILE_TEST_BAK_PATHNAME , JSONFILE_TEST_PATHNAME);
-        new JasonFileIO(JSONFILE_TEST_PATHNAME);
+        new JsonFileIO(JSONFILE_TEST_PATHNAME);
     }
 
 
@@ -45,7 +45,7 @@ public class PersonDaoTest {
     @Test
     void testFindAnExistingPerson() {
         // ARRANGE, ACT
-        persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
+        persons = JsonFileIO.readFromJsonFileToList(PERSON, Person.class);
         Person person = personDaoImpl.findByName("Jamie", "Peters");
 
         // ASSERT
@@ -56,7 +56,7 @@ public class PersonDaoTest {
     @Test
     void testFindANonExistingPerson() {
         // ARRANGE, ACT
-        persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
+        persons = JsonFileIO.readFromJsonFileToList(PERSON, Person.class);
         Person person = personDaoImpl.findByName("Averell", "Dalton");
 
         // ASSERT
@@ -82,14 +82,14 @@ public class PersonDaoTest {
                 "a.dalton@jail.com");
 
         // ACT
-        persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
+        persons = JsonFileIO.readFromJsonFileToList(PERSON, Person.class);
         int nbPersonsBefore = persons.size();
         Boolean result = personDaoImpl.save(personToAdd);
 
         // ASSERT
         assertTrue(result);
         // On vérifie que l'ajout a été fait
-        persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
+        persons = JsonFileIO.readFromJsonFileToList(PERSON, Person.class);
         assertTrue(persons.contains(personToAdd));
         // On vérifie qu'il n'y a eu qu'un ajout (pas d'ajout multiple)
         int nbPersonsAfter = persons.size();
@@ -111,7 +111,7 @@ public class PersonDaoTest {
 
 
         // ACT
-        persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
+        persons = JsonFileIO.readFromJsonFileToList(PERSON, Person.class);
         int nbPersonsBefore = persons.size();
         Boolean result = personDaoImpl.save(personToAdd);
 
@@ -139,13 +139,13 @@ public class PersonDaoTest {
 
 
         // ACT
-        persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
+        persons = JsonFileIO.readFromJsonFileToList(PERSON, Person.class);
         int nbPersonsBefore = persons.size();
         Boolean result = personDaoImpl.update(personToUpdate);
 
         // ASSERT
         assertTrue(result);
-        persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
+        persons = JsonFileIO.readFromJsonFileToList(PERSON, Person.class);
         assertTrue(persons.contains(personToUpdate));
 
         // On vérifie qu'il n'y a pas eu d'ajout ou de suppression
@@ -167,13 +167,13 @@ public class PersonDaoTest {
                 "a.dalton@jail.com");
 
         // ACT
-        persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
+        persons = JsonFileIO.readFromJsonFileToList(PERSON, Person.class);
         int nbPersonsBefore = persons.size();
         Boolean result = personDaoImpl.update(personToUpdate);
 
         // ASSERT
         assertFalse(result);
-        persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
+        persons = JsonFileIO.readFromJsonFileToList(PERSON, Person.class);
         assertFalse(persons.contains(personToUpdate));
         // On vérifie qu'il n'y a pas eu d'ajout ou de suppression
         int nbPersonsAfter = persons.size();
@@ -196,13 +196,13 @@ public class PersonDaoTest {
                 "jpeter@email.com");
 
         // ACT
-        persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
+        persons = JsonFileIO.readFromJsonFileToList(PERSON, Person.class);
         int nbPersonsBefore = persons.size();
         Boolean result = personDaoImpl.delete(personToDelete.getFirstName(), personToDelete.getLastName());
 
         // ASSERT
         assertTrue(result);
-        persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
+        persons = JsonFileIO.readFromJsonFileToList(PERSON, Person.class);
         assertFalse(persons.contains(personToDelete));
         // On vérifie qu'il n'y a eu uniquement qu'une suppression
         int nbPersonsAfter = persons.size();
@@ -217,13 +217,13 @@ public class PersonDaoTest {
         personToDelete.setLastName("Dalton");
 
         // ACT
-        persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
+        persons = JsonFileIO.readFromJsonFileToList(PERSON, Person.class);
         int nbPersonsBefore = persons.size();
         Boolean result = personDaoImpl.delete(personToDelete.getFirstName(), personToDelete.getLastName());
 
         // ASSERT
         assertFalse(result);
-        persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
+        persons = JsonFileIO.readFromJsonFileToList(PERSON, Person.class);
         assertFalse(persons.contains(personToDelete));
         // On vérifie qu'il n'y a pas eu de suppression
         int nbPersonsAfter = persons.size();

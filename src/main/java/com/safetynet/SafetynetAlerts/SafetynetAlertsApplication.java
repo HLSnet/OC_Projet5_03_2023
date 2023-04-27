@@ -1,7 +1,7 @@
 package com.safetynet.safetynetalerts;
 
 import com.safetynet.safetynetalerts.repository.FirestationDaoImpl;
-import com.safetynet.safetynetalerts.repository.JasonFileIO;
+import com.safetynet.safetynetalerts.repository.JsonFileIO;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,7 +20,7 @@ public class SafetynetAlertsApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		// On indique le fichier json à utiliser dans l'application
-		new JasonFileIO(JSONFILE_PATHNAME);
+		new JsonFileIO(JSONFILE_PATHNAME);
 		// On supprime les doublons présents dans la section firestation du fichier json
 		FirestationDaoImpl.checkIntegrityJsonFileFirestationAndSort();
 	}

@@ -2,7 +2,7 @@ package com.safetynet.safetynetalerts.datatest;
 
 import com.safetynet.safetynetalerts.datautility.SetupJsonFile;
 import com.safetynet.safetynetalerts.model.Person;
-import com.safetynet.safetynetalerts.repository.JasonFileIO;
+import com.safetynet.safetynetalerts.repository.JsonFileIO;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,13 +29,13 @@ public class IOTest {
     @BeforeEach
     void setUpData(){
         SetupJsonFile.reloadTestFile(JSONFILE_TEST_BAK_PATHNAME , JSONFILE_TEST_PATHNAME);
-        new JasonFileIO(JSONFILE_TEST_PATHNAME);
+        new JsonFileIO(JSONFILE_TEST_PATHNAME);
     }
 
     @Test
     void testReadFromJsonFileToList(){
         // Arrange, Act
-        List<Person> persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
+        List<Person> persons = JsonFileIO.readFromJsonFileToList(PERSON, Person.class);
 
         //Assert
         assertEquals(persons.get(2).getLastName(),"Peters");
@@ -44,12 +44,12 @@ public class IOTest {
     @Test
     void testWriteListToJsonFile(){
         // Arrange
-        List<Person> persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
+        List<Person> persons = JsonFileIO.readFromJsonFileToList(PERSON, Person.class);
         persons.remove(1);
 
         //Act
-        JasonFileIO.writeListToJsonFile(PERSON, persons);
-        persons = JasonFileIO.readFromJsonFileToList(PERSON, Person.class);
+        JsonFileIO.writeListToJsonFile(PERSON, persons);
+        persons = JsonFileIO.readFromJsonFileToList(PERSON, Person.class);
 
         //Assert
         assertEquals(persons.get(2).getLastName(),"Stelzer");

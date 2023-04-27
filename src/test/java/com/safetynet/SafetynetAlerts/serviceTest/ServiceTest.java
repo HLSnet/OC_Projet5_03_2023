@@ -3,7 +3,7 @@ package com.safetynet.safetynetalerts.servicetest;
 import com.safetynet.safetynetalerts.datautility.SetupJsonFile;
 import com.safetynet.safetynetalerts.dto.*;
 import com.safetynet.safetynetalerts.repository.FirestationDaoImpl;
-import com.safetynet.safetynetalerts.repository.JasonFileIO;
+import com.safetynet.safetynetalerts.repository.JsonFileIO;
 import com.safetynet.safetynetalerts.service.AlertService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -40,7 +40,7 @@ public class ServiceTest {
     void setUpData(){
         // Le fichier de test utilisé est une copie du fichier réel
         SetupJsonFile.reloadTestFile(JSONFILE_BAK_PATHNAME , JSONFILE_TEST_PATHNAME);
-        new JasonFileIO(JSONFILE_TEST_PATHNAME);
+        new JsonFileIO(JSONFILE_TEST_PATHNAME);
         FirestationDaoImpl.checkIntegrityJsonFileFirestationAndSort();
     }
 

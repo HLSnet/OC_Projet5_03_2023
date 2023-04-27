@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.safetynet.safetynetalerts.controller.PersonController;
 import com.safetynet.safetynetalerts.datautility.SetupJsonFile;
 import com.safetynet.safetynetalerts.model.Person;
-import com.safetynet.safetynetalerts.repository.JasonFileIO;
+import com.safetynet.safetynetalerts.repository.JsonFileIO;
 import com.safetynet.safetynetalerts.repository.PersonDao;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -46,7 +46,7 @@ public class PersonControllerTest {
         @BeforeEach
         void setUpData(){
                 SetupJsonFile.reloadTestFile(JSONFILE_TEST_BAK_PATHNAME , JSONFILE_TEST_PATHNAME);
-                new JasonFileIO(JSONFILE_TEST_PATHNAME);
+                new JsonFileIO(JSONFILE_TEST_PATHNAME);
         }
 
 

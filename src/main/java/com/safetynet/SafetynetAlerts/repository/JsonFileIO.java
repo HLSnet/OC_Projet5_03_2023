@@ -18,13 +18,13 @@ import java.util.List;
  *  contenues dans le fichier json passé en paramètre à l'instanciation de l'objet
  *
  */
-public class JasonFileIO {
+public class JsonFileIO {
 
     private static String jasonFilePathname;
 
     static ObjectMapper mapper;
 
-    public JasonFileIO(String jasonFilePathname) {
+    public JsonFileIO(String jasonFilePathname) {
         this.jasonFilePathname = jasonFilePathname;
         mapper = new ObjectMapper();
     }
